@@ -1,0 +1,835 @@
+
+1
+00:00:03,050 --> 00:00:08,089
+In this video, we're gonna put together
+what we've learned about first and follow
+
+2
+00:00:08,089 --> 00:00:15,022
+sets to construct LL1 parsing tables. Our
+goal is to construct a parsing table T for
+
+3
+00:00:15,022 --> 00:00:20,074
+a context free grammar G. And this is done
+by production. So we're gonna do this one
+
+4
+00:00:20,074 --> 00:00:26,013
+production at, at time. And we're going to
+in turn, consider each production, A goes
+
+5
+00:00:26,013 --> 00:00:31,056
+to alpha in the grammar G. And so the
+first case Is if we are trying to figure
+
+6
+00:00:31,056 --> 00:00:37,080
+out whether we can use A goes to alpha and
+T happens to be in the first of alpha.
+
+7
+00:00:37,080 --> 00:00:43,090
+Alright, so if we know that some terminal
+T is in the first of the right hand side,
+
+8
+00:00:43,090 --> 00:00:48,088
+then. If we were in a situation where A
+was the leftmost non terminal, and T was
+
+9
+00:00:48,088 --> 00:00:53,048
+the next token of input, then, then
+expanding by A goes to alpha would be a
+
+10
+00:00:53,048 --> 00:00:58,009
+good move because the alpha could
+potentially, through more, productions,
+
+11
+00:00:58,009 --> 00:01:02,088
+match the T. And so we'll add to the
+parsing table at the A, T entry, The right
+
+12
+00:01:02,088 --> 00:01:08,000
+hand side alpha. Alright, the other
+situation that we're interested in is,
+
+13
+00:01:08,000 --> 00:01:13,032
+what if we need to get rid of, the A,
+okay? So if the A cannot possibly match
+
+14
+00:01:13,032 --> 00:01:18,065
+the T, alright? So let's say the T is not
+in the first of alpha, or we have some
+
+15
+00:01:18,065 --> 00:01:24,025
+other situation where we want to erase the
+A. Well, then it would be okay, to use
+
+16
+00:01:24,025 --> 00:01:29,057
+production A goes to alpha, provided that.
+Alpha can actually go to Epsilon, so alpha
+
+17
+00:01:29,057 --> 00:01:34,014
+can go away completely, Alright? So we can
+eliminate all trace of the A. And T
+
+18
+00:01:34,014 --> 00:01:38,095
+follows A in the grammar. So T is able to
+come after, excuse me, T is able to come
+
+19
+00:01:38,095 --> 00:01:43,082
+after A in some derivation. So if T is in
+the follow of A, and the right hand side
+
+20
+00:01:43,082 --> 00:01:48,069
+of the [inaudible] code epsilon, then we
+add the move that when A is the leftmost
+
+21
+00:01:48,069 --> 00:01:53,082
+non terminal, and T is the next input, we
+can expand A by A goes to alpha. And
+
+22
+00:01:53,082 --> 00:01:58,011
+finally, a special case for dollar,
+because dollar's technically not a
+
+23
+00:01:58,011 --> 00:02:03,002
+terminal symbol. If we're at the end of
+the input, okay, so we have some stuff
+
+24
+00:02:03,002 --> 00:02:07,087
+left on the stack, particularly we have if
+nonterminal a is still our leftmost
+
+25
+00:02:07,087 --> 00:02:12,084
+nonterminal, but we've run out of input,
+well then our only hope is to get rid of
+
+26
+00:02:12,084 --> 00:02:17,094
+the a completely. And so we want to pick a
+production for a that can go to epsilon,
+
+27
+00:02:17,094 --> 00:02:22,072
+so we look for a production a goes to
+alpha, where epsilon is in the first of
+
+28
+00:02:22,072 --> 00:02:27,035
+alpha, and dollar can follow a in a
+derivation. So that is the procedure, or
+
+29
+00:02:27,035 --> 00:02:32,038
+those are the rules, for constructing a
+parsing table. And now let's work through
+
+30
+00:02:32,038 --> 00:02:37,054
+an example. So here's our favorite grammar
+that we've been looking at for the last
+
+31
+00:02:37,054 --> 00:02:42,044
+few videos. And now let's take a look at
+what the parsing table will look like,
+
+32
+00:02:42,044 --> 00:02:47,029
+alright? And the parsing table will
+consist of, columns that are labeled by
+
+33
+00:02:47,029 --> 00:02:53,015
+the terminal symbols of the grammar. All
+right, so here we'll have open paren,
+
+34
+00:02:53,015 --> 00:02:59,081
+closed paren, plus times and inch. And
+then the rose will be labeled by the
+
+35
+00:02:59,081 --> 00:03:06,073
+terminal symbol, so we'll have E, T, X,
+and Y. All right, and now we're just going
+
+36
+00:03:06,073 --> 00:03:14,002
+to take each production, and apply our
+rules, and see what entries in the table
+
+37
+00:03:14,002 --> 00:03:20,031
+we create. All right, so when would we use
+E goes to TX? Alright, well, so the first
+
+38
+00:03:20,031 --> 00:03:24,073
+thing to observe about this production is
+that it cannot produce epsilon on the
+
+39
+00:03:24,073 --> 00:03:29,021
+right hand side. So TX always produces at
+least one terminal. And so, the second
+
+40
+00:03:29,021 --> 00:03:33,068
+case, where we're interested in whether
+the production can go to zero, as it could
+
+41
+00:03:33,068 --> 00:03:37,080
+go to epsilon, excuse me, is not going to
+apply. All right, So we just have to
+
+42
+00:03:37,080 --> 00:03:42,018
+consider what it can generate in the first
+position. So the only things that this
+
+43
+00:03:42,018 --> 00:03:46,052
+[inaudible] can generate in the first
+position are things that are in the first
+
+44
+00:03:46,052 --> 00:03:50,080
+of T, which are open paren and int. So
+there are two situations in which we will
+
+45
+00:03:50,080 --> 00:03:55,019
+use the production E goes to TX, that is
+if E is the leftmost nonterminal, and the
+
+46
+00:03:55,019 --> 00:04:01,093
+next input is an open paren. Okay? And the
+other one is that, if the next input is a
+
+47
+00:04:01,093 --> 00:04:09,047
+[inaudible], alright? Okay, so now let's
+take a look at this production. Right. So
+
+48
+00:04:09,047 --> 00:04:14,026
+when are we going to use T goes to open
+paren E closed paren. Well if T is the
+
+49
+00:04:14,026 --> 00:04:19,018
+leftmost non-terminal, alright? That's
+this one on the left hand side and an open
+
+50
+00:04:19,018 --> 00:04:24,010
+paren, is the next symbol in the input,
+kay. That's the only thing in the first of
+
+51
+00:04:24,010 --> 00:04:28,077
+this right hand side. Then it would be a
+good move to expa nd by open paren E
+
+52
+00:04:28,077 --> 00:04:33,043
+closed paren. So there's only one
+situation. Where we use that production.
+
+53
+00:04:33,043 --> 00:04:38,091
+Alright? And for the other production, the
+other T production, we're going to use
+
+54
+00:04:38,091 --> 00:04:44,047
+that when T is the leftmost nonterminal,
+and there's an INT in the input. So over
+
+55
+00:04:44,047 --> 00:04:50,016
+here, we'll have [inaudible]. And I forgot
+one column over here for dollar. So we'll
+
+56
+00:04:50,016 --> 00:04:55,044
+stick dollar in there at the very end.
+Okay? So now, we've covered these first
+
+57
+00:04:55,044 --> 00:05:00,085
+three productions. Let's take a look at
+this production. So when would we use X
+
+58
+00:05:00,085 --> 00:05:06,017
+goes to plus E. Well clearly the only
+thing on the first of the right hand side
+
+59
+00:05:06,017 --> 00:05:11,052
+is plus, and the terminal, symbol on the
+right hand side is X, so the X plus entry
+
+60
+00:05:11,052 --> 00:05:16,080
+we would want to expand by X goes to plus
+E. And similarly for Y, the production,
+
+61
+00:05:16,080 --> 00:05:22,028
+the first production involving Y, when Y
+is the terminal, non terminal we're trying
+
+62
+00:05:22,028 --> 00:05:27,049
+to expand and there's a times in the
+input, we would use the production Y goes
+
+63
+00:05:27,049 --> 00:05:33,013
+to times T. Okay? And now we just have the
+two epsilon productions left. And these
+
+64
+00:05:33,013 --> 00:05:38,067
+are the only productions, actually, that
+can go to epsilon. And so when would we
+
+65
+00:05:38,067 --> 00:05:44,049
+use, when would we use X goes to epsilon
+or Y goes to epsilon. Alright, so recall
+
+66
+00:05:44,049 --> 00:05:50,066
+that we need to know. What is in the
+follow of X in order to know when to use X
+
+67
+00:05:50,066 --> 00:05:57,002
+goes to epsilon. And we computed that in
+the last lecture. But let's just write it
+
+68
+00:05:57,002 --> 00:06:03,026
+down again here. Okay. And so what was in
+the follow of x, well we had to look at
+
+69
+00:06:03,026 --> 00:06:07,093
+where x was used in the grammar, x was
+used there. I, it appears at the right
+
+70
+00:06:07,093 --> 00:06:12,086
+hand side of the production. So it would
+be things that were in the follow of e.
+
+71
+00:06:12,086 --> 00:06:17,084
+What was in the follow of e, well, e is
+the start symbol, so [inaudible] is in the
+
+72
+00:06:17,084 --> 00:06:22,077
+follow of e, close paren is in the follow
+of e. Alright? And then what was in the
+
+73
+00:06:22,077 --> 00:06:27,096
+follow of y. That's the other one where
+we'll need to know the follow set. Again
+
+74
+00:06:27,096 --> 00:06:33,008
+we have to look at where Y is used so Y is
+used there. That means everything that's
+
+75
+00:06:33,008 --> 00:06:38,067
+in the follow of T is in the follow of Y.
+The follow of y will therefore include the
+
+76
+00:06:38,067 --> 00:06:44,005
+first of x because x can come after t. So
+plus will be in the follow of y. Alright
+
+77
+00:06:44,005 --> 00:06:49,018
+but then x can go to epsilon and so
+everything is in the follow of E will be
+
+78
+00:06:49,018 --> 00:06:54,056
+in the follow of t and therefore also in
+the follow of y. So the other two things
+
+79
+00:06:54,056 --> 00:06:59,082
+in the follow of y were the dollar sign
+and close paren. Alright and so this is
+
+80
+00:06:59,082 --> 00:07:06,084
+saying okay, is that if we are in a
+situation. Where we have, an X. Okay?
+
+81
+00:07:06,084 --> 00:07:11,099
+Let's just focus on the X goes to epsilon
+production for a moment. Let's say that we
+
+82
+00:07:12,017 --> 00:07:16,095
+have X on the stack, okay, on top of the
+stack, and $ is our next input. Well, what
+
+83
+00:07:16,095 --> 00:07:21,098
+can we do? At the end of the input we have
+to get rid of the X so obviously we want
+
+84
+00:07:21,098 --> 00:07:26,045
+to use the X goes to epsilon move, okay,
+so that makes sense. And the other
+
+85
+00:07:26,045 --> 00:07:31,060
+situation that follows it tell us to use X
+goes to epsilon, as if there is a) on the
+
+86
+00:07:31,060 --> 00:07:36,029
+stack, because the X cannot generate a) by
+itself. But hopefully some other symbol
+
+87
+00:07:36,029 --> 00:07:40,039
+that's on the stack will be able to
+generate once we get rid of the x okay so
+
+88
+00:07:40,039 --> 00:07:45,033
+we also use x goes to epsilon In this
+situation. And then [inaudible] for follow
+
+89
+00:07:45,033 --> 00:07:49,068
+of Y, or for Y goes to epsilon, that
+production. There are three things in the
+
+90
+00:07:49,068 --> 00:07:54,049
+follow, three terminals in the follow of
+Y. And we should use Y goes to epsilon if
+
+91
+00:07:54,049 --> 00:07:59,006
+they are the next thing in the input. So,
+so, if we see a plus and we're trying to
+
+92
+00:07:59,006 --> 00:08:03,058
+expand a Y we'll use Y goes to epsilon. If
+we see a closed paren and we see, and
+
+93
+00:08:03,058 --> 00:08:07,093
+we're trying to expand a Y we'll use Y
+goes to epsilon. And finally if we're
+
+94
+00:08:07,093 --> 00:08:12,028
+completely out of input and we still have
+a Y left over, we'll use Y goes to
+
+95
+00:08:12,028 --> 00:08:16,097
+epsilon. And that is the complete parsing
+table, all right? And now you can see. How
+
+96
+00:08:16,097 --> 00:08:22,000
+this will work in every situation, Okay.
+For our leftmost on terminal, and for
+
+97
+00:08:22,000 --> 00:08:27,026
+every possible input or lack of input, we
+have a production that we can use. And now
+
+98
+00:08:27,026 --> 00:08:32,010
+there are a lot of blank entries in this
+table. And what do those correspond to?
+
+99
+00:08:32,010 --> 00:08:37,084
+Let's say that we, we're trying to expand
+x. And the next input symbol was a open
+
+100
+00:08:37,084 --> 00:08:42,095
+paren. Well, there's no entry here. Okay,
+so that's an error. That's a parsing
+
+101
+00:08:42,095 --> 00:08:47,034
+error. So whenever you encounter a blank
+entry in a table, you try to view the
+
+102
+00:08:47,034 --> 00:08:51,068
+blank entry when you're parsing, that's
+when you [inaudible] a parsing error,
+
+103
+00:08:51,068 --> 00:08:56,024
+because what this tells us, the fact that
+there's a blank entry, it tells us that
+
+104
+00:08:56,024 --> 00:09:00,069
+there is no valid move. There is no way
+that we could parse that string. And we
+
+105
+00:09:00,069 --> 00:09:05,030
+discovered that at the point where we
+tried to access an error or blank entry in
+
+106
+00:09:05,030 --> 00:09:10,099
+the table. So now, let's consider what
+happens when we try to build an LL1
+
+107
+00:09:10,099 --> 00:09:16,028
+parsing table for a grammar that is not
+LL1. And let's take a look at the simple
+
+108
+00:09:16,028 --> 00:09:21,031
+left recursive grammar that we have looked
+at before. So S goes to SA is one
+
+109
+00:09:21,031 --> 00:09:26,061
+production, and S goes to B is the other
+production. And to build a parsing table
+
+110
+00:09:26,061 --> 00:09:32,013
+for this, we'll need to know the first and
+follow sets. So let's take a look at the
+
+111
+00:09:32,013 --> 00:09:37,033
+first of S. Alright. So what can S produce
+in the first position? Well, it can
+
+112
+00:09:37,033 --> 00:09:42,011
+clearly produce a B. And, there's no
+epsilon. There's no possibility of
+
+113
+00:09:42,011 --> 00:09:47,094
+generating epsilon from S. As a matter of
+fact that's the only thing that's going to
+
+114
+00:09:47,094 --> 00:09:53,035
+be in the first of S. And what about the
+follow of S, well, what can follow an S?
+
+115
+00:09:53,035 --> 00:09:58,052
+Well that's the start symbol, so clearly
+dollar isn't the follow of S. And then the
+
+116
+00:09:58,052 --> 00:10:03,070
+sub-terminal, the terminal A appears right
+after S in the first production, so A, is
+
+117
+00:10:03,070 --> 00:10:08,062
+also in the follow of S. And now we're
+ready to build our table. And it's going
+
+118
+00:10:08,062 --> 00:10:13,067
+to be a very small table, because we only
+have one non-terminal. And then we have
+
+119
+00:10:13,067 --> 00:10:18,053
+two terminals, A and B. And we have the
+end of input symbol. So it's just three
+
+120
+00:10:18,053 --> 00:10:22,072
+entries potentially, in this table,
+Alright? And so now, let's take each
+
+121
+00:10:22,072 --> 00:10:27,027
+production, and see where we should put
+it. So let's just take a look at the
+
+122
+00:10:27,027 --> 00:10:31,083
+second production first. Cuz that's
+[inaudible] for no particular reason. So
+
+123
+00:10:31,083 --> 00:10:36,044
+if S goes to B, when should we use that?
+Well, clearly, if we see a B in the input,
+
+124
+00:10:36,044 --> 00:10:41,041
+this would be a good one to use. Cuz
+'cause, the because that, the first of the
+
+125
+00:10:41,041 --> 00:10:46,007
+right hand side includes B, alright? So,
+so S goes to B. Would be used if we see a
+
+126
+00:10:46,007 --> 00:10:50,069
+B in the input. And now what about S goes
+to SA? Well here, again this can't
+
+127
+00:10:50,069 --> 00:10:55,043
+generate epsilons so we're only interested
+in what it can produc e in the first
+
+128
+00:10:55,043 --> 00:11:01,038
+position. And once again, the first of S
+is just B. And so we also have the move,
+
+129
+00:11:01,062 --> 00:11:07,089
+in the SB entry, we would have the move as
+goes to SA. And now we see the problem,
+
+130
+00:11:07,089 --> 00:11:14,008
+right? Here we have an entry that has
+multiple moves. This is a multiply defined
+
+131
+00:11:14,008 --> 00:11:20,055
+entry. Okay, and what does that mean? Well
+that means if we see an s in if we have an
+
+132
+00:11:20,055 --> 00:11:26,043
+s and we want to expand, okay we're trying
+to, if s is our leftmost non terminal so
+
+133
+00:11:26,043 --> 00:11:32,009
+it's at the top of the stack, and b is our
+next input symbol, alright, this table
+
+134
+00:11:32,009 --> 00:11:37,090
+doesn't tell us exactly what move to make.
+It's not deterministic. It says there's
+
+135
+00:11:37,090 --> 00:11:43,036
+two possible moves. That we can make. And
+so, this is how you know a grammar is not
+
+136
+00:11:43,036 --> 00:11:48,063
+[laugh](1) because if it winds up that you
+build the [laugh](1) parsing table and you
+
+137
+00:11:48,063 --> 00:11:53,071
+have more than one entry. More than one
+possible move in some, position in the
+
+138
+00:11:53,071 --> 00:11:58,092
+table, some entry, excuse me. I used the
+word entry incorrectly. So if you wind up,
+
+139
+00:11:58,092 --> 00:12:04,014
+let me say that again. If you wind, if you
+build the table and some entry in the
+
+140
+00:12:04,014 --> 00:12:09,041
+table has more than one move in it, then,
+there's not an unique move For every
+
+141
+00:12:09,041 --> 00:12:16,010
+situation for the parser. And that grammar
+is not [laugh](1) So, we just said if any
+
+142
+00:12:16,010 --> 00:12:22,046
+entry is multiply defined in the parsing
+table, then the grammar is not LO1. And in
+
+143
+00:12:22,046 --> 00:12:28,050
+fact, this is the definition of an LO1
+grammar, so the only way to be sure that
+
+144
+00:12:28,050 --> 00:12:34,071
+the grammar is LO1 or the mechanical way
+to check that the grammar is LO1, is to
+
+145
+00:12:34,071 --> 00:12:41,002
+build the LO1 parsing table and see if all
+the entries in the table is unique. Now,
+
+146
+00:12:41,002 --> 00:12:46,003
+that, we do know, however, that there are
+certain classes of grammars that are
+
+147
+00:12:46,003 --> 00:12:51,058
+guaranteed not to be L1, not to be L1. And
+what are some of those? Well, any grammar
+
+148
+00:12:51,058 --> 00:12:59,040
+that is not left factored. Will not be
+lo1, okay. Any grammar that is left
+
+149
+00:12:59,040 --> 00:13:07,086
+recursive will not be lo1. Okay any
+grammar that is ambiguous, Is also
+
+150
+00:13:07,086 --> 00:13:16,015
+guaranteed to not be L1. But this is not
+an exhaustive list. Other grammars are not
+
+151
+00:13:16,015 --> 00:13:25,022
+L1 too. So in particular If the grammar
+required more than one token of look
+
+152
+00:13:25,022 --> 00:13:28,099
+ahead, it would not be all one. But even
+that isn't a complete list. So e ven
+
+153
+00:13:28,099 --> 00:13:33,006
+grammar is beyond that, that are not going
+to be all one. So what this amounts to,
+
+154
+00:13:33,006 --> 00:13:37,047
+these three things here, amount to quick
+checks that you can do. To test whether a
+
+155
+00:13:37,047 --> 00:13:42,050
+grammar is guaranteed not to be L1. But,
+if, just because a grammar is left
+
+156
+00:13:42,050 --> 00:13:47,060
+factored, and it is not left recursive,
+and is ambig-, unambiguous, that doesn't
+
+157
+00:13:47,060 --> 00:13:52,070
+guarantee that it's L1. And the only way
+to know for sure is to construct the
+
+158
+00:13:52,070 --> 00:13:57,006
+parsing table, and see if all of the
+entries in it are unique. And
+
+159
+00:13:57,006 --> 00:14:02,033
+unfortunately it turns out. That most
+programming languages, they're context
+
+160
+00:14:02,033 --> 00:14:06,077
+free grammar. So the grammars that
+describe most programming languages are
+
+161
+00:14:06,077 --> 00:14:11,098
+not LL1. And, the L1 grammars are too weak
+to actually capture all of the interesting
+
+162
+00:14:11,098 --> 00:14:17,001
+and important constructs in commonly using
+programming languages. And there are more
+
+163
+00:14:17,001 --> 00:14:21,095
+powerful. Formalism for describing
+grammars and or practical grammars, and
+
+164
+00:14:21,095 --> 00:14:26,047
+we're going to be looking at those in
+future videos. It turns out that they
+
+165
+00:14:26,047 --> 00:14:31,023
+build on everything that we've learned
+here over the last few videos for Elmer
+
+166
+00:14:31,023 --> 00:14:36,004
+grammar so none of that will be wasted,
+but they assembled those ideas in a more
+
+167
+00:14:36,004 --> 00:14:39,005
+sophisticated way to build more powerful
+parts.

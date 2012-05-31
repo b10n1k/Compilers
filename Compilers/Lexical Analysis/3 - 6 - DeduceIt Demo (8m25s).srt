@@ -1,0 +1,490 @@
+
+1
+00:00:00,000 --> 00:00:04,072
+Hello. In this video, I'm going to give a
+demo of the [inaudible]; a research
+
+2
+00:00:04,072 --> 00:00:09,094
+project in Stanford University for helping
+students learn formal systems in online
+
+3
+00:00:09,094 --> 00:00:14,067
+classes. The basic idea behind the
+[inaudible] is to allow students to work
+
+4
+00:00:14,067 --> 00:00:19,083
+through formal derivations and to have
+their improving technology that will check
+
+5
+00:00:19,083 --> 00:00:24,087
+that those derivations are correct. So you
+can actually learn the details of how
+
+6
+00:00:24,087 --> 00:00:29,065
+formal reasoning works. So let's take a
+look at an example here. So here is a
+
+7
+00:00:29,065 --> 00:00:34,072
+little exercise in algebra and our goal is
+to prove that [inaudible]. Is equal to
+
+8
+00:00:34,072 --> 00:00:39,045
+eleven, all right? That's what we're
+trying to accomplish and where we start is
+
+9
+00:00:39,045 --> 00:00:43,099
+with the equation two * x + -four = x +
+seven. So in general, there could be more
+
+10
+00:00:43,099 --> 00:00:49,021
+than one initial given assumption in this
+particular exercise so it's just one and
+
+11
+00:00:49,021 --> 00:00:54,012
+we wanna start with that equation and we
+want to prove that x = eleven. And to get
+
+12
+00:00:54,012 --> 00:00:58,060
+there, we're allowed to use any of the
+rules that are listed here that I'm
+
+13
+00:00:58,060 --> 00:01:03,051
+circling with the mouse. And these were
+also divided into two kinds. There are the
+
+14
+00:01:03,051 --> 00:01:08,019
+required rules which is this first set
+here at the top. And, the required rules
+
+15
+00:01:08,019 --> 00:01:12,014
+are required. So, whenever we have a step
+of [inaudible] that uses one of these
+
+16
+00:01:12,014 --> 00:01:16,008
+rules, we have to name it explicitly, we
+have to show that stuff explicitly. And
+
+17
+00:01:16,008 --> 00:01:19,082
+then there are some rules that are
+considered free. These are the rules we
+
+18
+00:01:19,082 --> 00:01:23,062
+don't have to show. So for example, we
+don't have to show all these steps
+
+19
+00:01:23,062 --> 00:01:27,077
+involving associatively of addition and
+multiplication, presumably our instructors
+
+20
+00:01:27,077 --> 00:01:32,007
+decide we are already understand that and
+we're allowed to skip over those steps and
+
+21
+00:01:32,007 --> 00:01:36,012
+the system will try to fill them in. So
+these rules out here we can show them if
+
+22
+00:01:36,012 --> 00:01:40,016
+we like, but they're not required. We're
+allowed to skip these steps. All right, so
+
+23
+00:01:40,016 --> 00:01:45,096
+let's begin with. On this and every step
+of the derivation is going to have three
+
+24
+00:01:45,096 --> 00:01:50,083
+parts. It's gonna have a conclusion. So
+something that we, we are proving at this
+
+25
+00:01:50,083 --> 00:01:55,090
+particular stuff and we're gonna have the
+justification. So the rule from which that
+
+26
+00:01:55,090 --> 00:02:00,061
+step follows. And then finally, what
+previous facts we're using that we already
+
+27
+00:02:00,061 --> 00:02:05,037
+knew to be true. All right, So why, what
+we started with, what rule we apply to it
+
+28
+00:02:05,037 --> 00:02:10,020
+and then what we concluded from it? All
+right? So, what can we do to make progress
+
+29
+00:02:10,020 --> 00:02:15,021
+in this example? Well, one thing we could
+do is we can add four to both sides of the
+
+30
+00:02:15,021 --> 00:02:20,041
+equation. Okay. And why is that justified?
+What rule are we using? Well, that's the
+
+31
+00:02:20,041 --> 00:02:25,087
+balance equation using addition rule up
+here which says it's okay to add the same
+
+32
+00:02:25,087 --> 00:02:31,026
+thing both sides of the equation. So, we
+would select that rule out of the list of
+
+33
+00:02:31,026 --> 00:02:35,098
+possible rules. Okay. And then what
+assumption are we using? Well, there's
+
+34
+00:02:35,098 --> 00:02:41,011
+only one thing that we've got at the
+moment. That's the initial given that we
+
+35
+00:02:41,011 --> 00:02:46,036
+would begin with. All right, So here, we
+have one step of our derivation. We think
+
+36
+00:02:46,036 --> 00:02:51,081
+this is right. We click update proof and
+the system. Comes back and says indeed,
+
+37
+00:02:51,081 --> 00:02:56,073
+yes. That was a valid step of the
+derivation. So now, let's do another step.
+
+38
+00:02:56,073 --> 00:03:01,026
+Well actually, let's see what would happen
+here if we did this balance equation step
+
+39
+00:03:01,026 --> 00:03:05,047
+incorrectly. Let's say we didn't add the
+same thing to both sides. And so, let's
+
+40
+00:03:05,047 --> 00:03:09,068
+try that out and what do we get? Oh, we
+see, then now it comes back to color red
+
+41
+00:03:09,068 --> 00:03:14,005
+indicating there's something wrong and
+we're not given another step here to fill
+
+42
+00:03:14,005 --> 00:03:18,015
+in, okay, because there was an incorrect
+step. We also see there's this little
+
+43
+00:03:18,015 --> 00:03:22,074
+question mark icon here. We can click on
+that. And it tells us something about what
+
+44
+00:03:22,074 --> 00:03:27,059
+went wrong and gives us some advice as it
+balancing equation. Means you have to add
+
+45
+00:03:27,059 --> 00:03:31,062
+the same value to each side of the
+equation. Okay. So with that advice,
+
+46
+00:03:31,062 --> 00:03:36,036
+presumably we will be able to figure out
+what we did wrong and correct this step.
+
+47
+00:03:36,036 --> 00:03:41,079
+And get back to a place where we're on
+track. Now as you say there's not always
+
+48
+00:03:41,079 --> 00:03:47,044
+advice available for every incorrect step
+but if it is available, you know you can
+
+49
+00:03:47,044 --> 00:03:53,025
+click on that and get some idea of what it
+is you might have done wrong. All right so
+
+50
+00:03:53,025 --> 00:03:58,081
+now let's go on. Let's take a look at this
+and see what we could do. We can try to
+
+51
+00:03:58,081 --> 00:04:04,010
+simplify the left hand si de here. So,
+that's = two * x on the left hand side and
+
+52
+00:04:04,010 --> 00:04:09,040
+the right hand side x + seven + four and
+we think we can do this here because you
+
+53
+00:04:09,040 --> 00:04:14,062
+know? Four + -four are that's just adding
+constants and that's one of our free
+
+54
+00:04:14,062 --> 00:04:19,038
+rules, okay? So we're allowed to add up
+constants, you know? At the end and
+
+55
+00:04:19,038 --> 00:04:24,068
+getting zero there should be something we
+can do for free, all right? And that
+
+56
+00:04:24,068 --> 00:04:29,082
+follows our previous step. Let me select
+that and now we can do an update and it
+
+57
+00:04:29,082 --> 00:04:34,058
+comes back and it says, oh we did
+something wrong so it doesn't immediately
+
+58
+00:04:34,058 --> 00:04:39,091
+follow from the previous step and there's
+actually empty here so we can see why and
+
+59
+00:04:39,091 --> 00:04:45,030
+we see oh, it says [inaudible] identity is
+a required rule and so what mistake did we
+
+60
+00:04:45,030 --> 00:04:50,025
+make? Well, you know it was okay to add
+four and -four together and get zero, I'm
+
+61
+00:04:50,025 --> 00:04:55,038
+not sure of that because that was, that
+was just adding and multiplying constants
+
+62
+00:04:55,038 --> 00:04:59,076
+but then the sub-sequence step when we
+said the two*x+0 = two*x that it was
+
+63
+00:04:59,076 --> 00:05:04,018
+something. They were actually required to
+show in this exercise. So, whenever we use
+
+64
+00:05:04,018 --> 00:05:08,047
+that identity we have to explicitly say
+so, so we can, we can fix that. By saying
+
+65
+00:05:08,047 --> 00:05:13,062
+that you know this rule actually, this
+step actually, this step actually follows
+
+66
+00:05:13,062 --> 00:05:19,010
+[inaudible] identity from the previous one
+and all the other rules that we're using
+
+67
+00:05:19,010 --> 00:05:24,019
+that stuff for free so we don't have to
+name them, alright. So now we can go on.
+
+68
+00:05:24,019 --> 00:05:29,015
+We can although simplify the left hand
+side. We might have clean that up and
+
+69
+00:05:29,015 --> 00:05:34,063
+that's just free rules so we don't have to
+say exactly which rule we're using and I
+
+70
+00:05:34,063 --> 00:05:40,012
+think I didn't take the update there,
+okay. So now, I guess I hit it twice by
+
+71
+00:05:40,012 --> 00:05:47,026
+accident so let's just get rid of one of
+these steps, okay. So now what's the next
+
+72
+00:05:47,026 --> 00:05:55,059
+step we're going to perform? It looks like
+we need to bring x over to the left hand
+
+73
+00:05:55,059 --> 00:06:02,036
+side. So, we're going to add a -x to both
+sides so two * x + -x = x + eleven + -x,
+
+74
+00:06:02,036 --> 00:06:08,085
+okay? And that's again the balance
+equation using addition rule and that
+
+75
+00:06:08,085 --> 00:06:15,097
+follows from our previous step, okay? And,
+we can get from that one, all right? And
+
+76
+00:06:15,097 --> 00:06:22,039
+then we'll update that, t hat works just
+fine. Okay? And now we can do some
+
+77
+00:06:22,039 --> 00:06:28,042
+simplification of the left hand side,
+sorry excuse me, on the right hand side
+
+78
+00:06:28,042 --> 00:06:35,008
+because all of these over be here is just
+= eleven, okay? And, and then we're having
+
+79
+00:06:35,008 --> 00:06:41,098
+to use x + -x = zero and then we're just
+adding eleven and zero so we're just count
+
+80
+00:06:41,098 --> 00:06:48,043
+this...adding up constants so this should
+follow from additive inverse From the
+
+81
+00:06:48,043 --> 00:06:53,092
+previous step. All right, If we update
+that yes that worked out fine and now we
+
+82
+00:06:53,092 --> 00:06:59,016
+just have to work on the left hand side.
+We've got two * x + -x and in order to get
+
+83
+00:06:59,016 --> 00:07:04,080
+that into a form where we can simplify it,
+we're gonna need to use the Distributive
+
+84
+00:07:04,080 --> 00:07:10,046
+Rule. We need to pull out the constants
+that are in front of the x's. And so, we
+
+85
+00:07:10,046 --> 00:07:15,095
+can do that. We can say that two + (-one)
+* x = eleven. And so, we're using
+
+86
+00:07:15,095 --> 00:07:22,051
+distributivity there but we're also using
+the unary negation rule that says, you
+
+87
+00:07:22,051 --> 00:07:28,066
+know, -x = -one * x. But that's a free
+rule so we don't have to worry about that.
+
+88
+00:07:28,066 --> 00:07:35,037
+So the only rule we need to name is the
+distributivity rule. And that falls from
+
+89
+00:07:35,037 --> 00:07:41,011
+the previous step with the deliberation.
+We update that, okay. And now we're just
+
+90
+00:07:41,011 --> 00:07:47,021
+about there so now I think in one step we
+can do the simplification. We can subtract
+
+91
+00:07:47,021 --> 00:07:52,073
+one from two and get one and then we have
+one*x = eleven. That's multiplicative
+
+92
+00:07:52,073 --> 00:07:58,049
+identity which is a required rule for this
+flicker exercise. Falls with the previous
+
+93
+00:07:58,049 --> 00:08:03,006
+step like all the other, like all the
+previous steps and now we're done. And
+
+94
+00:08:03,006 --> 00:08:07,075
+then we prove that x = eleven says who
+knows we have finished the assignment and
+
+95
+00:08:07,075 --> 00:08:11,097
+that is the basic idea behind the
+[inaudible]. And, while this particular
+
+96
+00:08:11,097 --> 00:08:16,090
+example was algebra this can be done for
+any kind of formal system where you can
+
+97
+00:08:16,090 --> 00:08:21,094
+present the kinds of exercises you want to
+do in the set of rules and the students
+
+98
+00:08:21,094 --> 00:08:25,039
+are supposed to derive some kind of goal
+using those rules.

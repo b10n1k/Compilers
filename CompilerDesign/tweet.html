@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+    <title>Share a link on Twitter</title>
+
+    <link href="https://si0.twimg.com/a/1336177958/phoenix/css/tfw.bundle.css" media="screen" rel="stylesheet" type="text/css" />
+    <!--[if (IEMobile) & (lt IE 9)]>
+    <link href="https://si0.twimg.com/a/1336177958/phoenix/css/tfw_iemobile.bundle.css" media="screen" rel="stylesheet" type="text/css" />
+    <![endif]-->
+
+    
+
+    <style type="text/css">
+      html { display:none; }
+    </style>
+    <noscript>
+      <style type="text/css">
+        html { display: block; }
+      </style>
+    </noscript>
+    <!--[if IEMobile & lt IE 9]>
+    <style type="text/css">
+      html { display: block; }
+    </style>
+    <![endif]-->
+
+  </head>
+  <body class=" tfw en logged-in nofooter noloki">
+
+    <div id="header" role="banner">
+      <div class="bar">
+        <h1 class="logo"><a href="https://twitter.com/home" class="alternate-context">Twitter</a></h1>
+
+        
+        <div id="session" role="navigation">
+          <h2 class="current-user"><a href="https://twitter.com/bonatakis" title="bonatakis">
+            <img src="https://si0.twimg.com/profile_images/72421932/loneangel_mini.jpg" alt="" width="24" height="24">
+            <span class="name">bonatakis</span>
+          </a></h2>
+          <div class="user-menu">
+            <h3 class="session">User Management</h3>
+            <ul class="session">
+              <li class="new"><a href="/intent/tweet">New Tweet</a></li>
+              <li class="settings"><a href="/settings">Settings</a></li>
+              <li class="help"><a href="/help">Help</a></li>
+              <li class="signout"><form action="/intent/session" method="post"><div style="margin:0;padding:0"><input name="_method" type="hidden" value="delete" /><input name="authenticity_token" type="hidden" value="be04c85e0d9382ea85cf62555fb1efe1285198d0" /></div>
+                  <input id="referer" name="referer" type="hidden" value="/intent/tweet?original_referer=http%3A%2F%2Fwww.scribd.com%2Fcrnixon%2Fd%2F47354-Basics-of-Compiler-Design&amp;source=tweetbutton&amp;text=Basics%20of%20Compiler%20Design&amp;url=http%3A%2F%2Fwww.scribd.com%2Fcrnixon%2Fd%2F47354-Basics-of-Compiler-Design" />
+                  <input type="submit" class="textual link" value="Sign out">
+              </form></li>
+            </ul>
+
+            
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+    <div id="bd" role="main">
+      
+  <h2 class="action-information">Share a link with your followers</h2>
+
+  <form action="/intent/tweet/update" id="update-form" method="post"><div style="margin:0;padding:0"><input name="authenticity_token" type="hidden" value="be04c85e0d9382ea85cf62555fb1efe1285198d0" /></div>
+  <div class="hd">
+    <input name="url" type="hidden" value="http://www.scribd.com/crnixon/d/47354-Basics-of-Compiler-Design" />
+<input name="shortened_url" type="hidden" value="http://www.scribd.com/crnixon/d/47354-Basics-of-Compiler-Design" />
+<input name="source" type="hidden" value="tweetbutton" />
+<input name="original_referer" type="hidden" value="http://www.scribd.com/crnixon/d/47354-Basics-of-Compiler-Design" />
+<input name="text" type="hidden" value="Basics of Compiler Design" />
+
+      <label for="status" id="status-label">Tweet Text</label>
+
+  </div>
+
+  
+
+  <div class="bd">
+    <span class="field">
+      <textarea id="status" name="status" required
+        aria-required="true" aria-describedby="notice char-count"
+      >Basics of Compiler Design http://www.scribd.com/crnixon/d/47354-Basics-of-Compiler-Design</textarea>
+    </span>
+  </div>
+
+  <div class="ft">
+    <input type="submit" class="button submit" value="Tweet">
+
+    
+  </div>
+  </form>
+
+
+    </div>
+
+    
+
+    
+
+    <script type="text/javascript" charset="utf-8">
+      var twttr = twttr || {};
+      twttr.form_authenticity_token = 'be04c85e0d9382ea85cf62555fb1efe1285198d0';
+      if (self == top) {
+        document.documentElement.style.display = 'block';
+      }
+    </script>
+
+    <script src="https://si0.twimg.com/a/1336177958/javascripts/loadrunner.js" data-main="tfw/intents/main" data-path="https://si0.twimg.com/a/1336177958/javascripts/modules" type="text/javascript"></script>
+
+    
+
+    
+    <script type="text/javascript" charset="utf-8">
+      
+  var twttr = twttr || {};
+  twttr.tco = {
+    length: 20
+  };
+
+  using('tfw/intents/tweetbox', 'imports/jquery', function(Tweetbox, $) {
+    $('#status').each(function() {
+      new Tweetbox(this, 0, 25);
+    });
+  });
+
+      
+    </script>
+    
+        <!-- BEGIN google analytics -->
+
+  <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+
+  <script type="text/javascript">
+
+    try {
+      var pageTracker = _gat._getTracker("UA-30775-6");
+      pageTracker._setDomainName("twitter.com");
+            pageTracker._setVar('Logged In');
+            pageTracker._setVar('lang: en');
+            pageTracker._initData();
+                              pageTracker._trackPageview();
+                  } catch(err) { }
+
+  </script>
+
+  <!-- END google analytics -->
+
+
+
+  </body>
+</html>

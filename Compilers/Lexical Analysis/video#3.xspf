@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playlist xmlns="http://xspf.org/ns/0/" xmlns:vlc="http://www.videolan.org/vlc/playlist/ns/0/" version="1">
+	<title>Playlist</title>
+	<trackList>
+		<track>
+			<location>file:///home/j0ni/Dropbox/Stanford/Compilers/Lexical%20Analysis/3%20-%201%20-%2003-01_%20Lexical%20Analysis%20%2812m06s%29.mp4</location>
+			<duration>725717</duration>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>0</vlc:id>
+			</extension>
+		</track>
+		<track>
+			<location>file:///home/j0ni/Dropbox/Stanford/Compilers/Lexical%20Analysis/3%20-%202%20-%2003-02_%20Lexical%20Analysis%20Examples%20%2813m03s%29.mp4</location>
+			<duration>782536</duration>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>1</vlc:id>
+			</extension>
+		</track>
+		<track>
+			<location>file:///home/j0ni/Dropbox/Stanford/Compilers/Lexical%20Analysis/3%20-%203%20-%2003-03_%20Regular%20Languages%20%2812m36s%29.mp4</location>
+			<duration>755787</duration>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>2</vlc:id>
+			</extension>
+		</track>
+		<track>
+			<location>file:///home/j0ni/Dropbox/Stanford/Compilers/Lexical%20Analysis/3%20-%204%20-%2003-04_%20Formal%20Languages%20%2813m40s%29.mp4</location>
+			<duration>819804</duration>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>3</vlc:id>
+			</extension>
+		</track>
+		<track>
+			<location>file:///home/j0ni/Dropbox/Stanford/Compilers/Lexical%20Analysis/3%20-%205%20-%2003-05_%20Lexical%20Specifications%20%2816m19s%29.mp4</location>
+			<duration>979279</duration>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>4</vlc:id>
+			</extension>
+		</track>
+		<track>
+			<location>file:///home/j0ni/Dropbox/Stanford/Compilers/Lexical%20Analysis/3%20-%206%20-%20DeduceIt%20Demo%20%288m25s%29.mp4</location>
+			<duration>505801</duration>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>5</vlc:id>
+			</extension>
+		</track>
+	</trackList>
+	<extension application="http://www.videolan.org/vlc/playlist/0">
+			<vlc:item tid="0"/>
+			<vlc:item tid="1"/>
+			<vlc:item tid="2"/>
+			<vlc:item tid="3"/>
+			<vlc:item tid="4"/>
+			<vlc:item tid="5"/>
+	</extension>
+</playlist>

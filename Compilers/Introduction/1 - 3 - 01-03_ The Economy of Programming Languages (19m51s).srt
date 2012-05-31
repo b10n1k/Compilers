@@ -1,0 +1,769 @@
+
+1
+00:00:02,079 --> 00:00:07,015
+Welcome back, in this second half of the
+lecture we'll continue with our overview
+
+2
+00:00:07,015 --> 00:00:16,012
+of the structure of a compiler. Recall
+that a compiler has five major phases,
+
+3
+00:00:16,012 --> 00:00:20,072
+[inaudible] analysis, parsing, semantic
+analysis, optimization, and code
+
+4
+00:00:20,072 --> 00:00:26,013
+generation. And now we're going to briefly
+talk about each one, and we're going to
+
+5
+00:00:26,013 --> 00:00:31,060
+explain how a compiler understands these
+with an analogy to how humans understand
+
+6
+00:00:31,060 --> 00:00:39,033
+English. The first step at understanding a
+program, both for a compiler and for a
+
+7
+00:00:39,033 --> 00:00:44,089
+human, is to understand the words. Now,
+humans can look at this example sentence
+
+8
+00:00:44,089 --> 00:00:50,059
+and immediately recognize that there are
+four words 'this is a' and 'sentence. And
+
+9
+00:00:50,059 --> 00:00:56,058
+this is so automatic that you don't even
+think about it but there is [inaudible]
+
+10
+00:00:56,058 --> 00:01:02,021
+real computation going on here. You have
+to recognize the separators, namely the
+
+11
+00:01:02,021 --> 00:01:07,069
+blanks. And the punctuation, things like
+the periods, and also clues like capital
+
+12
+00:01:07,069 --> 00:01:13,029
+letters. And these help you to divide up
+this group of letters into, a bunch of
+
+13
+00:01:13,029 --> 00:01:18,082
+words that you can understand. And just to
+emphasize that this is not completely
+
+14
+00:01:18,082 --> 00:01:23,093
+trivial, let's take a look at this
+sentence. And you can read this, but it
+
+15
+00:01:23,093 --> 00:01:29,020
+takes a little bit of time Because I've
+put the separators in, in odd places. So
+
+16
+00:01:29,020 --> 00:01:34,019
+you can see the word is, the word this,
+the word a, and the word sentence. But
+
+17
+00:01:34,019 --> 00:01:39,058
+again this isn't something that comes to
+you immediately. You actually have to do
+
+18
+00:01:39,058 --> 00:01:45,018
+some work to see where the divisions lie
+Because they're not given to you in the
+
+19
+00:01:45,018 --> 00:01:50,061
+way that you're used to. The goal of
+lexical analysis, then, is to divide the
+
+20
+00:01:50,061 --> 00:01:55,095
+program text into its words, or what we
+call in compiler speak, the tokens. So,
+
+21
+00:01:55,095 --> 00:02:01,035
+here's an, an example piece of program
+text now, instead of a piece of English
+
+22
+00:02:01,035 --> 00:02:06,048
+text, and let's walk through this and
+identify the tokens. So, there's some
+
+23
+00:02:06,048 --> 00:02:11,098
+obvious ones that are keywords, like if,
+and then. >> And else that we want to
+
+24
+00:02:11,098 --> 00:02:17,023
+identify. And then there are variable
+names, things like X, and Y, and Z.
+
+25
+00:02:17,046 --> 00:02:23,056
+There's also constants, things like number
+one, and the number two. And then there
+
+26
+00:02:23,056 --> 00:02:29,080
+are some operators, double equals is one,
+and the a ssignment operator is another.
+
+27
+00:02:29,080 --> 00:02:35,013
+And here's already an interesting
+question. How do we know that double
+
+28
+00:02:35,013 --> 00:02:41,032
+equals is not two individual equals signs?
+How do we know that we want this? To be a
+
+29
+00:02:41,032 --> 00:02:45,081
+double equal so we want, and not two
+single equals. Well, we don't know right
+
+30
+00:02:45,081 --> 00:02:50,027
+now but we'll talk about that. >> In the
+lecture on how we implement Lexical
+
+31
+00:02:50,028 --> 00:02:54,080
+analysis. But we're not done with all the
+tokens in this example either, there's a
+
+32
+00:02:54,080 --> 00:02:59,065
+few more. The semi colons, the punctuation
+are also tokens, and then the separators
+
+33
+00:02:59,065 --> 00:03:03,094
+are also tokens, so here's a blank, that's
+a token, here's another blank, that's
+
+34
+00:03:03,094 --> 00:03:08,057
+another token, and then there are lots of
+blanks here that serve to separate things
+
+35
+00:03:08,057 --> 00:03:12,097
+like the keywords and the variable names
+and other symbols from each other. And
+
+36
+00:03:12,097 --> 00:03:19,025
+those are the tokens of this example. So
+for humans, once the words are understood,
+
+37
+00:03:19,025 --> 00:03:23,019
+the next step is to understand the
+structure of the sentence, and this is
+
+38
+00:03:23,019 --> 00:03:27,056
+called parsing. And as we all learned in
+elementary school, this means diagramming
+
+39
+00:03:27,056 --> 00:03:31,088
+sentences, and these diagrams are trees,
+and it's a very simple procedure. Let's
+
+40
+00:03:31,088 --> 00:03:37,058
+look at this example. This line is a
+longer sentence. The first step in parsing
+
+41
+00:03:37,058 --> 00:03:43,078
+is to identify the role of each word in
+the sentence. So we have things like nouns
+
+42
+00:03:43,078 --> 00:03:48,091
+and verbs and adjectives. But then, the
+actual work of parsing is to group these
+
+43
+00:03:48,091 --> 00:03:52,084
+words together into higher level
+constructs. So for example, this
+
+44
+00:03:52,084 --> 00:03:57,056
+particular sentence consists of a subject,
+a verb, and an object, okay? And that
+
+45
+00:03:57,056 --> 00:04:02,028
+actually forms an entire sentence. So,
+right here we have the root of the tree
+
+46
+00:04:02,028 --> 00:04:07,013
+called a sentence, and that's broken down
+into constituent parts. The high level
+
+47
+00:04:07,013 --> 00:04:11,078
+structure, as we said, is subject verb to
+object. And then the subject is more
+
+48
+00:04:11,078 --> 00:04:16,087
+complicated, as is the object. And this is
+an example of parsing an English sentence.
+
+49
+00:04:17,027 --> 00:04:22,080
+The analogy between parsing English text
+and parsing program text is very strong.
+
+50
+00:04:22,080 --> 00:04:28,039
+In fact, they're exactly the same thing.
+So here's our little example piece of code
+
+51
+00:04:28,039 --> 00:04:33,043
+again, so let's work through parsing it.
+So, clearly, this is an if then else
+
+52
+00:04:33,043 --> 00:04:38,044
+statement, and so, the root of our
+diagram, of our parse tree, is gonna be if
+
+53
+00:04:38,044 --> 00:04:42,098
+then else. [inaudible] Nothing else
+consists of three parts. There's a
+
+54
+00:04:42,098 --> 00:04:47,063
+predicate, a then statement, and an L
+statement. And now let?s look at the
+
+55
+00:04:47,063 --> 00:04:53,000
+predicate which consists of three pieces.
+There's a variable, a comparison operator
+
+56
+00:04:53,000 --> 00:04:58,038
+and another variable and together those
+form a relation. So the comparison between
+
+57
+00:04:58,038 --> 00:05:03,062
+two things is one of the things you can
+have as a valid predicate. Similarly, the
+
+58
+00:05:03,062 --> 00:05:09,006
+then statement consists of an assignment
+where Z gets one, and the L statement also
+
+59
+00:05:09,006 --> 00:05:14,086
+has the form of an assignment, Z gets two.
+And to, all together this is a parse tree,
+
+60
+00:05:14,086 --> 00:05:19,089
+of the [inaudible] Fidel, showing its
+structure, breaking it up into its
+
+61
+00:05:19,089 --> 00:05:27,031
+constituent pieces. Now, once we've
+understood the sentence structure, the
+
+62
+00:05:27,031 --> 00:05:31,085
+next step is to try to understand the
+meaning, of what has been written. And,
+
+63
+00:05:31,085 --> 00:05:36,096
+this is hard. So, actually we don't know
+how this works for humans still. We don't
+
+64
+00:05:36,096 --> 00:05:42,000
+understand, what happens after lexical
+analysis and parsing. We do know that
+
+65
+00:05:42,000 --> 00:05:47,004
+people do lexical analysis and parsing in
+much the same way, that compilers
+
+66
+00:05:47,024 --> 00:05:52,002
+lexically analyze and parse programs. But
+frankly, understanding meaning is
+
+67
+00:05:52,002 --> 00:05:57,000
+something that is simply too hard for
+compilers. So, the first important thing
+
+68
+00:05:57,000 --> 00:06:02,023
+to understand about, Symantec analysis is
+that compilers can only do very limited
+
+69
+00:06:02,023 --> 00:06:06,074
+kinds of Symantec analysis. And in
+particular the kinds of things that
+
+70
+00:06:06,074 --> 00:06:11,009
+compilers generally do are try to catch
+inconsistencies. So, if the program is
+
+71
+00:06:11,009 --> 00:06:15,084
+somehow self inconsistent, [inaudible]
+compilers can often notice that and report
+
+72
+00:06:15,084 --> 00:06:21,087
+errors. But they don't really know what
+the program is supposed to do. As an
+
+73
+00:06:21,087 --> 00:06:27,062
+example of the kind of thing that we do in
+semantic analysis, again, using an analogy
+
+74
+00:06:27,062 --> 00:06:32,091
+in English, let's consider the following
+sentence. So, Jack said Jerry left his
+
+75
+00:06:32,091 --> 00:06:38,020
+assignment at home. And the question is,
+what, who does his, refer to here? It
+
+76
+00:06:38,020 --> 00:06:43,036
+could be that his refers to Jerry, in
+which case we would read, Jack said Jerry
+
+77
+00:06:43,036 --> 00:06:48,043
+left Jerry's assignment at home. Or it
+could refer to Jack. In which case, we
+
+78
+00:06:48,043 --> 00:06:53,024
+coul d read the sentence as, Jack said
+Jerry left Jack's assignment at home. And
+
+79
+00:06:53,024 --> 00:06:58,047
+without more information, we actually
+don't know which one. His is referring to,
+
+80
+00:06:58,047 --> 00:07:03,074
+whether it's Jack, or it's Jared. And even
+worse, let's take a look at this sentence
+
+81
+00:07:03,074 --> 00:07:08,042
+down here. Jack said, Jack left his
+assignment at home. And the question is
+
+82
+00:07:08,042 --> 00:07:13,062
+how many people are actually involved in
+this sentence? It could be as many as
+
+83
+00:07:13,062 --> 00:07:18,056
+three, there could be two separate Jacks
+and his, could even refer to somebody
+
+84
+00:07:18,056 --> 00:07:23,070
+completely different. We don't know
+without seeing the rest of the story. That
+
+85
+00:07:23,070 --> 00:07:28,071
+surrounds this sentence, all the
+possibilities for his. But it could also
+
+86
+00:07:28,071 --> 00:07:33,086
+be as few as, only a single person. It
+could be that Jack and Jack and his are
+
+87
+00:07:33,086 --> 00:07:39,000
+all the same person in this sentence. And
+so this kind of ambiguity is a real
+
+88
+00:07:39,000 --> 00:07:44,037
+problem, in semantic analysis. And the
+analogy in programming languages is
+
+89
+00:07:44,037 --> 00:07:49,073
+variable bindings. So we would have
+variables, in this case, a variable called
+
+90
+00:07:49,073 --> 00:07:55,031
+Jack or maybe more than one variable
+called Jack. And a programming language is
+
+91
+00:07:55,031 --> 00:08:01,024
+going to have very strict rules to prevent
+the kind of ambiguities we had in the
+
+92
+00:08:01,024 --> 00:08:06,090
+English sentences on the previous slide.
+So you know, in this example. Question is
+
+93
+00:08:06,090 --> 00:08:13,006
+what value is printed by this output
+statement, and the answer is it's going to
+
+94
+00:08:13,006 --> 00:08:18,063
+print four because this use of the
+variable Jack binds to this definition
+
+95
+00:08:18,063 --> 00:08:23,078
+here. And the outer definition is hidden.
+So the outer definition is not active in
+
+96
+00:08:23,078 --> 00:08:28,050
+this scope because it is hidden by the
+inner definition and that is just a
+
+97
+00:08:28,050 --> 00:08:34,041
+standard rule of a lot of lexically scoped
+programming languages. Now the pilots
+
+98
+00:08:34,041 --> 00:08:39,019
+perform many semantic texts besides
+analyzing the variable bindings. And so
+
+99
+00:08:39,019 --> 00:08:44,048
+here's another example in English. So Jack
+looked her homework at home. And, under
+
+100
+00:08:44,048 --> 00:08:49,070
+the usual naming conventions, assuming
+that Jack is male, we know there's a type
+
+101
+00:08:49,070 --> 00:08:54,067
+mismatch between Jack and her. So we know
+that, whatever her is, it is not Jack.
+
+102
+00:08:54,067 --> 00:08:59,058
+And, and therefore we known that this
+sentence is talking about two different
+
+103
+00:08:59,058 --> 00:09:06,033
+people. And so this is, analogous to type
+checking. The fourth compiler phase,
+
+104
+00:09:06,033 --> 00:09:11,017
+optimization, doesn't have a very strong
+counterpart in everyday English usage but
+
+105
+00:09:11,017 --> 00:09:15,072
+it's a little bit like editing. And, in
+fact, it's a lot like what professional
+
+106
+00:09:15,072 --> 00:09:20,057
+editors do when they have to reduce the
+length of an article to get it down to
+
+107
+00:09:20,057 --> 00:09:25,024
+some word budget. So, for example, I have
+this phrase right here, but a little bit
+
+108
+00:09:25,024 --> 00:09:30,002
+like ending; and if I didn't like it, if I
+thought it was too long, I could replace
+
+109
+00:09:30,020 --> 00:09:36,009
+the middle four words, with two words.
+Akin to. So now it says, but akin to
+
+110
+00:09:36,009 --> 00:09:41,031
+editing, and that means exactly the same
+thing as the original phrase, but uses
+
+111
+00:09:41,031 --> 00:09:46,054
+fewer words. And the goal in program
+optimization Is to modify the program so
+
+112
+00:09:46,054 --> 00:09:51,046
+that it uses less of some resource. Maybe
+we want to use less time, we want the
+
+113
+00:09:51,046 --> 00:09:56,095
+program to run faster maybe we want it to
+use less space so that we can fit more
+
+114
+00:09:57,014 --> 00:10:02,057
+data in memory. For a handheld device we
+might be interested in reducing the amount
+
+115
+00:10:02,057 --> 00:10:07,099
+of power that it uses. If we have external
+communication we might be interested in
+
+116
+00:10:07,099 --> 00:10:13,005
+reducing the number of network messages or
+the number of database accesses. And
+
+117
+00:10:13,005 --> 00:10:18,050
+there's any number of resources that we
+might want to improve other program's use
+
+118
+00:10:18,050 --> 00:10:27,090
+of. So here's a simple example of the
+kinds of optimizations a program might do.
+
+119
+00:10:27,090 --> 00:10:32,094
+We can have a rule in our compiler that
+says X equals Y times zero, is the same as
+
+120
+00:10:32,094 --> 00:10:37,097
+X equals zero. And this seems like a real
+improvement, because instead of doing the
+
+121
+00:10:37,097 --> 00:10:43,007
+multiply, we can just do an assignment. So
+we save some computation by doing that.
+
+122
+00:10:43,007 --> 00:10:48,005
+Now unfortunately this is not a correct
+rule. And this is one of the important
+
+123
+00:10:48,005 --> 00:10:52,022
+things to know about compiling
+optimization, is that it's not always
+
+124
+00:10:52,022 --> 00:10:57,008
+obvious when it's legal to do certain
+optimizations or not. Now it turns out
+
+125
+00:10:57,008 --> 00:11:04,049
+That this particular rule is valid for
+integers. Okay, so if X and Y are
+
+126
+00:11:04,049 --> 00:11:11,057
+integers, then multiplying by zero is
+always the same thing as just signing
+
+127
+00:11:11,057 --> 00:11:19,015
+zero. But, it's invalid for floating
+point. And why is that, well because you
+
+128
+00:11:19,015 --> 00:11:25,032
+have to know some details of the I triple
+E floating point standard, but there is a
+
+129
+00:11:25,032 --> 00:11:31,057
+special number in the I triple E standa rd
+called not a number and it turns out that
+
+130
+00:11:31,057 --> 00:11:37,045
+not a number called a NaN times zero is
+equal to not a number. Any particular
+
+131
+00:11:37,045 --> 00:11:42,088
+non-number times zero is not equal to zero
+If X and Y are plotting point numbers, you
+
+132
+00:11:42,088 --> 00:11:47,092
+can't do this optimization. In fact, if
+you did this optimization, it would break
+
+133
+00:11:47,092 --> 00:11:52,058
+certain very important algorithms that
+rely on the proper propagation of
+
+134
+00:11:52,058 --> 00:12:00,094
+[inaudible] numbers. Finally, the last
+compiler phase is code generation, often
+
+135
+00:12:00,094 --> 00:12:06,087
+referred to as Cojen, and Cojen, can
+produce assembly code. That's the most
+
+136
+00:12:06,087 --> 00:12:11,028
+common thing that a compiler would
+produce. But in general, it's a
+
+137
+00:12:11,028 --> 00:12:16,041
+translation into some other language. And
+this is, entirely analogous to human
+
+138
+00:12:16,041 --> 00:12:21,080
+translation. So just as a human translator
+might translate, English into French, a
+
+139
+00:12:21,080 --> 00:12:27,060
+compiler will translate a high level
+program into assembly code. To wrap up,
+
+140
+00:12:27,060 --> 00:12:33,082
+almost every compiler has the five phases
+that we outlined. However, the proportions
+
+141
+00:12:33,082 --> 00:12:39,081
+have changed a lot over the years, and if
+we were to go back to Fort ran one and
+
+142
+00:12:39,081 --> 00:12:45,066
+look inside of that compiler, we would
+probably see a size and complexity that
+
+143
+00:12:45,066 --> 00:12:51,042
+looks something like this. We have a
+fairly complex lexical analysis phase, an
+
+144
+00:12:51,042 --> 00:12:57,056
+equally complicated parsing phase, a very
+small semantic analysis phase, a. A fairly
+
+145
+00:12:57,056 --> 00:13:03,057
+involved optimization phase and another
+fairly involved code generation phase. And
+
+146
+00:13:03,057 --> 00:13:09,010
+so we see a compiler where the complexity
+was sp, spread fairly evenly throughout
+
+147
+00:13:09,029 --> 00:13:14,082
+except for its [inaudible] analysis which
+is very weak in the early days. And today
+
+148
+00:13:14,082 --> 00:13:20,022
+if we look at a modern compiler you'll see
+almost nothing in lengthening, very little
+
+149
+00:13:20,022 --> 00:13:25,043
+in parsing, because we have extremely good
+tools to help us write those two phases.
+
+150
+00:13:25,062 --> 00:13:31,022
+We would see a fairly involved thematic
+analysis phase. We would see a very large
+
+151
+00:13:31,022 --> 00:13:37,045
+optimization phase, and this is in fact
+the dominant component off all modern
+
+152
+00:13:37,045 --> 00:13:43,083
+compilers, and the a small co-generation
+phase because again we understand that
+
+153
+00:13:44,008 --> 00:13:49,050
+phase very, very well. That's it for this
+lecture. Future lectures, we'll look at
+
+154
+00:13:49,050 --> 00:13:51,037
+each of these phases in detail.

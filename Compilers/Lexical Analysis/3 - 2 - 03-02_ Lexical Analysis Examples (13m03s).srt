@@ -1,0 +1,730 @@
+
+1
+00:00:00,000 --> 00:00:04,070
+Welcome back, In this video, we're going
+to continue our lecture on lexical
+
+2
+00:00:04,070 --> 00:00:09,065
+analysis with some examples from past
+programming languages where interesting
+
+3
+00:00:09,065 --> 00:00:18,044
+lexical problems arose. So we've already
+talked a little bit about Fortran and what
+
+4
+00:00:18,044 --> 00:00:22,063
+are the interesting lexical rules in
+Fortran is the white space is
+
+5
+00:00:22,063 --> 00:00:27,062
+insignificant so white space doesn't
+matter and something like VAR1 to which
+
+6
+00:00:27,062 --> 00:00:32,081
+could be a variable name VAR1 is exactly
+the same as VA R1 so these two program
+
+7
+00:00:32,081 --> 00:00:37,099
+fragments have to mean exactly the same
+thing sand the idea in Fortran is that you
+
+8
+00:00:37,099 --> 00:00:43,030
+can take your program and you could delete
+all the blanks from it and that shouldn't
+
+9
+00:00:43,030 --> 00:00:48,067
+change what the program means at all.
+Let's take a look at an example of how
+
+10
+00:00:48,067 --> 00:00:53,066
+Fortran's white space rule affects lexical
+analysis. Here are a couple of Fortran
+
+11
+00:00:53,066 --> 00:00:58,083
+code fragments and I should say that this
+example is taken from the dragon book and
+
+12
+00:00:58,083 --> 00:01:03,094
+actually couple of the later examples were
+also taken from an older edition of the
+
+13
+00:01:03,094 --> 00:01:09,017
+dragon book. But anyway what we have here,
+this is actually the header of a Fortran
+
+14
+00:01:09,017 --> 00:01:17,000
+loop. And you know it's a loop because it
+has the key word do, which is like four in
+
+15
+00:01:17,000 --> 00:01:24,012
+modern C or C++ so I'd say loop key word
+And then we have out iteration variable I
+
+16
+00:01:24,012 --> 00:01:28,098
+and we have a range that I will vary
+between. So, in this case I will go from
+
+17
+00:01:28,098 --> 00:01:34,003
+one up to 25. And then this number five
+here, this is a little bit odd, something
+
+18
+00:01:34,003 --> 00:01:39,038
+you don't see in modern languages. In the
+old days in Fortran you would have your do
+
+19
+00:01:39,038 --> 00:01:44,061
+statement at the top of the loop and then
+the size of the loop or all the statements
+
+20
+00:01:44,061 --> 00:01:49,025
+included in the loop Were named by a
+label, they came right after the do
+
+21
+00:01:49,025 --> 00:01:54,015
+statement. So, the loop will extend from
+the, the header, the do statement down to
+
+22
+00:01:54,015 --> 00:01:59,017
+the label five. So whatever statement was
+able with five, all of the statements in
+
+23
+00:01:59,017 --> 00:02:04,056
+between would be part of the loop. And so,
+the loop would execute those statements
+
+24
+00:02:04,056 --> 00:02:09,065
+then we'll go back around to the header
+and then we keep executing those until it
+
+25
+00:02:09,065 --> 00:02:14,098
+had done so for every one of the values of
+the iteration variable, in this case, one
+
+26
+00:02:14,098 --> 00:02:20,033
+to 25. Now, here's a nother code fragment
+and as you can see this one is almost
+
+27
+00:02:20,033 --> 00:02:25,086
+exactly the same as the one above. The
+only difference is, let me just switch
+
+28
+00:02:25,086 --> 00:02:31,053
+colors, is here that this particular
+fragment has a comma in that position and
+
+29
+00:02:31,053 --> 00:02:37,093
+this fragment has a period. And it turns
+out that this difference makes all the
+
+30
+00:02:37,093 --> 00:02:45,007
+difference that these two fragment of code
+mean completely different things. So, this
+
+31
+00:02:45,007 --> 00:02:51,022
+fragment, the first one, is in fact a do
+loop as I said before so it has the
+
+32
+00:02:51,022 --> 00:02:58,003
+keyword do, the label five, the variable I
+and the range one to 25. Now this fragment
+
+33
+00:02:58,003 --> 00:03:04,034
+down here, this is actually a variable
+name, do 5I, So far as writing without the
+
+34
+00:03:04,034 --> 00:03:10,038
+blanks. Remember the blanks don't matter,
+This would be do 5I and this is an
+
+35
+00:03:10,038 --> 00:03:16,066
+assignment equals the number 1.25. Okay,
+And so you can see here these symbols, the
+
+36
+00:03:16,066 --> 00:03:22,014
+sequence, the first sequence of symbols is
+interpreted completely differently
+
+37
+00:03:22,014 --> 00:03:28,005
+depending on whether there's a period or a
+comma further on. And so let's just be a
+
+38
+00:03:28,005 --> 00:03:33,075
+little more precise about that. How do we
+know what do is? So let's just focus on
+
+39
+00:03:33,075 --> 00:03:39,073
+the keyword here do and when we're at this
+point, when our focus is here right after
+
+40
+00:03:39,073 --> 00:03:44,093
+the zero. And keep in mind that, that the
+way this is going to be implemented is by
+
+41
+00:03:44,093 --> 00:03:50,007
+a left to right scan so we're going to be
+walking in this direction over the, over
+
+42
+00:03:50,007 --> 00:03:54,084
+the input looking at each character
+successfully and when our focus reaches
+
+43
+00:03:54,084 --> 00:03:59,068
+this point, we can make a decision. Is
+this a, is this a keyword 'cause we've
+
+44
+00:03:59,068 --> 00:04:04,044
+seen the entire keyword too. And the
+problem is that we don't have information
+
+45
+00:04:04,044 --> 00:04:09,008
+to make that decision. We don't know
+whether this is do or whether it's going
+
+46
+00:04:09,008 --> 00:04:14,013
+to be eventually be part of a variable
+name like do 5I. And the only way to know
+
+47
+00:04:14,013 --> 00:04:18,094
+is to look ahead in the input to this
+position to see whether there's a comma or
+
+48
+00:04:18,094 --> 00:04:24,088
+a period there. So this is an example of
+lexical analysis that requires look ahead.
+
+49
+00:04:24,089 --> 00:04:31,007
+In order to understand the role of due, as
+we're going left to right. We have to pick
+
+50
+00:04:31,007 --> 00:04:35,080
+ahead of the input to see some symbols
+that come later on. And we can't possibly
+
+51
+00:04:35,080 --> 00:04:40,071
+disambiguate role of do until that poin t
+because up to this point, the sequence and
+
+52
+00:04:40,071 --> 00:04:45,039
+the symbols are exactly the same and so
+the only thing that distinguishes them is
+
+53
+00:04:45,039 --> 00:04:49,073
+something that's much, much further on.
+And as you can imagine, having lots of
+
+54
+00:04:49,073 --> 00:04:54,041
+look ahead complicates the implementation
+of lexical analysis and so one of the
+
+55
+00:04:54,041 --> 00:04:59,042
+goals in the design of lexical systems is
+to minimize the amount of the look ahead
+
+56
+00:04:59,043 --> 00:05:04,019
+or bound the amount of look ahead that is
+required. So you might wonder why Fortran
+
+57
+00:05:04,019 --> 00:05:09,009
+has this funny rule about white space. It
+turns out that on punch card machines it
+
+58
+00:05:09,009 --> 00:05:13,098
+was easy to add extra blanks by accidents
+and as a result they added this rule to
+
+59
+00:05:13,098 --> 00:05:18,082
+the language so the punch card operator
+wouldn't have to redo their work all the
+
+60
+00:05:18,082 --> 00:05:25,030
+time. Fortunately today we don't enter our
+programs anymore on punch cards. But this
+
+61
+00:05:25,030 --> 00:05:29,058
+example does help us understand better
+what we're trying to do in lexical
+
+62
+00:05:29,058 --> 00:05:34,011
+analysis so as I said the goal is to
+partition the string. We're trying to buy
+
+63
+00:05:34,011 --> 00:05:38,087
+the string up into the logically units of
+the language. And this is implemented by
+
+64
+00:05:38,087 --> 00:05:43,012
+reading left to right. So we're doing a
+left to right scan over the input,
+
+65
+00:05:43,012 --> 00:05:47,014
+recognizing one token at a time. And
+because of that, look ahead may be
+
+66
+00:05:47,014 --> 00:05:51,068
+required to decide where one token ends
+and the next token begins. And again, I
+
+67
+00:05:51,068 --> 00:05:56,040
+want to stress that look ahead is always
+needed but we would like to minimize the
+
+68
+00:05:56,040 --> 00:06:00,089
+amount of look ahead. And in fact, we like
+to bound it to some constant to this,
+
+69
+00:06:00,089 --> 00:06:05,008
+because it will simplify the
+implementation of lexical analyzer quite a
+
+70
+00:06:05,008 --> 00:06:10,071
+bit. Now just to illustrate to look ahead
+is something that we always have to worry
+
+71
+00:06:10,071 --> 00:06:15,061
+about. Let's consider this example which
+we've looked at before and just notice
+
+72
+00:06:15,061 --> 00:06:20,057
+that when we're reading left to right,
+let's look at this keyword else here, when
+
+73
+00:06:20,057 --> 00:06:26,070
+we read the E. We have to decide is that a
+variable name or some symbol but itself or
+
+74
+00:06:26,070 --> 00:06:32,025
+do we want to consider it together with
+the symbols that follow them. And so
+
+75
+00:06:32,025 --> 00:06:37,020
+there's a look ahead issue here. After we
+scanned E, we have to decide does that sit
+
+76
+00:06:37,020 --> 00:06:41,054
+by itself or is it part of a larger
+lexical unit? And, you know there a re
+
+77
+00:06:41,054 --> 00:06:46,031
+single character variable names in this
+example like I, J, and Z and so it's not
+
+78
+00:06:46,031 --> 00:06:51,014
+unreasonable that E could also be one and
+another example is this double-equals.
+
+79
+00:06:51,014 --> 00:06:56,003
+When we read a single equal sign, how do
+we decide whether that's a single equals
+
+80
+00:06:56,003 --> 00:07:00,098
+like these other assignments or that it's
+really a double-equals. Well, in order to
+
+81
+00:07:00,098 --> 00:07:05,066
+do that, if our focus point is right here,
+we have to look ahead and see. There's
+
+82
+00:07:05,066 --> 00:07:10,031
+another = coming up and that's how we know
+or how we will know. That we wanted to
+
+83
+00:07:10,031 --> 00:07:17,086
+combine it into a single symbol instead of
+considering this equals by itself. Another
+
+84
+00:07:17,086 --> 00:07:26,052
+example from a, a language from long ago
+PL [inaudible] is a interesting language.
+
+85
+00:07:26,052 --> 00:07:38,017
+It was designed by IBM and it stands for
+Programming Language One. Alright, It was
+
+86
+00:07:38,017 --> 00:07:43,038
+designed to be the programming language.
+At least with an IBM that would be used by
+
+87
+00:07:43,038 --> 00:07:48,038
+everybody and is supposed to encompass all
+the features that every programmer would
+
+88
+00:07:48,038 --> 00:07:53,014
+ever need. And as such, it was supposed to
+be very, very general and have very few
+
+89
+00:07:53,014 --> 00:07:58,009
+restrictions. And so, one of the features
+of PL [inaudible] is that Keywords are not
+
+90
+00:07:58,009 --> 00:08:02,087
+reserved. So, in PL [inaudible] you can
+use a keyword both as a keyword and also
+
+91
+00:08:02,087 --> 00:08:07,090
+as a variable. So you can use keywords and
+other roles other than keywords and that
+
+92
+00:08:07,090 --> 00:08:12,025
+means you can write interesting,
+interesting sentences or interesting
+
+93
+00:08:12,025 --> 00:08:16,061
+programs like this. And let me just read
+this out loud because it sounds
+
+94
+00:08:16,061 --> 00:08:21,090
+interesting, if else then, then = else,
+else = then. And the correct organization
+
+95
+00:08:21,090 --> 00:08:28,074
+here of course is that this is a keyword,
+this is a keyword and this is a keyword.
+
+96
+00:08:28,074 --> 00:08:35,058
+And the other things, switch colors here,
+are all variables. These are all variable
+
+97
+00:08:35,058 --> 00:08:40,010
+names. And as you can imagine this mix a
+lexical analysis somewhat difficult
+
+98
+00:08:40,010 --> 00:08:44,086
+because when we're just scanning left to
+right like when we're coming through here
+
+99
+00:08:44,086 --> 00:08:49,057
+when we say we're at to this point, you
+know how do we decide whether these things
+
+100
+00:08:49,057 --> 00:08:54,050
+are going to be variable names or keywords
+without seeing what's going on in the rest
+
+101
+00:08:54,050 --> 00:09:00,026
+of the expression so lexical analysis in
+PL [inaudible] was quite challenging. So
+
+102
+00:09:00,026 --> 00:09:04,086
+here's another example from PL
+[inaudible]. Here we have a program
+
+103
+00:09:04,086 --> 00:09:10,008
+fragment, we have the word declare and
+then an open paren and a close paren
+
+104
+00:09:10,008 --> 00:09:16,000
+encompassing a bunch of arguments so we'll
+point out the balance parens here and then
+
+105
+00:09:16,000 --> 00:09:22,033
+just a list of n things inside the parens.
+And it turns out that the pending on the
+
+106
+00:09:22,033 --> 00:09:28,016
+larger context in which this whole
+expressions sits, this could be either a
+
+107
+00:09:28,016 --> 00:09:32,094
+keyword. Or it could be in array reference
+that mean when, yeah, that mean declare
+
+108
+00:09:32,094 --> 00:09:37,072
+here could either be a keyword or it could
+be a name of an array and this could be
+
+109
+00:09:37,072 --> 00:09:42,022
+the end [inaudible] to the array. And as
+it happens, there is no way looking at
+
+110
+00:09:42,022 --> 00:09:47,000
+just this much that we can decide. This
+fragment is valid, is a valid declaration
+
+111
+00:09:47,000 --> 00:09:51,050
+and it's also a valid array reference. So,
+it would depend on what came next. It
+
+112
+00:09:51,050 --> 00:09:56,011
+might depend on for example whether there
+was an equal sign here in which cases
+
+113
+00:09:56,011 --> 00:10:00,096
+would be interpreted as an assignment and,
+and declare would be the name of an array.
+
+114
+00:10:00,096 --> 00:10:06,062
+And, the interesting thing about this
+example is that because the number of
+
+115
+00:10:06,062 --> 00:10:12,044
+arguments in here is unbounded. There
+could be n of them for any n. This
+
+116
+00:10:12,044 --> 00:10:19,090
+requires unbounded look ahead. Okay, So to
+implement this properly as you're scanning
+
+117
+00:10:19,090 --> 00:10:25,048
+left to right to decide whether declare
+again is a keyword or re-reference, we
+
+118
+00:10:25,048 --> 00:10:30,077
+would have to scan beyond this entire
+argument list to see what came next.
+
+119
+00:10:32,008 --> 00:10:37,010
+Fortren and PL [inaudible] were designed
+in the 1950s and 1960s respectively and
+
+120
+00:10:37,010 --> 00:10:42,006
+those experiences taught us a lot about
+what not to do in the lexical design of
+
+121
+00:10:42,006 --> 00:10:47,008
+programming languages. So things are a lot
+better today but the problems have not
+
+122
+00:10:47,008 --> 00:10:51,098
+gone away completely and I'll use an
+example from C++ that illustrate this. So
+
+123
+00:10:51,098 --> 00:10:56,094
+here's an example of C++ template syntax
+which you may be familiar with or you may
+
+124
+00:10:56,094 --> 00:11:03,057
+have seen the similar syntax in Java. And
+C++ has another operator called Stream
+
+125
+00:11:03,057 --> 00:11:10,094
+Input. So this operator here reads from an
+input stream and stores the results in a
+
+126
+00:11:10,094 --> 00:11:17,048
+variable. And the problem is, here that
+there's a conflict with nested templates,
+
+127
+00:11:17,048 --> 00:11:26,004
+So for example, if I have a template o
+peration that looks like this. Okay.
+
+128
+00:11:26,004 --> 00:11:31,034
+Notice what happens here. So my intention
+here is to have a nested application of
+
+129
+00:11:31,034 --> 00:11:36,050
+templates but I wind up with two great
+than signs together at the end and this
+
+130
+00:11:36,050 --> 00:11:41,074
+looks just like the stream operator and
+the question is what should the lexical
+
+131
+00:11:41,074 --> 00:11:47,010
+analyzer do? Should it interpret this as
+two close brackets for template or should
+
+132
+00:11:47,010 --> 00:11:52,033
+it interpret it as a two greater than
+signs stuck together as a stream operator.
+
+133
+00:11:52,033 --> 00:11:57,037
+And it turns out that for a very long
+time, I think most C++ compilers have now
+
+134
+00:11:57,037 --> 00:12:01,099
+fixed this. The C++ compiler in this
+situation would regard this as a stream
+
+135
+00:12:01,099 --> 00:12:07,021
+operator and you would get a syntax there.
+And what do you think the solution was, it
+
+136
+00:12:07,021 --> 00:12:12,048
+turns out that the only fix that you could
+really do to make this lexically analyzed
+
+137
+00:12:12,048 --> 00:12:17,069
+the correct way was to insert a blank so
+you would have to write this and you would
+
+138
+00:12:17,069 --> 00:12:22,084
+have to remember to put the blank in there
+so that the two greater than signs were
+
+139
+00:12:22,084 --> 00:12:28,005
+not together. And you know that's kind of
+ugly that we have to put in white space to
+
+140
+00:12:28,005 --> 00:12:35,057
+fix the lexical analysis of the program.
+So to summarize the goal of lexical
+
+141
+00:12:35,057 --> 00:12:40,007
+analysis is to partition the input streams
+into lexemes, okay. So we have drop down
+
+142
+00:12:40,007 --> 00:12:44,024
+dividing lines in the string to decide
+where the lexemes lie and we want to
+
+143
+00:12:44,024 --> 00:12:48,041
+identify the token of each lexeme, And
+because, exactly because we're doing a
+
+144
+00:12:48,041 --> 00:12:52,086
+left to right scan, sometimes we have to
+have look ahead. Sometimes we have to peek
+
+145
+00:12:52,086 --> 00:12:57,030
+ahead in the input string to figure out
+what the current string we're looking at,
+
+146
+00:12:57,030 --> 00:13:01,063
+what the current substring we're looking
+at, what role it plays in the language?

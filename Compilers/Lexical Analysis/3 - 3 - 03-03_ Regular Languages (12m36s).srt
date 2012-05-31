@@ -1,0 +1,644 @@
+
+1
+00:00:01,015 --> 00:00:05,037
+In this video, we're gonna talk about
+regular languages which are used to
+
+2
+00:00:05,037 --> 00:00:13,099
+specify the lexical structure of
+programming languages. To briefly review
+
+3
+00:00:13,099 --> 00:00:18,084
+the lexical structure of a programming
+language is a set of token classes. And
+
+4
+00:00:18,084 --> 00:00:24,001
+each one of the token classes consists of
+some set of strings. Now we need a way to
+
+5
+00:00:24,001 --> 00:00:28,092
+specify which set of strings belongs to
+each token class and the usual tool or
+
+6
+00:00:28,092 --> 00:00:34,014
+doing that is to use regular languages. So
+in this video we're going to present like
+
+7
+00:00:34,014 --> 00:00:39,043
+regular languages and define what they are
+and then in subsequent videos we're going
+
+8
+00:00:39,043 --> 00:00:45,009
+to look at some examples using them in
+actual programming languages. To define
+
+9
+00:00:45,009 --> 00:00:52,072
+the regular languages, we generally use
+something called regular expressions. And
+
+10
+00:00:52,072 --> 00:00:58,025
+each regular expression team now it's a
+set. There are two basic regular
+
+11
+00:00:58,025 --> 00:01:04,009
+expressions. If I write the single
+character C, that's an expression and what
+
+12
+00:01:04,009 --> 00:01:10,096
+at the notes is a language containing one
+string. Which is the single character C,
+
+13
+00:01:10,096 --> 00:01:17,036
+okay, That's one basic form so for any
+single character I get a language with a
+
+14
+00:01:17,036 --> 00:01:23,092
+one string language with just and then the
+only string is that character. Another
+
+15
+00:01:23,092 --> 00:01:30,080
+basic building block of regular languages
+is the regular expression epsilon which is
+
+16
+00:01:30,080 --> 00:01:36,018
+the language. That contains again just a
+single string, this time the empty string.
+
+17
+00:01:36,018 --> 00:01:41,047
+And, one thing that's important to keep in
+mind is that epsilon is not the empty
+
+18
+00:01:41,047 --> 00:01:46,063
+language, okay? So this is not correspond
+to the empty string and the empty set of
+
+19
+00:01:46,063 --> 00:01:51,054
+strings. It is a language that has a
+single string namely the empty string.
+
+20
+00:01:52,065 --> 00:01:58,004
+Besides the two base regular expressions,
+there are three compound regular
+
+21
+00:01:58,004 --> 00:02:03,094
+expressions and we'll just go through them
+here in order. The first is a + b which
+
+22
+00:02:03,094 --> 00:02:09,091
+corresponds to the union of the languages
+a and b. So this would be the set a such
+
+23
+00:02:09,091 --> 00:02:15,058
+that a is in the language of big A, little
+a is in the language of big A union,
+
+24
+00:02:15,058 --> 00:02:21,084
+little b such that b is in the language of
+little b so just the union of the two sets
+
+25
+00:02:21,084 --> 00:02:27,071
+of strings. Concatenation is like string
+concatenation. So if I have two languages,
+
+26
+00:02:27,071 --> 00:02:33,050
+a and b, or two regula r expressions, a
+and b, then, the concatenation of a and b
+
+27
+00:02:33,050 --> 00:02:40,001
+Is equal to all of the strings. Little a
+concatenate with little b where a is drawn
+
+28
+00:02:40,001 --> 00:02:46,030
+from the language big A and little b is
+drawn from the language big B. And so this
+
+29
+00:02:46,030 --> 00:02:51,010
+is cross sporadic operation. Choose a
+string from a. Choose a string from
+
+30
+00:02:51,010 --> 00:02:56,030
+capital B and then combine, put them
+together with the string from a first and
+
+31
+00:02:56,030 --> 00:03:01,089
+choosing strings at all possible ways from
+all possible combined strings and that's
+
+32
+00:03:01,089 --> 00:03:06,075
+the language a concatenated with b. And
+finally there's a kind of looping
+
+33
+00:03:06,075 --> 00:03:13,020
+[inaudible]. This is pronounced a star or
+is called the Kleene iteration and, or the
+
+34
+00:03:13,020 --> 00:03:21,018
+Kleene closure. And a star is equal to the
+union. For i greater than = zero of a to
+
+35
+00:03:21,018 --> 00:03:28,046
+the i, a to the i-th power. What's that
+mean? Well, a to the i-th power is just a
+
+36
+00:03:28,046 --> 00:03:34,053
+to concatenated with itself By times. So
+this is, [inaudible]. And note that
+
+37
+00:03:34,053 --> 00:03:40,018
+because i can be = zero, one of the
+possibilities here is a to the zero, so a
+
+38
+00:03:40,018 --> 00:03:45,097
+concatenate with itself zero times and
+what is that, well that's the language
+
+39
+00:03:45,097 --> 00:03:51,091
+epsilon. So that's the language contain
+the empty string. So the empty string is
+
+40
+00:03:51,091 --> 00:04:01,007
+always an element of a star. To summarize
+the last couple of slides the regular
+
+41
+00:04:01,007 --> 00:04:06,040
+expressions over some alphabet sigma. The
+smallest of that expressions that include
+
+42
+00:04:06,040 --> 00:04:11,087
+the following. So, let's define it so, the
+regular expression r are equal to epsilon
+
+43
+00:04:11,087 --> 00:04:16,026
+is always a regular expression. Or,
+another possibility is the single
+
+44
+00:04:16,026 --> 00:04:21,064
+character c where c is an element of our
+alphabet, okay? So this is important the
+
+45
+00:04:21,064 --> 00:04:27,016
+regular expressions define with respect to
+some alphabet. So we have to pick a family
+
+46
+00:04:27,016 --> 00:04:32,028
+of characters that will form the base
+cases of the regular expression and here,
+
+47
+00:04:32,028 --> 00:04:37,008
+you know? We have one base regular
+expression for each character in the
+
+48
+00:04:37,008 --> 00:04:42,006
+alphabet. And then we have the compound
+expressions. So, another possibility Is
+
+49
+00:04:42,006 --> 00:04:47,016
+that a regular expression is the union of
+two regular expressions. Another one is
+
+50
+00:04:47,016 --> 00:04:52,019
+that the concatenation of two regular
+expressions. And the last one is that it
+
+51
+00:04:52,019 --> 00:04:58,005
+could be the iteration of a regular expre
+ssion. So these five cases are the set of
+
+52
+00:04:58,005 --> 00:05:03,091
+regular expressions over a given alphabet.
+Now this syntax here for describing the
+
+53
+00:05:03,091 --> 00:05:09,048
+regular expressions with these vertical
+bars and these different cases on the
+
+54
+00:05:09,048 --> 00:05:14,084
+right hand side in this recursive
+definition of r, If you haven't seen this
+
+55
+00:05:14,084 --> 00:05:19,074
+before, this is called the grammar. And
+that's not important for this lecture.
+
+56
+00:05:19,074 --> 00:05:24,057
+It's not what this, this lecture is about
+but we're talking about grammars when we
+
+57
+00:05:24,057 --> 00:05:31,074
+get to parsing. Next I'd like to do a few
+examples of actually building regular
+
+58
+00:05:31,074 --> 00:05:36,001
+languages, writing the mountain and
+thinking about what they mean. And as we
+
+59
+00:05:36,001 --> 00:05:40,023
+said, whenever we're talking about a
+regular language, we first have to say
+
+60
+00:05:40,023 --> 00:05:44,096
+what the alphabet is. And so, for these
+examples let's just use the alphabet zero
+
+61
+00:05:44,096 --> 00:05:49,041
+and one. So these are going to be
+languages which consists of strings of 0s
+
+62
+00:05:49,041 --> 00:05:54,002
+and 1s. And let's start with a very simple
+example. Let's think about the language
+
+63
+00:05:54,019 --> 00:06:01,097
+one star And what language that to note.
+So, well, we know the definition of star.
+
+64
+00:06:01,097 --> 00:06:10,047
+If you remember, that was the union over i
+greater than = zero of one to the i. Okay.
+
+65
+00:06:10,047 --> 00:06:17,045
+And what is that equal to? Well, that's
+just one. Repeated i* that's what the
+
+66
+00:06:17,045 --> 00:06:23,075
+concatenation of one to the i means, okay.
+It means one concatenated with itself i*
+
+67
+00:06:23,075 --> 00:06:29,043
+and so this is going to be the empty
+string. That's one concatenated with
+
+68
+00:06:29,043 --> 00:06:35,074
+itself zero* followed by one followed by
+eleven followed by one concatenated with
+
+69
+00:06:35,074 --> 00:06:41,057
+itself three* followed by one concatenated
+with itself four* followed by one
+
+70
+00:06:41,057 --> 00:06:47,054
+concatenated with itself any number of
+times. Okay, And this, and so we can see
+
+71
+00:06:47,054 --> 00:06:58,006
+that this is just equal to all strings Of
+1s, All right? Now let's do a second
+
+72
+00:06:58,006 --> 00:07:07,089
+example let's think about the language
+one. Plus zero concatenated with the
+
+73
+00:07:07,089 --> 00:07:16,072
+language one, okay? And remember how
+concatenation works is across products we
+
+74
+00:07:16,072 --> 00:07:25,003
+take every string in the first expression
+and combining with every string in the
+
+75
+00:07:25,003 --> 00:07:34,017
+second expression. So this is going to be
+equal to the strings a b where a is drawn
+
+76
+00:07:34,017 --> 00:07:41,003
+from one + zero and b is drawn from one.
+All right? And, what can that be when
+
+77
+00:07:41,003 --> 00:07:46,074
+there's two traces for a. A could be one
+or zero and b could be one so in fact this
+
+78
+00:07:46,074 --> 00:07:52,010
+is equal to the set one, one and the
+strings one, one, the second [inaudible]
+
+79
+00:07:52,010 --> 00:07:58,057
+of the strings one, one and one zero. All
+right? Let's do another examples, slightly
+
+80
+00:07:58,057 --> 00:08:03,078
+more complex. Let's build up here to
+having two iterations in a union so have
+
+81
+00:08:03,078 --> 00:08:09,005
+zero* + one* and think of about what's
+that equal to but we've already know what
+
+82
+00:08:09,005 --> 00:08:14,012
+one* is equal to. That's equal to all
+strings of ones and so by analogy zero*
+
+83
+00:08:14,012 --> 00:08:19,080
+must be all strings of zeroes then we take
+the union of those two things so this is
+
+84
+00:08:19,080 --> 00:08:25,042
+actually really easy to write out. Let's
+write them out in this notation so we have
+
+85
+00:08:25,042 --> 00:08:31,004
+zero to the i, for i again equal to zero,
+okay. That's zero* union with. One to the
+
+86
+00:08:31,004 --> 00:08:37,091
+i or greater than = zero. That's the
+strings of all one. So there's a set at
+
+87
+00:08:37,091 --> 00:08:45,016
+this expression to nodes. And for our last
+example, let's think about zero + one.
+
+88
+00:08:45,016 --> 00:08:50,008
+Now, that iterated. Okay? So, we put the
+star around the union of the two
+
+89
+00:08:50,008 --> 00:08:55,084
+individual character instead of having the
+star on each character individually in
+
+90
+00:08:55,084 --> 00:09:01,046
+taking the union of the two things. So
+what is the, what is this expression equal
+
+91
+00:09:01,046 --> 00:09:07,056
+to? Well, let's work with the definition
+of star. So, we know. That this is the
+
+92
+00:09:07,056 --> 00:09:15,024
+union over i greater than or equal to zero
+of zero + one to the i. And what does that
+
+93
+00:09:15,024 --> 00:09:22,047
+look like, well, that looks like first of
+all, there's the empty string, right? And
+
+94
+00:09:22,047 --> 00:09:29,096
+then another string in this language is,
+is. Excuse me, is drawn from zero + one
+
+95
+00:09:29,096 --> 00:09:36,054
+and so this, I shouldn't say another
+string but another set of strings is the
+
+96
+00:09:36,054 --> 00:09:42,095
+language zero + one. And then zero + one
+concatenated with itself, okay? And in
+
+97
+00:09:42,095 --> 00:09:53,051
+general, is going to be zero + one
+concatenated by itself i times. Now what
+
+98
+00:09:53,051 --> 00:09:58,046
+does that mean? That means that every
+position, if we have a string of length i,
+
+99
+00:09:58,046 --> 00:10:03,067
+at every position we could pick a zero or
+a one to plug in and this works for any
+
+100
+00:10:03,067 --> 00:10:08,063
+length string. This is gonna be true of
+strings of every length and so in fact
+
+101
+00:10:08,063 --> 00:10:18,083
+this language is just going to be all
+strings Of 0's and 1's. In fact, what that
+
+102
+00:10:18,083 --> 00:10:23,023
+means is this, is the cycle effect on our
+alphabet. Our alphabet that consists of
+
+103
+00:10:23,023 --> 00:10:27,090
+zero and one and so this is the set of all
+strings that you can form over the entire
+
+104
+00:10:27,090 --> 00:10:32,025
+alphabet, And that has a special name when
+that happens when you have a regular
+
+105
+00:10:32,025 --> 00:10:36,081
+expression that denotes the set of all
+strings you can form out of the alphabet,
+
+106
+00:10:36,081 --> 00:10:41,004
+we write that as sigma star, okay? So just
+meaning that all the strings of the
+
+107
+00:10:41,004 --> 00:10:45,072
+alphabet integrated as many times as you
+like One last point I wanna make on this
+
+108
+00:10:45,088 --> 00:10:50,017
+before we go on here is that there are
+actually lots of ways to write each of
+
+109
+00:10:50,017 --> 00:10:54,078
+these different languages. There's not a
+unique way to write these. So for example,
+
+110
+00:10:54,078 --> 00:10:59,018
+let's just take this language here. The
+second one that we did, and let me switch
+
+111
+00:10:59,018 --> 00:11:03,058
+colors. Another alternative way to write
+this since we know the meaning of it is
+
+112
+00:11:03,058 --> 00:11:08,002
+these two strings one, one and one zero, I
+could have written it as one, one. + one
+
+113
+00:11:08,002 --> 00:11:14,001
+zero and that would mean exactly the same
+thing. We used two expressions denote
+
+114
+00:11:14,001 --> 00:11:20,092
+exactly the same set similarly with one
+star, I could write this as one *. + one.
+
+115
+00:11:20,092 --> 00:11:25,064
+And cuz this wouldn't change anything.
+Adding in the single string one wouldn't
+
+116
+00:11:25,064 --> 00:11:30,024
+change anything since one is already
+included in one*. This might be kind of a
+
+117
+00:11:30,024 --> 00:11:35,001
+silly way to write that set but it doesn't
+matter it has a meaning and it means
+
+118
+00:11:35,001 --> 00:11:39,091
+exactly the same things as one*. The point
+again is that there is more than one way
+
+119
+00:11:39,091 --> 00:11:44,045
+to write down the same set to write, to
+write, you can write multiple regular
+
+120
+00:11:44,045 --> 00:11:49,099
+expressions that denote the same set.
+Well, it come to the end of this video.
+
+121
+00:11:49,099 --> 00:11:55,083
+And to summarize, we looked at regular
+expressions. Which are used to define
+
+122
+00:11:55,083 --> 00:12:01,029
+regular languages? And the regular
+expressions are syntax, that's the.
+
+123
+00:12:01,029 --> 00:12:06,029
+Expression that we write down and if it
+notes a set of strings which is the
+
+124
+00:12:06,029 --> 00:12:11,088
+regular language and that's the meaning of
+the regular expression. And there are five
+
+125
+00:12:11,088 --> 00:12:17,000
+kinds of regular expressions in the
+standard definition. There's an expression
+
+126
+00:12:17,000 --> 00:12:22,026
+for the empty string and that's denoted by
+epsilon and then we have all the one
+
+127
+00:12:22,026 --> 00:12:27,085
+character strings and then there are three
+compound expressions. Ways of building new
+
+128
+00:12:27,085 --> 00:12:32,051
+regular expressions from other regular
+expressions and these are union,
+
+129
+00:12:32,051 --> 00:12:34,036
+concatenation, and iteration.

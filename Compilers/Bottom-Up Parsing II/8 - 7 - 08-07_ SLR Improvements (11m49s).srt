@@ -1,0 +1,710 @@
+
+1
+00:00:03,068 --> 00:00:07,093
+In this video, we're going to wrap up our
+discussion of SLR parsing, we're going to
+
+2
+00:00:07,093 --> 00:00:11,062
+give the full SLR parsing algorithm, and
+also talk about some important
+
+3
+00:00:11,062 --> 00:00:19,023
+improvements. The SLR parsing algorithm we
+discussed in the last video has one major
+
+4
+00:00:19,023 --> 00:00:24,022
+inefficiency. And that is that most of the
+work that the automation does when it,
+
+5
+00:00:24,022 --> 00:00:28,084
+when it reads the stack is actually
+redundant. And to see this, think about
+
+6
+00:00:28,084 --> 00:00:34,010
+the stack. So we have our stack, and this
+is the bottom over here. And this is the
+
+7
+00:00:34,010 --> 00:00:38,047
+top of the stack over here. And, what is
+going on in each step? In each step we
+
+8
+00:00:38,047 --> 00:00:43,023
+might, shift something onto the stacks, we
+might add one symbol, or we might pop some
+
+9
+00:00:43,023 --> 00:00:47,071
+symbols, and, and push one symbol onto the
+stack. But basically there's going to be
+
+10
+00:00:47,071 --> 00:00:52,025
+some small number of symbols that change
+at the top of the stack at each step. But
+
+11
+00:00:52,025 --> 00:00:56,062
+most of the stack stays the same. And then
+we rerun the automaton on the entire
+
+12
+00:00:56,062 --> 00:01:01,023
+stack. And so, this work is all repeated.
+Everything that stayed the same From the
+
+13
+00:01:01,023 --> 00:01:05,078
+previous stack is repeated work, and then
+we do a little bit of new work, just at
+
+14
+00:01:05,078 --> 00:01:10,027
+the very top of the stack. And clearly, if
+we could avoid this, we could make the
+
+15
+00:01:10,027 --> 00:01:15,018
+algorithm run much, much more quickly. The
+way to exploit the observation that most
+
+16
+00:01:15,018 --> 00:01:19,056
+of the work of the automaton is repeated
+at each step, is to simply remember the
+
+17
+00:01:19,056 --> 00:01:23,055
+state of the automaton on each stack
+prefix. So we're going to change the
+
+18
+00:01:23,055 --> 00:01:27,071
+representation of the stack, we're going
+to change what goes in the stack, so
+
+19
+00:01:27,071 --> 00:01:32,003
+before we just had symbols on the stack,
+but now we're going to have pairs. Each
+
+20
+00:01:32,003 --> 00:01:37,003
+element of the stack will be a pair of a
+symbol, and a DFA state. Thus the stack
+
+21
+00:01:37,003 --> 00:01:41,055
+now is going to be a stack of pairs and
+whereas before a stack would have
+
+22
+00:01:41,055 --> 00:01:46,044
+consisted just of the symbols, sym1 up to
+sym n, now we're going to have the same
+
+23
+00:01:46,044 --> 00:01:51,039
+symbols but each one of them is going to
+be paired with a DFA state and that DFA
+
+24
+00:01:51,039 --> 00:01:56,046
+state is going to be the result of running
+the DFA and all the symbols to its left,
+
+25
+00:01:56,046 --> 00:02:01,059
+So all the symbols below it in the stack.
+So if I think about my stack and if I draw
+
+26
+00:02:01,059 --> 00:02:06,067
+a little picture of the stack as a line
+then the DFA state here. Let's call this
+
+27
+00:02:06,067 --> 00:02:11,088
+state I, will be the result of running the
+DFA on the entire, stack contents to the
+
+28
+00:02:11,088 --> 00:02:16,072
+left of that point. And again, if I look
+at some other point in the stack, at the
+
+29
+00:02:16,072 --> 00:02:21,031
+state, stack state that's stored there.
+That would be running, the results of
+
+30
+00:02:21,031 --> 00:02:25,082
+running the DFA on the entire stack
+context, contents, up to that point. And
+
+31
+00:02:25,082 --> 00:02:30,005
+one small detail here is that the bottom
+of the stack, we have to get started. We
+
+32
+00:02:30,005 --> 00:02:34,034
+need to have the start state stored at the
+bottom of the stack. And we just store
+
+33
+00:02:34,034 --> 00:02:39,029
+that with any dummy symbol. It doesn't
+matter what symbol we pick. So now we're
+
+34
+00:02:39,029 --> 00:02:44,095
+ready to actually give the details of the
+parsing algorithm. And the first step is
+
+35
+00:02:44,095 --> 00:02:50,047
+to define a table go to. And this maps a
+state and a symbol to another state. And
+
+36
+00:02:50,047 --> 00:02:55,078
+this is just the transition function of
+the DFA. This is the graph of the DFA
+
+37
+00:02:55,078 --> 00:03:03,055
+written out as an array. Our SLR parsing
+algorithm will have four possible moves. A
+
+38
+00:03:03,055 --> 00:03:08,091
+shift X move will push a pair on the
+stack. X is a DFA state, so that's named
+
+39
+00:03:08,091 --> 00:03:14,069
+in the shift move now. And then the other
+element of the pair is the current input.
+
+40
+00:03:14,069 --> 00:03:19,028
+And then we'll also have reduce moves,
+which are just as before. So, to recall, a
+
+41
+00:03:19,028 --> 00:03:23,081
+reduce move will pop, the, a number of
+elements from the stack equal to the
+
+42
+00:03:23,081 --> 00:03:28,052
+length of the right hand side. And then it
+will push the left hand side onto the
+
+43
+00:03:28,052 --> 00:03:33,023
+stack. And then finally, accept an error
+moves for when we've successfully parsed
+
+44
+00:03:33,023 --> 00:03:38,074
+the input, and for when the parser gets
+stuck. The second parsing table is the
+
+45
+00:03:38,074 --> 00:03:44,025
+action table which tells us which kind of
+move to make in every possible state. The
+
+46
+00:03:44,025 --> 00:03:49,066
+action table's indexed by a state of the
+automaton and the next input symbol. And
+
+47
+00:03:49,066 --> 00:03:55,058
+then the possible moves are things like
+shift, reduce, accept, or error. So let's
+
+48
+00:03:55,058 --> 00:04:01,080
+consider if we do shifts, if the final
+state of the automaton at the top of the
+
+49
+00:04:01,080 --> 00:04:08,025
+stack has an item that says it would be
+okay to shift an A. And go to that is from
+
+50
+00:04:08,025 --> 00:04:14,070
+this state we can go to state J on input
+A. Then the move in state I on input A
+
+51
+00:04:14,070 --> 00:04:21,000
+will be to shift AJ onto the stack And th
+ink about what that means for a second.
+
+52
+00:04:21,000 --> 00:04:26,094
+What that says is that we have a stack.
+And then the next input is A. And then at
+
+53
+00:04:26,094 --> 00:04:32,061
+this point, it's okay to shift an A onto
+the stack. And furthermore, that the state
+
+54
+00:04:32,061 --> 00:04:37,054
+of the automaton at this point is SI.
+Okay. So the state of Irarta [inaudible]
+
+55
+00:04:37,054 --> 00:04:42,034
+the top of the stack is SI. The next input
+is A. Remember that the go to table is a
+
+56
+00:04:42,034 --> 00:04:47,019
+transition function of the machine. So if
+we move the vertical bar over, if we shift
+
+57
+00:04:47,019 --> 00:04:51,064
+that A on to the stack, well, now, we
+don't just put A on the stack, we have to
+
+58
+00:04:51,064 --> 00:04:56,025
+put a pair on the stack. And the question
+is what machine state should go there.
+
+59
+00:04:56,025 --> 00:05:01,017
+Well, it's going to be state that we would
+reach from state I from state SI on input
+
+60
+00:05:01,017 --> 00:05:06,050
+A, which. The go to table tells us, in
+this case, is state SJ. And for that
+
+61
+00:05:06,050 --> 00:05:12,045
+reason, the action, when we terminate in
+state I, and the next input is A, is to
+
+62
+00:05:12,045 --> 00:05:18,031
+shift the pair A, J, onto the stack. The
+other three moves that go into the action
+
+63
+00:05:18,031 --> 00:05:23,026
+table are things we've already seen. So if
+the final state of the automaton at the
+
+64
+00:05:23,026 --> 00:05:27,079
+top of the stack has an item that says
+that we can reduce, and the follow up
+
+65
+00:05:27,079 --> 00:05:32,037
+condition requirement is satisfied.
+Mainly, that the, next input can follow,
+
+66
+00:05:32,056 --> 00:05:37,038
+the left hand side non terminal of the
+production. Then in the entry I, for,
+
+67
+00:05:37,038 --> 00:05:42,035
+[inaudible] if we're in state SI and we
+have input a, we can reduce by the
+
+68
+00:05:42,035 --> 00:05:47,071
+production x goes to alpha. And there's
+one exception here, we're not going to do
+
+69
+00:05:47,071 --> 00:05:53,021
+that reduction, if the left-hand side is
+the special start symbol, the new start
+
+70
+00:05:53,021 --> 00:05:58,031
+symbol that we add to the grammar, is
+prime. Because, in that case, if the item
+
+71
+00:05:58,031 --> 00:06:03,087
+that we're going to reduce by is s-prime
+goes to s-dot, and we're at the end of the
+
+72
+00:06:03,087 --> 00:06:08,094
+input, then we want to accept. And any
+other Situation is an error. So in any
+
+73
+00:06:08,094 --> 00:06:14,039
+other situation, if we're in state I and
+we have the next the next input is A,
+
+74
+00:06:14,039 --> 00:06:19,024
+well, we don't know whether to shift,
+reduce, or accept. And so, that is an
+
+75
+00:06:19,024 --> 00:06:24,070
+error state. Finally, here is the full SLR
+parsing algorithm. And I'm just going to
+
+76
+00:06:24,070 --> 00:06:28,078
+walk you through it, so that we can see
+how all of the ideas we've been di
+
+77
+00:06:28,078 --> 00:06:33,018
+scussing, and all the various pieces fit
+together. Let's let our initial input be
+
+78
+00:06:33,018 --> 00:06:37,072
+called I. And we'll just give it a name,
+and it's gonna be treated as an array that
+
+79
+00:06:37,072 --> 00:06:42,005
+we can index. The index will be called J,
+and initially, it's zero so that we're
+
+80
+00:06:42,005 --> 00:06:46,070
+pointing to the first token in the input
+string. We'll just assume that the first
+
+81
+00:06:46,070 --> 00:06:51,045
+state of the DFA is called state one. And,
+that means our initial stack is going to
+
+82
+00:06:51,045 --> 00:06:56,017
+have state one for the state of the
+automaton and some other dummy symbol that
+
+83
+00:06:56,017 --> 00:07:00,096
+we don't care about In the, in the first
+position. So, the stack is just a pair
+
+84
+00:07:00,096 --> 00:07:05,074
+with [inaudible] in the start state of the
+DFA. And now, were going to repeat the
+
+85
+00:07:05,074 --> 00:07:10,023
+following loop until we've either
+successfully pars the input or we detect
+
+86
+00:07:10,023 --> 00:07:14,033
+an error. And at its steps, what we're
+going to do? Well, we're going to look at
+
+87
+00:07:14,033 --> 00:07:18,062
+the next input symbol and we're going to
+look at the final state of the automaton
+
+88
+00:07:18,062 --> 00:07:22,097
+on the stack contents and that's always
+the state of the pair that's on the top of
+
+89
+00:07:22,097 --> 00:07:27,027
+the stack and we're gonna look those two
+things up in the action table and that's
+
+90
+00:07:27,027 --> 00:07:31,035
+gonna tell us what kind of move to make.
+So, let's just go through the moves in
+
+91
+00:07:31,035 --> 00:07:35,042
+order. Let's consider the shift move
+first. So, what happens? If were, if it
+
+92
+00:07:35,042 --> 00:07:40,045
+says we're supposed to shift and going to
+state K, then what we're going to do is
+
+93
+00:07:40,045 --> 00:07:45,066
+we're going to shift the input, that means
+we're going to take the next input symbol
+
+94
+00:07:45,066 --> 00:07:50,069
+and, or the current input symbol, excuse
+me, and we're going to push that on to the
+
+95
+00:07:50,069 --> 00:07:55,016
+stack together with state K of the
+[inaudible]. That pair goes on to the
+
+96
+00:07:55,016 --> 00:07:59,082
+stack, and we also bumb the input pointer
+so that we're looking at the next
+
+97
+00:07:59,082 --> 00:08:04,073
+character of input. Now. Let me erase that
+so you can continue to read it. Now what
+
+98
+00:08:04,073 --> 00:08:09,063
+about the reduce moves? So this one's a
+little bit interesting. First thing we're
+
+99
+00:08:09,063 --> 00:08:14,027
+going to do is we're going to pop a number
+of pairs off the, off the stack that's
+
+100
+00:08:14,027 --> 00:08:18,064
+equal to the length of the right-hand
+side. So we pop a number of items off the
+
+101
+00:08:18,064 --> 00:08:22,096
+stack that's going to the right that's
+equal to the right-hand side of the
+
+102
+00:08:22,096 --> 00:08:27,044
+production, and then what do w e push on
+to the stack? Well we're gonna push the
+
+103
+00:08:27,044 --> 00:08:32,003
+non-terminal on the left-hand side of the
+stack. And now the question is: what state
+
+104
+00:08:32,003 --> 00:08:36,034
+goes on to the stack? What DFA state?
+Well. With that we've popped the stack. We
+
+105
+00:08:36,034 --> 00:08:40,066
+can look at the new top state of the
+stack. So the DFA state was now the top
+
+106
+00:08:40,066 --> 00:08:45,026
+state. After we've done the pops we'll
+tell us what the final state of the DFA
+
+107
+00:08:45,026 --> 00:08:49,069
+was and what is left of the stack. And
+then now that we're pushing X under the
+
+108
+00:08:49,069 --> 00:08:54,058
+stack we want to know what state the DFA
+would go into on the transition labeled X.
+
+109
+00:08:54,058 --> 00:08:59,039
+And so we use the Go To table to look that
+up, The current top state of the stack. On
+
+110
+00:08:59,039 --> 00:09:04,079
+symbol X, where does the FA go? That is
+the state that gets pushed onto the stack.
+
+111
+00:09:04,079 --> 00:09:09,086
+And then finally, if, if the move is
+accept, we halt normally. And if the move
+
+112
+00:09:09,086 --> 00:09:16,054
+is error, we halt and report an error, or
+execute our error recovery procedure. One
+
+113
+00:09:16,054 --> 00:09:21,017
+interesting fact about this algorithm is
+that it only uses the DFA state and the
+
+114
+00:09:21,017 --> 00:09:25,068
+input. The stack symbols are not used in
+really interesting way. And so, we could
+
+115
+00:09:25,068 --> 00:09:30,036
+actually get rid of the stack symbols and
+just do parsings with the DFA states on
+
+116
+00:09:30,036 --> 00:09:34,070
+the stack. But, that of course would be
+throwing away the program and we still
+
+117
+00:09:34,070 --> 00:09:39,021
+actually need to program for the later
+stages of the compiler. And so to do the
+
+118
+00:09:39,021 --> 00:09:44,056
+type checking and co-generation, we need
+to keep the symbols around. Now simple LR
+
+119
+00:09:44,056 --> 00:09:49,066
+parsing is called simple for a reason. And
+in fact, in practice, it's a bit too
+
+120
+00:09:49,066 --> 00:09:55,003
+simple. The widely used bottom-up parsing
+algorithms are based on a more powerful
+
+121
+00:09:55,003 --> 00:10:00,070
+class of grammars called the LR grammars.
+And the basic difference between the LR
+
+122
+00:10:00,070 --> 00:10:06,068
+grammars and the SLR grammars is that look
+ahead is built into the items. So what
+
+123
+00:10:06,068 --> 00:10:12,066
+does that mean? Well, a LR1 item is going
+to be a pair which consists of an item,
+
+124
+00:10:12,066 --> 00:10:17,042
+Just like we saw before. And this means
+exactly the same thing as before. And a
+
+125
+00:10:17,042 --> 00:10:22,048
+look-ahead, In case of an LR1 item there's
+just one token of look-ahead. If this was
+
+126
+00:10:22,048 --> 00:10:27,036
+an LR2 item there could be two tokens of
+look-ahead in there. And the meaning of
+
+127
+00:10:27,036 --> 00:10:32,023
+this pair is that, if we ever get aroun d
+to state where we have seen all of this
+
+128
+00:10:32,023 --> 00:10:36,087
+production, all the right-hand side of
+this production. Then it's going to be
+
+129
+00:10:36,087 --> 00:10:41,067
+okay to reduce, if the look-ahead at that
+point is Dollar that's the end of the
+
+130
+00:10:41,067 --> 00:10:46,045
+input. And of course, there could be any
+other token in there any other terminal
+
+131
+00:10:46,045 --> 00:10:51,029
+symbol in there besides dollar. And this
+turns out to be more accurate than just
+
+132
+00:10:51,029 --> 00:10:56,032
+using follow sense recall that the point
+where a reduction decision is made in SLR
+
+133
+00:10:56,032 --> 00:11:01,034
+parsing, we just look at the entire follow
+set for the symbol on the left hand side
+
+134
+00:11:01,034 --> 00:11:06,018
+of the production. And this mechanism of
+encoding the look-ahead in to the items
+
+135
+00:11:06,018 --> 00:11:11,039
+allow us to track and find the [inaudible]
+which look-aheads are actually possible in
+
+136
+00:11:11,039 --> 00:11:17,043
+particular production sequences. And if
+you look at the automaton for your parser,
+
+137
+00:11:17,043 --> 00:11:23,045
+actually it's not an LR1 automaton. It's
+an LALR1 automaton, which is something
+
+138
+00:11:23,045 --> 00:11:29,013
+very close, to an LR automaton, it's a
+little bit of an optimization over an LR,
+
+139
+00:11:29,013 --> 00:11:34,061
+a pure LR automaton, but anyway, it uses
+exactly the same kinds of items with this
+
+140
+00:11:34,061 --> 00:11:40,042
+pair of a of a standard LR0 item in a look
+ahead. If you look at that automaton, you
+
+141
+00:11:40,042 --> 00:11:45,036
+will see items that look like this, and
+that will help you in reading the
+
+142
+00:11:45,036 --> 00:11:48,034
+automaton and figuring out what it is
+doing.

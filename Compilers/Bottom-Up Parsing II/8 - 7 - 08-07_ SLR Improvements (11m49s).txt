@@ -1,0 +1,285 @@
+
+In this video, we're going to wrap up our
+discussion of SLR parsing, we're going to
+give the full SLR parsing algorithm, and
+also talk about some important
+improvements. The SLR parsing algorithm we
+discussed in the last video has one major
+inefficiency. And that is that most of the
+work that the automation does when it,
+when it reads the stack is actually
+redundant. And to see this, think about
+the stack. So we have our stack, and this
+is the bottom over here. And this is the
+top of the stack over here. And, what is
+going on in each step? In each step we
+might, shift something onto the stacks, we
+might add one symbol, or we might pop some
+symbols, and, and push one symbol onto the
+stack. But basically there's going to be
+some small number of symbols that change
+at the top of the stack at each step. But
+most of the stack stays the same. And then
+we rerun the automaton on the entire
+stack. And so, this work is all repeated.
+Everything that stayed the same From the
+previous stack is repeated work, and then
+we do a little bit of new work, just at
+the very top of the stack. And clearly, if
+we could avoid this, we could make the
+algorithm run much, much more quickly. The
+way to exploit the observation that most
+of the work of the automaton is repeated
+at each step, is to simply remember the
+state of the automaton on each stack
+prefix. So we're going to change the
+representation of the stack, we're going
+to change what goes in the stack, so
+before we just had symbols on the stack,
+but now we're going to have pairs. Each
+element of the stack will be a pair of a
+symbol, and a DFA state. Thus the stack
+now is going to be a stack of pairs and
+whereas before a stack would have
+consisted just of the symbols, sym1 up to
+sym n, now we're going to have the same
+symbols but each one of them is going to
+be paired with a DFA state and that DFA
+state is going to be the result of running
+the DFA and all the symbols to its left,
+So all the symbols below it in the stack.
+So if I think about my stack and if I draw
+a little picture of the stack as a line
+then the DFA state here. Let's call this
+state I, will be the result of running the
+DFA on the entire, stack contents to the
+left of that point. And again, if I look
+at some other point in the stack, at the
+state, stack state that's stored there.
+That would be running, the results of
+running the DFA on the entire stack
+context, contents, up to that point. And
+one small detail here is that the bottom
+of the stack, we have to get started. We
+need to have the start state stored at the
+bottom of the stack. And we just store
+that with any dummy symbol. It doesn't
+matter what symbol we pick. So now we're
+ready to actually give the details of the
+parsing algorithm. And the first step is
+to define a table go to. And this maps a
+state and a symbol to another state. And
+this is just the transition function of
+the DFA. This is the graph of the DFA
+written out as an array. Our SLR parsing
+algorithm will have four possible moves. A
+shift X move will push a pair on the
+stack. X is a DFA state, so that's named
+in the shift move now. And then the other
+element of the pair is the current input.
+And then we'll also have reduce moves,
+which are just as before. So, to recall, a
+reduce move will pop, the, a number of
+elements from the stack equal to the
+length of the right hand side. And then it
+will push the left hand side onto the
+stack. And then finally, accept an error
+moves for when we've successfully parsed
+the input, and for when the parser gets
+stuck. The second parsing table is the
+action table which tells us which kind of
+move to make in every possible state. The
+action table's indexed by a state of the
+automaton and the next input symbol. And
+then the possible moves are things like
+shift, reduce, accept, or error. So let's
+consider if we do shifts, if the final
+state of the automaton at the top of the
+stack has an item that says it would be
+okay to shift an A. And go to that is from
+this state we can go to state J on input
+A. Then the move in state I on input A
+will be to shift AJ onto the stack And th
+ink about what that means for a second.
+What that says is that we have a stack.
+And then the next input is A. And then at
+this point, it's okay to shift an A onto
+the stack. And furthermore, that the state
+of the automaton at this point is SI.
+Okay. So the state of Irarta [inaudible]
+the top of the stack is SI. The next input
+is A. Remember that the go to table is a
+transition function of the machine. So if
+we move the vertical bar over, if we shift
+that A on to the stack, well, now, we
+don't just put A on the stack, we have to
+put a pair on the stack. And the question
+is what machine state should go there.
+Well, it's going to be state that we would
+reach from state I from state SI on input
+A, which. The go to table tells us, in
+this case, is state SJ. And for that
+reason, the action, when we terminate in
+state I, and the next input is A, is to
+shift the pair A, J, onto the stack. The
+other three moves that go into the action
+table are things we've already seen. So if
+the final state of the automaton at the
+top of the stack has an item that says
+that we can reduce, and the follow up
+condition requirement is satisfied.
+Mainly, that the, next input can follow,
+the left hand side non terminal of the
+production. Then in the entry I, for,
+[inaudible] if we're in state SI and we
+have input a, we can reduce by the
+production x goes to alpha. And there's
+one exception here, we're not going to do
+that reduction, if the left-hand side is
+the special start symbol, the new start
+symbol that we add to the grammar, is
+prime. Because, in that case, if the item
+that we're going to reduce by is s-prime
+goes to s-dot, and we're at the end of the
+input, then we want to accept. And any
+other Situation is an error. So in any
+other situation, if we're in state I and
+we have the next the next input is A,
+well, we don't know whether to shift,
+reduce, or accept. And so, that is an
+error state. Finally, here is the full SLR
+parsing algorithm. And I'm just going to
+walk you through it, so that we can see
+how all of the ideas we've been di
+scussing, and all the various pieces fit
+together. Let's let our initial input be
+called I. And we'll just give it a name,
+and it's gonna be treated as an array that
+we can index. The index will be called J,
+and initially, it's zero so that we're
+pointing to the first token in the input
+string. We'll just assume that the first
+state of the DFA is called state one. And,
+that means our initial stack is going to
+have state one for the state of the
+automaton and some other dummy symbol that
+we don't care about In the, in the first
+position. So, the stack is just a pair
+with [inaudible] in the start state of the
+DFA. And now, were going to repeat the
+following loop until we've either
+successfully pars the input or we detect
+an error. And at its steps, what we're
+going to do? Well, we're going to look at
+the next input symbol and we're going to
+look at the final state of the automaton
+on the stack contents and that's always
+the state of the pair that's on the top of
+the stack and we're gonna look those two
+things up in the action table and that's
+gonna tell us what kind of move to make.
+So, let's just go through the moves in
+order. Let's consider the shift move
+first. So, what happens? If were, if it
+says we're supposed to shift and going to
+state K, then what we're going to do is
+we're going to shift the input, that means
+we're going to take the next input symbol
+and, or the current input symbol, excuse
+me, and we're going to push that on to the
+stack together with state K of the
+[inaudible]. That pair goes on to the
+stack, and we also bumb the input pointer
+so that we're looking at the next
+character of input. Now. Let me erase that
+so you can continue to read it. Now what
+about the reduce moves? So this one's a
+little bit interesting. First thing we're
+going to do is we're going to pop a number
+of pairs off the, off the stack that's
+equal to the length of the right-hand
+side. So we pop a number of items off the
+stack that's going to the right that's
+equal to the right-hand side of the
+production, and then what do w e push on
+to the stack? Well we're gonna push the
+non-terminal on the left-hand side of the
+stack. And now the question is: what state
+goes on to the stack? What DFA state?
+Well. With that we've popped the stack. We
+can look at the new top state of the
+stack. So the DFA state was now the top
+state. After we've done the pops we'll
+tell us what the final state of the DFA
+was and what is left of the stack. And
+then now that we're pushing X under the
+stack we want to know what state the DFA
+would go into on the transition labeled X.
+And so we use the Go To table to look that
+up, The current top state of the stack. On
+symbol X, where does the FA go? That is
+the state that gets pushed onto the stack.
+And then finally, if, if the move is
+accept, we halt normally. And if the move
+is error, we halt and report an error, or
+execute our error recovery procedure. One
+interesting fact about this algorithm is
+that it only uses the DFA state and the
+input. The stack symbols are not used in
+really interesting way. And so, we could
+actually get rid of the stack symbols and
+just do parsings with the DFA states on
+the stack. But, that of course would be
+throwing away the program and we still
+actually need to program for the later
+stages of the compiler. And so to do the
+type checking and co-generation, we need
+to keep the symbols around. Now simple LR
+parsing is called simple for a reason. And
+in fact, in practice, it's a bit too
+simple. The widely used bottom-up parsing
+algorithms are based on a more powerful
+class of grammars called the LR grammars.
+And the basic difference between the LR
+grammars and the SLR grammars is that look
+ahead is built into the items. So what
+does that mean? Well, a LR1 item is going
+to be a pair which consists of an item,
+Just like we saw before. And this means
+exactly the same thing as before. And a
+look-ahead, In case of an LR1 item there's
+just one token of look-ahead. If this was
+an LR2 item there could be two tokens of
+look-ahead in there. And the meaning of
+this pair is that, if we ever get aroun d
+to state where we have seen all of this
+production, all the right-hand side of
+this production. Then it's going to be
+okay to reduce, if the look-ahead at that
+point is Dollar that's the end of the
+input. And of course, there could be any
+other token in there any other terminal
+symbol in there besides dollar. And this
+turns out to be more accurate than just
+using follow sense recall that the point
+where a reduction decision is made in SLR
+parsing, we just look at the entire follow
+set for the symbol on the left hand side
+of the production. And this mechanism of
+encoding the look-ahead in to the items
+allow us to track and find the [inaudible]
+which look-aheads are actually possible in
+particular production sequences. And if
+you look at the automaton for your parser,
+actually it's not an LR1 automaton. It's
+an LALR1 automaton, which is something
+very close, to an LR automaton, it's a
+little bit of an optimization over an LR,
+a pure LR automaton, but anyway, it uses
+exactly the same kinds of items with this
+pair of a of a standard LR0 item in a look
+ahead. If you look at that automaton, you
+will see items that look like this, and
+that will help you in reading the
+automaton and figuring out what it is
+doing.

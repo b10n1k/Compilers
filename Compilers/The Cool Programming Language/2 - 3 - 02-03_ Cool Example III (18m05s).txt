@@ -1,0 +1,347 @@
+
+Hello again. In this video we're gonna
+wrap up our overview of cool with one more
+example of writing a cool program. For our
+final example, let's look at a program
+that actually manipulates some interesting
+data structure. So, we'll begin here by
+opening up a file, and let's call our
+program list.cl this time. And as usual,
+I'll begin by writing our main routine,
+and our main method. And once again let's,
+let's make this inherent for my O so we
+can make my I, O routines here, and let?s
+just begin with something very simple As,
+as always. Let's just have something that
+prints out; Hello world, but in a little
+bit of an unusual way. Let's we're gonna
+end up writing a list, a list
+abstractions. And, let's first build a
+list by hand, or at least build the
+elements of a list by hand and then we'll
+actually build the list abstraction and
+put them in a list. So, and lets have some
+strings, The line of our string, hello.
+And this will also illustrate how you do
+multiple let bindings, simultaneously; I
+should say simultaneously, how you do
+multiple let bindings in one let
+expression. So you do them by just listing
+them and, notice that this uses commas as
+a separator rather than semicolons as a
+terminator. So, this lead binding is going
+to define three names of hello, world, and
+newline. All of which are strings, And
+then, We're going to now print these out
+on the screen. So we're going to want to
+be able to do out string, and since main
+inherits himself we can do that without a,
+without an object there cause just again a
+dispatches to the self object. And we want
+to concatenate these strings together in
+the right order. So I'll do hello, dot
+this is, hello is the string it can be
+concatenated to world, and world is a
+string so it can be concatenated to new
+line. And that should do the job. And I'm
+just [inaudible] one more thing about this
+left this, these left bindings here. This
+notice that the comma's, the comma's a
+separator here meaning it doesn't come
+after the last one in the list. So it just
+separates that into the list, it's not a
+terminator. And, now we can close up our
+main procedure. [sound] Close up our class
+definition. Save it. And now let's see if
+it compiles. Oh amazing first try. And we
+run it and it prints hello world, as
+expected. So now, let's instead of
+introducing the three strings separately
+and then concatenate it together, let's
+write an abstraction where we can build a
+list of strings, and then that abstraction
+will have a function within it to do the,
+to do the concatenation. Alright so, have
+our class called list and, every list
+needs, I think they have two components.
+So first it's gonna have the item that's
+in the list and that'll be a string. And
+then when you have a pointer to the next,
+to the tail of the list, to the rest of
+the list, and so we'll have a next field
+to points, is another list of strength.
+And now we need a couple of methods, In
+order to use this list we'll need to be
+able to initialize a list in some way. So,
+the initialization function will take an
+item and the rest of the list, the next
+part of the list. And, what is it going to
+do? Well let's go A to D to set the fields
+of the objects. So this will have to be
+done as a series of assignment statements.
+So we'll need a statement block. And we
+will set the item to be the I argument.
+We'll set the next, attribute to be the N
+argument. And now, we actually want this
+initialized object here, this, this method
+here to return the object itself. So that
+and that'll be convenient for chained
+together calls to unit. So, I'll have it
+return self. It'll return the self object.
+And that's the end of our statement block.
+And then that is the end of our method,
+And made a mistake up here. We have
+declared the return type of [inaudible]
+and what it's going to return of course is
+an object of type list. We need to put a
+list deceleration there. Alright, so that
+takes care of [inaudible]. And now we can
+use this to build, build a list down here.
+So what should we do? Let?s actually have
+a new variable called list. That we'll
+introduce here in this lead, this series
+of lead bindings. And let's just build a
+list out of these three objects. So we'll
+say, we'll have a new list, and then we'll
+initialize it to contain the string hello.
+What should the, rest of the list be, well
+that should be another list which is
+initialized to have the string world. And
+what should be inside of that list? Well,
+they'll have to be another new list
+object. Which we'll initialize to have new
+line, And now what do we put here?
+Actually there's a little bit of a problem
+here, isn't there? We need to put a list
+object here. But we don't want to allocate
+a, a new list object. We want that to be
+really the equivalent of a, of a null
+pointer. And there's no name for that in
+Cool, actually. You can't write down the
+name of a null pointer, it's called void
+in Cool. There's no, there's no, no
+special symbol for that. So we'll have to
+create a variable that is just not
+initialized. And that will be, so an
+uninitialized variable of type list will,
+in fact, be void. It'll be a null pointer.
+So let's call that nil. And it'll be
+uptight list and no initializer and so nil
+there will point to nothing or the
+[inaudible] and then we can use nil to
+terminate our list here and then we have
+to close off all the parans for all
+nesting here and I think that's it and so
+that will be our list. Okay? So I have a
+list of three strings, and now what we
+want to do with that is to print it out.
+And so what we would like to do is to have
+a list, call it the list, and a function
+that's going to flatten that list, and
+we'll just print it. So, that is the, what
+the, what the main program should do. And
+now You have to write the flatten
+function. So flatten takes no arguments
+and it's going to return a string, it's
+going to return a single string. And
+flatten is pretty simple function. What we
+have to do, well, There's really two
+cases. One is if we're at the end of the
+string and the other is if we're not yet
+at the end of the string. So, let's test
+for that. So, how do we know if we're at
+the end of the s tring? Well, if the next
+pointer is, is void then there's no,
+nothing more in the string. There's
+actually is a special test for that and
+it's called the IS void function and it's
+written like this. So, IS void of next.
+Okay. So, the next field, so, the next
+field is void. Then what are we going to
+return? Oops. Well then the result here is
+just the item, Whatever the item was in
+this last element of the list, and
+otherwise. What do we want to do? Well,
+otherwise we want to take the item and we
+want to [inaudible] onto it. The results
+of flattening the rest of the list, And
+that is our flatten method. So let's see
+if that works. So let?s compile this. And
+we got a couple of Syntax errors here so
+let's go back and see what's going on. So
+we have a syntax error here. At the end of
+the, the flatten method. And we see that
+we left out the [inaudible] to close a
+conditional. So a conditional has to be
+ended with, with [inaudible]. Alright.
+[sound] And let?s see if that's working
+now. [sound] And we slide this syntax
+error, I at line 29, and the mistake here
+is that we forgot to declare the type of
+this variable which is a list. And then it
+gets initialized to this, to this big
+expression that, we wrote out. Let me just
+do the indentation a little more nicely
+here. And notice something actually is
+worth mentioning here. That this
+definition here, this definition of the
+variable list. It depends on the
+definition of the previous variables in
+the left. So each of so when a let binding
+is made the name the variable that's bound
+is actually available in subsequent let
+expressions. So in this case this variable
+list makes use of all of hello world and
+new life Which were defined earlier in the
+same let construct. Alright let?s save
+this. [sound] And come over here and
+compile it. And we see if we got another
+bug in the, in the code. So if we come up
+here, we see that we've, [inaudible] made
+a mistake here, I've used functional
+notation here, calling flattened of next.
+And what I actually wanted to do was to
+dispatch to nex t on the method flatten,
+so that should be written like that.
+Alright, probably getting close now. Let's
+see if it works yet. Well it compiles. And
+now let's see if it runs. And indeed it
+does. It prints out hello world, just as
+we expected. Now let's go back to our
+program and let's generalize this list
+abstraction in one way. Let's say that we
+can have an arbitrary list of objects, not
+just strings and that will require us to
+change a few things so it can be
+initialized now with an object. And now
+when it comes down to flatten this list we
+want to produce a string, we want to
+produce, produce a print representation.
+But not everything in the, in the list, is
+necessarily a string. And we need a way to
+traverse the list and do different things
+for different kinds of things that might
+be in the list, for different types of
+things that might be in the list. And so
+there's a constructing [inaudible] for
+recovering the type of an of an object, at
+run time, and this is called the case
+construct. So let me first introduce a
+[inaudible] expression here. We'll let the
+string that we're gonna construct. Which
+is of type string. [sound] And, that's
+going to be initialized to something and
+now it?s going to be a case and what are
+we going to case on? It's going to depend
+on the kind of thing the item is. So the
+items in the list could be different kinds
+of types and we want to do different
+operation depending on what item actually
+is. So do case item and the keyword is of,
+and now we have different branches of the
+case expression for different kinds of
+things that could be in the list, let?s
+say if it is an int-. Okay, so what this
+does, is this, this says that if the item
+is an int, then we're gonna rename it to
+I. We're gonna bind I to that integer and
+then we could do something with I. And
+what would we want to do with I. Well,
+we'd probably want to convert it, to a, to
+a string. So, I'll do I two A of I. And
+what if in fact That item happened to be
+of type string? The item in the list
+happened to be of type string. Wel l, then
+we can just use the item itself, as the
+string representation. And we could do
+this for other kinds of types. If we had
+other kinds of types in our system, we
+could continue to, to list out other,
+cases here and how to convert them into a
+string representation. But let's just have
+a default case here. We'll say if it's any
+other kind of type, which would, which we
+covered by having, a branch saying that if
+it's of a type object, we'll call it O,
+then we should just abort. And so we
+should just call the word function and
+quit. And that's our case. It needs to be
+terminated with, my closing keyword called
+Esack, and the reverse of, of case. And
+now we can use that string that we
+constructed in our, little function here.
+So if, if, the next field is void then
+we're just going to return the string.
+Otherwise, we're gonna return the string
+concatenated, with the flattening out of
+the rest of the list. Okay Now there's a
+couple of things we have to fix up. We
+used the I2A method here, which means that
+list needs to inherit From the, conversion
+class A2I. And there's another issue here,
+I see. And that's right here. So, if you
+notice The, the. The case statement needs
+to produce a string. Okay. And it turns
+out that abort does not return a string.
+Abort actually terminates the program, but
+its type is that it returns an object. And
+so here we have to convince the type
+checker to convince, to accept this, piece
+of code. And we need to get this branch
+here to type as a string. So what we can
+do, and this is ugly, but it's the way to
+do it, is we put it in a, in a block in a
+statement block. We call Abort First, and
+again that will just terminate the
+program. And now we can put any string
+expression we want after that, and that
+will be the, that will give a type string
+to the entire block. So we can just put
+the empty string here for example, and
+then as we terminate it with a semicolon
+since this isn't a block. And we can close
+that with a curly brace. Okay, so this is
+just something we have to do to make the
+typ e checker happy. And that may be
+everything we needed to do. So let's try
+compiling this. And we have to include
+the, the Virgin library. And we have one
+syntax error So far, And that's because we
+forgot to put the, semicolon terminator
+on, on each of our, each of the, each of
+the, variables that we were introducing on
+the left. Okay you've got to save that,
+let's try this again. And oops, I didn't
+actually managed to fix the syntax here
+and that's because I put the semicolon in
+the wrong place. Actually, if I forgot the
+Variables that are bound in a let, or
+separated by commas, But the branches of
+the case have to be terminated by semi
+colons. So what I said before was
+incorrect about using semi colons to
+terminate let bindings it just in case
+branches where we need it, in this
+example. Anyway, coming back to this let
+see if it compiles, and it does. And now
+let?s run it. And it works. Now we of
+course we haven't actually exploited the
+ability to have different types of objects
+in the list. So let?s, let's do that.
+Let's add an integer in here. Type INT and
+let's give it, the number 42. And, we can
+insert it in here. And now we can pass any
+object to a nit in the first position. So
+we'll just put in 42 right there. And when
+we compile and run this it should print,
+hello world 42. If we, if everything goes
+as expected, And it does, And that
+concludes our little tour of [inaudible].
+There are a couple of features that we
+haven't shown, in these examples; but, you
+can look in the examples directory, for
+lots more programs. Many more programs
+that will show you all the different, ins
+and outs and details of the other language
+features, as well as the ones we've
+covered here.

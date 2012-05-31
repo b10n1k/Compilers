@@ -1,0 +1,950 @@
+
+1
+00:00:00,000 --> 00:00:04,033
+Welcome back. In this video, I'm going to
+show how to use regular expressions to
+
+2
+00:00:04,033 --> 00:00:11,039
+specify different aspects of programming
+languages. Must begin with the keywords
+
+3
+00:00:11,039 --> 00:00:16,011
+and this serves a relatively simple case
+and I'll just do it for three keywords.
+
+4
+00:00:16,011 --> 00:00:20,084
+I'll write a regular expression for if,
+else, or then and it would be obvious how
+
+5
+00:00:20,084 --> 00:00:25,033
+to do it for more. So let's write a
+regular expression for if and that would
+
+6
+00:00:25,033 --> 00:00:30,006
+be under regular expression for i. And
+followed by the regular expression for f
+
+7
+00:00:30,006 --> 00:00:34,078
+and we're taking the concatenation of
+these two. And then we're going to union
+
+8
+00:00:34,078 --> 00:00:39,063
+that with the regular expression for else
+and what is that? Well, else consist of
+
+9
+00:00:39,063 --> 00:00:44,053
+four individual characters so we have to
+write out a concatenation of those four
+
+10
+00:00:44,053 --> 00:00:49,043
+characters. And, as you can see this is a
+little bit verbose with all of these
+
+11
+00:00:49,043 --> 00:00:54,059
+quotes and kind of messy to read. So in
+fact, there's a short hand that's normally
+
+12
+00:00:54,059 --> 00:00:59,068
+used and let me switch over to that right
+now. So if I want to write the regular
+
+13
+00:00:59,068 --> 00:01:04,004
+expression for a sequence of single
+character expressions, I could just
+
+14
+00:01:04,004 --> 00:01:08,082
+[inaudible] around the outermost
+characters in the sequence. So for example
+
+15
+00:01:09,001 --> 00:01:14,004
+most of the tools that let you write this,
+I put a quote at the beginning right IF
+
+16
+00:01:14,004 --> 00:01:18,068
+and then I close quote and this means
+exactly The same thing as this. This is
+
+17
+00:01:18,068 --> 00:01:23,059
+the concatenation of two single character
+regular expression and similarly for else,
+
+18
+00:01:24,085 --> 00:01:32,015
+And similarly for them. And if I have more
+keywords I'll just write them out and
+
+19
+00:01:32,015 --> 00:01:40,048
+union them altogether. Now, let's consider
+a slightly more complicated example. Let's
+
+20
+00:01:40,048 --> 00:01:46,007
+think about how to specify the integers
+who want to be the non-empty strings of
+
+21
+00:01:46,007 --> 00:01:51,039
+digits. So the first problem here is to
+write out what a digit is and that's
+
+22
+00:01:51,039 --> 00:01:56,084
+pretty straight forward. A digit is just
+any of the individual characters zero
+
+23
+00:01:56,084 --> 00:02:02,008
+through nine and we already know how to
+write out single character regular
+
+24
+00:02:02,008 --> 00:02:07,096
+expressions. And it's just a union of ten
+of those to specify this and it'll take me
+
+25
+00:02:07,096 --> 00:02:13,062
+just a moment to finish. Here we go. So
+that's a regular expression for the set of
+
+26
+00:02:13,062 --> 00:02:19,013
+strings correspondin g to all the single
+digits. And because we want to refer to
+
+27
+00:02:19,013 --> 00:02:24,079
+this from time to time and also because as
+a very common thing to watch too, most
+
+28
+00:02:24,079 --> 00:02:30,031
+tools have a facility for naming regular
+expressions. So for example I can name
+
+29
+00:02:30,031 --> 00:02:36,017
+this one to be digit so a single digital
+is anything that is generated or is in the
+
+30
+00:02:36,017 --> 00:02:41,055
+set denoted by this regular expression.
+And now what we want to do is to have
+
+31
+00:02:41,055 --> 00:02:47,020
+multiple digits. Well, we know a way to do
+that. We can just iterate a single digit
+
+32
+00:02:47,020 --> 00:02:52,078
+as many times as we like. And so here we
+get all strings, all possible strings of
+
+33
+00:02:52,078 --> 00:02:58,043
+digits and this is very, very close to
+what we wanted except that the string that
+
+34
+00:02:58,043 --> 00:03:04,015
+we want has to be non-empty. We don't want
+to count the empty string as an integer.
+
+35
+00:03:04,015 --> 00:03:10,033
+And there's an easy way to do that. We
+just say that the whole sequence has to
+
+36
+00:03:10,033 --> 00:03:16,089
+begin with a single digit and then it's
+followed by zero or more additional digits
+
+37
+00:03:16,089 --> 00:03:22,020
+so just. Is just to reiterate that, we see
+there has to be at least one digit and is
+
+38
+00:03:22,020 --> 00:03:27,006
+followed by zero more additional digits.
+And this pattern actually for a given
+
+39
+00:03:27,006 --> 00:03:32,041
+language is extremely common. So if I
+wanted to say that I have at least one a I
+
+40
+00:03:32,041 --> 00:03:37,034
+write that as a, a* because this has zero
+or more a, the second part is zero more
+
+41
+00:03:37,034 --> 00:03:42,044
+a's and the first part says there has to
+be at least one a. And because this is so
+
+42
+00:03:42,044 --> 00:03:47,072
+common, there's a short hand for it. I
+think is supported by every regular
+
+43
+00:03:47,072 --> 00:03:54,014
+expression processor and that is to write
+a plus. An a + means is just, is just a
+
+44
+00:03:54,014 --> 00:04:00,049
+short hand for a star. And so we can
+actually simplify this regular expression
+
+45
+00:04:00,049 --> 00:04:08,027
+a bit and write simply digit plus. Now,
+let's look at yet another example even
+
+46
+00:04:08,027 --> 00:04:13,001
+more sophisticated than the, the previous
+two. Let's think about how to define the
+
+47
+00:04:13,001 --> 00:04:18,005
+identifiers which are strings of letters
+or digits that begin with a letter. And so
+
+48
+00:04:18,005 --> 00:04:23,026
+we already know how to do digits so let's
+focus on the letters for a moment. So how
+
+49
+00:04:23,026 --> 00:04:27,088
+we write out a regular expression for the
+letters while we're gonna name it. So
+
+50
+00:04:27,088 --> 00:04:33,032
+we'll say that the letters or actually a
+single letter. And now we have to write a
+
+51
+00:04:33,032 --> 00:04:39,007
+regula r expression for all the individual
+letters and that's, you know
+
+52
+00:04:39,007 --> 00:04:45,047
+straightforward but tedious. We have to
+say little a, lower case b, lower case c,
+
+53
+00:04:45,047 --> 00:04:50,041
+lower case d. And well, as you can see,
+this is gonna be rather a large regular
+
+54
+00:04:50,041 --> 00:04:55,044
+expression. We're going to have 26 lower
+case letters and 26 upper case letters and
+
+55
+00:04:55,044 --> 00:05:00,034
+the whole thing is going to be rather
+tedious as to write down so let's actually
+
+56
+00:05:00,034 --> 00:05:04,076
+not do that. Instead, let me mention a
+shorthand, A tool support to make it
+
+57
+00:05:04,076 --> 00:05:09,061
+easier to write out exactly this kind of
+regular expression which is called the
+
+58
+00:05:09,061 --> 00:05:13,046
+character range. So inside your square
+brackets I can write a range of
+
+59
+00:05:13,046 --> 00:05:17,073
+characters. So how do I do that? Well, I
+have the starting character and an ending
+
+60
+00:05:17,073 --> 00:05:22,010
+character and I separate them by a hyphen.
+And what this means is the union of all
+
+61
+00:05:22,010 --> 00:05:26,037
+the single character, regular expressions
+beginning with the first character and
+
+62
+00:05:26,037 --> 00:05:30,048
+ending with the second character, so
+everything in between. So this is exactly
+
+63
+00:05:30,048 --> 00:05:34,086
+the regular expression for all the lower
+case letters and then I can have another
+
+64
+00:05:34,086 --> 00:05:39,023
+character range and so at the same square
+brackets for all the upper case letters.
+
+65
+00:05:39,023 --> 00:05:43,079
+So A through Z, Okay? And this regular
+expression here on the right defines
+
+66
+00:05:43,079 --> 00:05:48,046
+exactly the big union that I didn't wanna
+write out, okay? And that gives us a
+
+67
+00:05:48,046 --> 00:05:53,024
+definition of the single letter and now
+we're in great shape. We are, we already
+
+68
+00:05:53,024 --> 00:05:58,027
+have definition for a digit, we already
+now we have definition for letter and so
+
+69
+00:05:58,027 --> 00:06:03,030
+that we can write out the rest of this
+definition. So we want the whole Regular
+
+70
+00:06:03,030 --> 00:06:08,063
+expression to always begin with a letter.
+Okay, so identify always begins with a
+
+71
+00:06:08,063 --> 00:06:14,017
+letter and after that is allowed to be a
+string of letters or digits, okay? So they
+
+72
+00:06:14,017 --> 00:06:19,031
+are suggest that there's going to be a
+union. So After the first letter we can
+
+73
+00:06:19,031 --> 00:06:24,049
+have either a letter or a digit and then
+we can have an arbitrary string of those
+
+74
+00:06:24,049 --> 00:06:29,016
+things. So we put a start on the whole
+thing and that is the definition of
+
+75
+00:06:29,016 --> 00:06:34,028
+identifier. Begins with a single letter
+and it's followed by zero or more letters
+
+76
+00:06:34,028 --> 00:06:42,052
+and digits. So. Because we're doing a
+complete lexical specification, we also
+
+77
+00:06:42,052 --> 00:06:47,023
+have to deal with even the parts of the
+string that we're not really interested
+
+78
+00:06:47,023 --> 00:06:52,024
+in. We have to have at least specification
+of them so then we can recognize and throw
+
+79
+00:06:52,024 --> 00:06:56,072
+them away. In particular we have to be
+able to recognize the white space and.
+
+80
+00:06:56,072 --> 00:07:01,006
+We're just gonna take white space to be a
+non-empty sequence of blanks, new lines
+
+81
+00:07:01,006 --> 00:07:05,041
+and tabs even though there are other kinds
+of white space characters. Things like
+
+82
+00:07:05,041 --> 00:07:09,054
+maybe like rubout. Depending on your
+keyboard, there might be others but these
+
+83
+00:07:09,054 --> 00:07:13,077
+three will suffice to illustrate all the
+important points. So, you know, blank is
+
+84
+00:07:13,077 --> 00:07:18,028
+relatively easy to write down. That's just
+a single quote around the blank space but
+
+85
+00:07:18,028 --> 00:07:22,097
+there's a problem with new line in tab.
+Because a new line that carries return in
+
+86
+00:07:22,097 --> 00:07:27,043
+the file has special meaning typically.
+You know, and on the line, you end
+
+87
+00:07:27,043 --> 00:07:32,056
+whatever command you're working on in this
+regular expression tools like SQL tools.
+
+88
+00:07:32,056 --> 00:07:37,033
+And, you know, tab also is not an easy
+thing to write down and it doesn't look
+
+89
+00:07:37,033 --> 00:07:42,021
+much different from a blank in a lot of
+cases. So, what tools do is they provide
+
+90
+00:07:42,021 --> 00:07:47,016
+separate name for these and it's, and
+typically it's done by having some kind of
+
+91
+00:07:47,016 --> 00:07:52,023
+escape character and a backslash. Is the
+most common one that's used and then
+
+92
+00:07:52,023 --> 00:07:57,087
+followed by a name for the character? So
+back slash n is typically used for new
+
+93
+00:07:57,087 --> 00:08:03,001
+line and back slash t is typically used
+for tab. And I just want to stress I mean
+
+94
+00:08:03,001 --> 00:08:07,044
+the reason for doing this example is to
+illustrate this that. We have to have a
+
+95
+00:08:07,044 --> 00:08:11,060
+way of naming some characters that don't
+really have a very nice print
+
+96
+00:08:11,060 --> 00:08:16,049
+representation. There are other characters
+that, that don't even have really any kind
+
+97
+00:08:16,049 --> 00:08:21,010
+of print representation and we still need
+a way to talk about them in our regular
+
+98
+00:08:21,010 --> 00:08:25,087
+expressions because them might be embedded
+in a file that we have to lexically
+
+99
+00:08:25,087 --> 00:08:30,026
+analyze at some point. And so anyway, the
+way this is done is by providing a
+
+100
+00:08:30,026 --> 00:08:34,053
+separate. Naming scheme for such on
+principal characters and typically as the
+
+101
+00:08:34,053 --> 00:08:38,099
+one that escape sequence. So, something
+beginning with special character like back
+
+102
+00:08:38,099 --> 00:08:42,075
+slash followed by the name of the
+character. So, n for new line and this
+
+103
+00:08:42,075 --> 00:08:47,005
+case nt for tab. And so to finish off our
+definition, this gives us. You know? One
+
+104
+00:08:47,005 --> 00:08:52,001
+character, white space and then we want a
+non empty sequence or such things so we
+
+105
+00:08:52,001 --> 00:08:56,097
+could wrap the whole union there in
+parenthesis and put a plus on it and that.
+
+106
+00:08:56,097 --> 00:09:04,041
+Get us what we want. Let's pause for a
+moment in discussing programming languages
+
+107
+00:09:04,041 --> 00:09:09,020
+and look at another example of using
+regular expressions from a different
+
+108
+00:09:09,020 --> 00:09:14,062
+domain. Here I have an e-mail address and
+as it turns out, e-mail addresses form a
+
+109
+00:09:14,062 --> 00:09:19,034
+regular language and every e-mail
+processing device in the world. So your
+
+110
+00:09:19,034 --> 00:09:24,076
+mailer and the mail servers that you use,
+all do regular expression processing to
+
+111
+00:09:24,076 --> 00:09:30,006
+understand what the e-mail address is
+telling them in the e-mail messages that
+
+112
+00:09:30,025 --> 00:09:35,001
+they go by. And. And so we can think of an
+e-mail address is being, is consisting of
+
+113
+00:09:35,001 --> 00:09:39,048
+four different strings separated by
+punctuation. There's a username and then
+
+114
+00:09:39,048 --> 00:09:43,092
+three parts to the domain. Okay. Let's
+just assume for simplicity that the
+
+115
+00:09:43,092 --> 00:09:48,051
+strings only consist of letters and
+practice they can consist of other kinds
+
+116
+00:09:48,051 --> 00:09:53,010
+of characters too but let's just keep
+things simple and we can write out the
+
+117
+00:09:53,010 --> 00:09:58,017
+more complicated things using the regular
+expressions but the structure would be the
+
+118
+00:09:58,017 --> 00:10:02,065
+same as if we just consider them to be
+made of letters. And then these four
+
+119
+00:10:02,065 --> 00:10:07,048
+strings are separated by punctuations so
+there's the @ sign and to decimal points
+
+120
+00:10:07,048 --> 00:10:12,080
+that's. Form the separators of the strings
+so these is a relatively straightforward
+
+121
+00:10:12,080 --> 00:10:18,016
+thing to write a regular expression for
+given what we know so far so the user name
+
+122
+00:10:18,016 --> 00:10:23,046
+would be the non-empty sequence of letters
+and then that would be followed by an @
+
+123
+00:10:23,046 --> 00:10:29,014
+sign. And then the first part of the
+domain will also be on empty sequence of
+
+124
+00:10:29,014 --> 00:10:38,096
+letters followed by a dot and then the
+rest is just the same. Hey, so here we're
+
+125
+00:10:38,096 --> 00:10:43,071
+quite concisely, we had specified large
+family of e-mail addresses. As I said in
+
+126
+00:10:43,071 --> 00:10:48,070
+reality the e-mail addresses are slightly
+more complicated but they can be written
+
+127
+00:10:48,070 --> 00:10:56,044
+out with just a slightly more complicated
+regular expression. Finally for our last
+
+128
+00:10:56,044 --> 00:11:01,038
+example, let's look at a fragment of the
+lexical specification of a real
+
+129
+00:11:01,038 --> 00:11:06,052
+programming language and this case that
+language is Pascal which is in the
+
+130
+00:11:06,052 --> 00:11:11,092
+[inaudible] family of languages, Pascal is
+an early example of a type language and
+
+131
+00:11:11,092 --> 00:11:17,066
+it's in the same general family as Fortran
+and C. And in this particular fragment of
+
+132
+00:11:17,066 --> 00:11:22,096
+pascal deals with the definition of
+numbers and so let's take a look here.
+
+133
+00:11:22,096 --> 00:11:28,091
+I'll start at the bottom and look at what
+the overall definition of a number is. So
+
+134
+00:11:28,091 --> 00:11:34,014
+a number consist of three things, some
+digits, and I'll just read out this
+
+135
+00:11:34,014 --> 00:11:39,080
+abbreviation and optional fraction. And an
+optional exponent so we're dealing here
+
+136
+00:11:39,080 --> 00:11:44,085
+with floating point numbers and so a
+floating point number have a bunch of
+
+137
+00:11:44,085 --> 00:11:49,082
+digits and then it can be followed
+possibly by a fraction or not and that
+
+138
+00:11:49,082 --> 00:11:54,078
+could be followed possibly by an exponent
+or not and. And the idea, although we
+
+139
+00:11:54,078 --> 00:11:59,029
+can't see it just for this particular
+definition is that either of action or the
+
+140
+00:11:59,029 --> 00:12:04,013
+exponent can be present independent of the
+other. So, now let's work briefly from the
+
+141
+00:12:04,013 --> 00:12:08,059
+bottom up, let's just check the digits on
+what we expect. So a single digit is in
+
+142
+00:12:08,059 --> 00:12:12,084
+fact the union of all the common digits
+just as we would hope. And then a
+
+143
+00:12:12,084 --> 00:12:17,043
+non-empty sequence of digit is a digit
+plus so this is what we've already seen.
+
+144
+00:12:17,043 --> 00:12:22,037
+And now the interesting bid is to look at
+how the optional fraction and the optional
+
+145
+00:12:22,037 --> 00:12:26,078
+exponent are defined and the optional
+fraction looks a little less scary so
+
+146
+00:12:26,078 --> 00:12:31,048
+let's do that one first. So what's going
+on inside the fraction, well if we have a
+
+147
+00:12:31,048 --> 00:12:36,012
+decimal fraction, there is gonna be a
+decimal point and that's gonna be followed
+
+148
+00:12:36,012 --> 00:12:40,084
+by strong of digits so this is just. The
+fractional parts of the floating point
+
+149
+00:12:40,084 --> 00:12:45,035
+number it's just of it comes after the
+decimal point. And what's this plus
+
+150
+00:12:45,035 --> 00:12:50,035
+epsilon doing out here? Well remember, the
+plus is union and epsilon stands for the
+
+151
+00:12:50,035 --> 00:12:55,047
+empty string. So what this is saying is
+that either the fractional portion of the
+
+152
+00:12:55,047 --> 00:13:00,017
+number is present or it's completely
+absent. So this is how you say something
+
+153
+00:13:00,017 --> 00:13:04,099
+is optional. You write out the regular
+expression for the thing and then you do
+
+154
+00:13:04,099 --> 00:13:09,080
+plus epsilon at the end and that means
+well, either everything I said before it
+
+155
+00:13:09,080 --> 00:13:14,078
+can be there or nothing is there. Okay?
+And the optional exponent is structured
+
+156
+00:13:14,078 --> 00:13:20,019
+similarly but somewhat more complex. So,
+you can see the whole exponent is optional
+
+157
+00:13:20,019 --> 00:13:26,050
+because there's some regular expression
+here. That's union with epsilon, And so
+
+158
+00:13:26,050 --> 00:13:31,047
+either Something is there and this is the
+optional, or this exponent part or is not
+
+159
+00:13:31,047 --> 00:13:36,021
+present at all. And now let's look inside
+how the exponents define if it's there.
+
+160
+00:13:36,021 --> 00:13:40,088
+So, an exponent always begins with e. So
+this is exponent, you know, standard
+
+161
+00:13:40,088 --> 00:13:45,081
+exponent notation and it always has a
+non-empty string of digits. So there's e
+
+162
+00:13:45,081 --> 00:13:50,093
+followed by some digits and in between,
+there's an optional sign. We know the sign
+
+163
+00:13:50,093 --> 00:13:56,005
+is optional because epsilon is one of the
+possibilities. The whole, the whole sign
+
+164
+00:13:56,005 --> 00:14:00,060
+might be absent. And one of the
+possibilities for the sign, well, it could
+
+165
+00:14:00,060 --> 00:14:05,079
+be negative or it could be positive. So,
+either there's a positive or negative sign
+
+166
+00:14:05,079 --> 00:14:10,079
+or no sign. In which case, presumably,
+it's interpreted to be positive. Now this
+
+167
+00:14:10,079 --> 00:14:16,048
+idiom where we have + epsilon indicate
+that something is optional is also
+
+168
+00:14:16,048 --> 00:14:22,057
+extremely common and so there's another
+short hand that many tools provide so
+
+169
+00:14:22,057 --> 00:14:28,043
+another way of writing this, that's common
+is to say that. That's my fractional
+
+170
+00:14:28,043 --> 00:14:33,050
+component and then it might be absent. So
+the question mark after a regular
+
+171
+00:14:33,050 --> 00:14:38,069
+expression just means exactly this
+construction, that we take that regular
+
+172
+00:14:38,069 --> 00:14:44,063
+expression and we or with epsilon. And so
+this one, this regular expression is a, is
+
+173
+00:14:44,063 --> 00:14:49,090
+a little more complicated. There's two
+optional components so let's just write
+
+174
+00:14:49,090 --> 00:14:55,050
+out what that would look like so we would
+have the exponent begins with e and then
+
+175
+00:14:55,070 --> 00:15:01,057
+we have a sign. Which is either + or - and
+that's optional so we put a question mark
+
+176
+00:15:01,057 --> 00:15:07,028
+after it followed by a non-empty string or
+digits and then this whole thing is
+
+177
+00:15:07,028 --> 00:15:12,072
+optional. The whole exponent is optional.
+S o this is an alternative and more
+
+178
+00:15:12,072 --> 00:15:19,094
+compact way to write this expression. To
+wrap up, I, I always convinced you in this
+
+179
+00:15:19,094 --> 00:15:25,009
+video that regular expressions can
+describe many useful languages. We've seen
+
+180
+00:15:25,009 --> 00:15:30,065
+some fragments from programming languages
+but also we saw that e-mail addresses
+
+181
+00:15:30,065 --> 00:15:36,047
+could be specified this way. Other things
+that are regular languages are things like
+
+182
+00:15:36,047 --> 00:15:42,016
+phone numbers and file names are also
+regular. And there are many, many examples
+
+183
+00:15:42,016 --> 00:15:47,098
+in everyday life where regular languages
+are used to describe some simple set of
+
+184
+00:15:47,098 --> 00:15:53,012
+strings. And I also want to emphasize that
+so far, we've used regular languages as a
+
+185
+00:15:53,012 --> 00:15:57,073
+language specification. We use it to
+define the set of strings we're interested
+
+186
+00:15:57,073 --> 00:16:01,092
+in. But, we haven't said anything about
+how to actually implement lexical
+
+187
+00:16:01,092 --> 00:16:06,082
+analysis. We still need an implementation.
+And that's what we'll talk about in future
+
+188
+00:16:06,082 --> 00:16:11,008
+videos. In particular, in particular,
+we're going to look at the problem of
+
+189
+00:16:11,008 --> 00:16:15,091
+given a string as an irregular expression.
+Or, how do we know whether that string is
+
+190
+00:16:15,091 --> 00:16:18,060
+in the language of the regular expression
+are.

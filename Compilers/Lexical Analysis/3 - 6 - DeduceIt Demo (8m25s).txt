@@ -1,0 +1,197 @@
+
+Hello. In this video, I'm going to give a
+demo of the [inaudible]; a research
+project in Stanford University for helping
+students learn formal systems in online
+classes. The basic idea behind the
+[inaudible] is to allow students to work
+through formal derivations and to have
+their improving technology that will check
+that those derivations are correct. So you
+can actually learn the details of how
+formal reasoning works. So let's take a
+look at an example here. So here is a
+little exercise in algebra and our goal is
+to prove that [inaudible]. Is equal to
+eleven, all right? That's what we're
+trying to accomplish and where we start is
+with the equation two * x + -four = x +
+seven. So in general, there could be more
+than one initial given assumption in this
+particular exercise so it's just one and
+we wanna start with that equation and we
+want to prove that x = eleven. And to get
+there, we're allowed to use any of the
+rules that are listed here that I'm
+circling with the mouse. And these were
+also divided into two kinds. There are the
+required rules which is this first set
+here at the top. And, the required rules
+are required. So, whenever we have a step
+of [inaudible] that uses one of these
+rules, we have to name it explicitly, we
+have to show that stuff explicitly. And
+then there are some rules that are
+considered free. These are the rules we
+don't have to show. So for example, we
+don't have to show all these steps
+involving associatively of addition and
+multiplication, presumably our instructors
+decide we are already understand that and
+we're allowed to skip over those steps and
+the system will try to fill them in. So
+these rules out here we can show them if
+we like, but they're not required. We're
+allowed to skip these steps. All right, so
+let's begin with. On this and every step
+of the derivation is going to have three
+parts. It's gonna have a conclusion. So
+something that we, we are proving at this
+particular stuff and we're gonna have the
+justification. So the rule from which that
+step follows. And then finally, what
+previous facts we're using that we already
+knew to be true. All right, So why, what
+we started with, what rule we apply to it
+and then what we concluded from it? All
+right? So, what can we do to make progress
+in this example? Well, one thing we could
+do is we can add four to both sides of the
+equation. Okay. And why is that justified?
+What rule are we using? Well, that's the
+balance equation using addition rule up
+here which says it's okay to add the same
+thing both sides of the equation. So, we
+would select that rule out of the list of
+possible rules. Okay. And then what
+assumption are we using? Well, there's
+only one thing that we've got at the
+moment. That's the initial given that we
+would begin with. All right, So here, we
+have one step of our derivation. We think
+this is right. We click update proof and
+the system. Comes back and says indeed,
+yes. That was a valid step of the
+derivation. So now, let's do another step.
+Well actually, let's see what would happen
+here if we did this balance equation step
+incorrectly. Let's say we didn't add the
+same thing to both sides. And so, let's
+try that out and what do we get? Oh, we
+see, then now it comes back to color red
+indicating there's something wrong and
+we're not given another step here to fill
+in, okay, because there was an incorrect
+step. We also see there's this little
+question mark icon here. We can click on
+that. And it tells us something about what
+went wrong and gives us some advice as it
+balancing equation. Means you have to add
+the same value to each side of the
+equation. Okay. So with that advice,
+presumably we will be able to figure out
+what we did wrong and correct this step.
+And get back to a place where we're on
+track. Now as you say there's not always
+advice available for every incorrect step
+but if it is available, you know you can
+click on that and get some idea of what it
+is you might have done wrong. All right so
+now let's go on. Let's take a look at this
+and see what we could do. We can try to
+simplify the left hand si de here. So,
+that's = two * x on the left hand side and
+the right hand side x + seven + four and
+we think we can do this here because you
+know? Four + -four are that's just adding
+constants and that's one of our free
+rules, okay? So we're allowed to add up
+constants, you know? At the end and
+getting zero there should be something we
+can do for free, all right? And that
+follows our previous step. Let me select
+that and now we can do an update and it
+comes back and it says, oh we did
+something wrong so it doesn't immediately
+follow from the previous step and there's
+actually empty here so we can see why and
+we see oh, it says [inaudible] identity is
+a required rule and so what mistake did we
+make? Well, you know it was okay to add
+four and -four together and get zero, I'm
+not sure of that because that was, that
+was just adding and multiplying constants
+but then the sub-sequence step when we
+said the two*x+0 = two*x that it was
+something. They were actually required to
+show in this exercise. So, whenever we use
+that identity we have to explicitly say
+so, so we can, we can fix that. By saying
+that you know this rule actually, this
+step actually, this step actually follows
+[inaudible] identity from the previous one
+and all the other rules that we're using
+that stuff for free so we don't have to
+name them, alright. So now we can go on.
+We can although simplify the left hand
+side. We might have clean that up and
+that's just free rules so we don't have to
+say exactly which rule we're using and I
+think I didn't take the update there,
+okay. So now, I guess I hit it twice by
+accident so let's just get rid of one of
+these steps, okay. So now what's the next
+step we're going to perform? It looks like
+we need to bring x over to the left hand
+side. So, we're going to add a -x to both
+sides so two * x + -x = x + eleven + -x,
+okay? And that's again the balance
+equation using addition rule and that
+follows from our previous step, okay? And,
+we can get from that one, all right? And
+then we'll update that, t hat works just
+fine. Okay? And now we can do some
+simplification of the left hand side,
+sorry excuse me, on the right hand side
+because all of these over be here is just
+= eleven, okay? And, and then we're having
+to use x + -x = zero and then we're just
+adding eleven and zero so we're just count
+this...adding up constants so this should
+follow from additive inverse From the
+previous step. All right, If we update
+that yes that worked out fine and now we
+just have to work on the left hand side.
+We've got two * x + -x and in order to get
+that into a form where we can simplify it,
+we're gonna need to use the Distributive
+Rule. We need to pull out the constants
+that are in front of the x's. And so, we
+can do that. We can say that two + (-one)
+* x = eleven. And so, we're using
+distributivity there but we're also using
+the unary negation rule that says, you
+know, -x = -one * x. But that's a free
+rule so we don't have to worry about that.
+So the only rule we need to name is the
+distributivity rule. And that falls from
+the previous step with the deliberation.
+We update that, okay. And now we're just
+about there so now I think in one step we
+can do the simplification. We can subtract
+one from two and get one and then we have
+one*x = eleven. That's multiplicative
+identity which is a required rule for this
+flicker exercise. Falls with the previous
+step like all the other, like all the
+previous steps and now we're done. And
+then we prove that x = eleven says who
+knows we have finished the assignment and
+that is the basic idea behind the
+[inaudible]. And, while this particular
+example was algebra this can be done for
+any kind of formal system where you can
+present the kinds of exercises you want to
+do in the set of rules and the students
+are supposed to derive some kind of goal
+using those rules.

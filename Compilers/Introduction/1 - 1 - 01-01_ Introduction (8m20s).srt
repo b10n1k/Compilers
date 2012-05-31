@@ -1,0 +1,449 @@
+
+1
+00:00:01,080 --> 00:00:07,066
+Welcome to this course on compilers. My
+name is Alex Aiken. I'm a professor here
+
+2
+00:00:07,066 --> 00:00:13,074
+in Stanford University and we're going to
+be talking about the implementation of
+
+3
+00:00:13,074 --> 00:00:20,079
+programming languages. There are two major
+approaches to implementing programming
+
+4
+00:00:20,079 --> 00:00:26,087
+languages, compilers, and interpreters.
+Now this class is mostly about compilers
+
+5
+00:00:27,010 --> 00:00:33,018
+but I do want to say a few words about
+interpreters here in the first lecture.
+
+6
+00:00:33,018 --> 00:00:39,057
+So, what does an interpreter do? Well, I'm
+gonna draw a picture here. This box is the
+
+7
+00:00:39,057 --> 00:00:45,057
+interpreter here, let me label it with a
+big I. It takes as input your program.
+
+8
+00:00:46,024 --> 00:00:53,025
+That you wrote and whatever data that you
+want to run the program on, and it
+
+9
+00:00:53,025 --> 00:00:59,044
+produces the output directly. Meaning that
+It doesn't do any processing in the
+
+10
+00:00:59,044 --> 00:01:04,096
+program before it executes it on the
+input, So you just write the program and
+
+11
+00:01:04,096 --> 00:01:11,004
+you invoke the interpreter on the date and
+the program immediately begins running. So
+
+12
+00:01:11,004 --> 00:01:17,006
+we can say that the interpreter is online.
+Meaning the work that it does is all part
+
+13
+00:01:17,006 --> 00:01:23,020
+of running your program. And now compiler
+is structured differently. So we can draw
+
+14
+00:01:23,020 --> 00:01:30,065
+a picture here, which we'll label with a
+big "C" for the compiler. And the compiler
+
+15
+00:01:30,065 --> 00:01:38,098
+takes as input trust your program. And
+then it produces an executable. And this
+
+16
+00:01:38,098 --> 00:01:45,031
+executable is another program. It might be
+assembly language, it might be byte code.
+
+17
+00:01:45,054 --> 00:01:51,080
+It could be in any number of different
+implementation languages. But now this can
+
+18
+00:01:51,080 --> 00:02:02,091
+be run separately on your data. And that
+will produce the output. Okay. And so in
+
+19
+00:02:02,091 --> 00:02:11,069
+this structure the compiler is off line,
+Meaning that we preprocess the program
+
+20
+00:02:11,069 --> 00:02:16,027
+first. A compiler is essentially a
+preprocessing step that produces the
+
+21
+00:02:16,027 --> 00:02:20,091
+executable. And then we can run that same
+executable on many, many different,
+
+22
+00:02:21,009 --> 00:02:25,061
+inputs, on many different data sets,
+without having to recompile or do any,
+
+23
+00:02:25,080 --> 00:02:31,030
+other processing of the program. I think
+it's helpful that I give a little bit of
+
+24
+00:02:31,030 --> 00:02:35,074
+history about how compilers and
+interpreters were first developed. So the
+
+25
+00:02:35,074 --> 00:02:40,025
+story begins in the 1950s And in
+particular, with a machine called the 704,
+
+26
+00:02:40,043 --> 00:02:45,000
+built by IBM. This was their first co
+mmercially successful machine, although
+
+27
+00:02:45,000 --> 00:02:49,081
+there had been some earlier machines that
+they had tried out. But anyway, the
+
+28
+00:02:49,081 --> 00:02:55,005
+interesting thing about the 704, well once
+customers started buying it and using it,
+
+29
+00:02:55,005 --> 00:03:00,035
+is that they found that the software costs
+exceeded the hardware costs. And not just
+
+30
+00:03:00,035 --> 00:03:05,040
+by a little bit, but by a lot. And. This
+is important, because, these, the hardware
+
+31
+00:03:05,040 --> 00:03:10,052
+in these, in those days was extremely
+expensive. And, even then, when hardware,
+
+32
+00:03:10,071 --> 00:03:15,077
+cost the most in absolute and relative
+terms, more than it would ever cost again.
+
+33
+00:03:15,077 --> 00:03:20,089
+Already, the software was the dominant,
+expense, in, in making good use out of
+
+34
+00:03:20,089 --> 00:03:26,021
+computers. And this led a number of
+people, to think about how they could do a
+
+35
+00:03:26,021 --> 00:03:31,069
+better job of writing software. How they
+could make, programming more productive.
+
+36
+00:03:34,063 --> 00:03:40,022
+One of the earliest efforts to improve the
+productivity of program was called speed
+
+37
+00:03:40,022 --> 00:03:45,070
+coding Developed in 1953 by John Backus.
+Decoding is what we would call today an
+
+38
+00:03:45,070 --> 00:03:50,067
+early example of an interpreter. And like
+all interpreters it has some advantages
+
+39
+00:03:50,067 --> 00:03:56,012
+and disadvantages. The primary advantage
+was that it was much faster to develop the
+
+40
+00:03:56,012 --> 00:04:00,060
+program, So the, in that sense, the
+programmer was much more productive. But
+
+41
+00:04:00,078 --> 00:04:05,087
+among its disadvantages code written
+decode written [inaudible] were ten to
+
+42
+00:04:05,087 --> 00:04:10,018
+twenty times slower. Than handwritten
+programs and that?s also true of
+
+43
+00:04:10,018 --> 00:04:14,060
+interpreted programs today. So if you have
+an implementation that uses an
+
+44
+00:04:14,060 --> 00:04:19,074
+interpreter, the interpreter would be much
+slower than either a compiler or a writing
+
+45
+00:04:19,074 --> 00:04:24,094
+code by hand. And also, the speed code
+interpreter took up 300 bytes of memory.
+
+46
+00:04:24,094 --> 00:04:29,096
+And that doesn't seem like very much, in
+fact 300 bites today would seem like an
+
+47
+00:04:29,096 --> 00:04:35,023
+incredibly tiny program but in those days
+you have to keep in mind that this was 30
+
+48
+00:04:38,038 --> 00:04:39,079
+Percent Of the, memory on the machine. So
+this was 30 percent of the entire memory
+
+49
+00:04:39,079 --> 00:04:45,016
+of the 704. And so the amount of space
+that the interpreter took up was itself a
+
+50
+00:04:45,016 --> 00:04:50,020
+concern. Now, speed coding did not become
+popular, but John [inaudible] thought it
+
+51
+00:04:50,020 --> 00:04:55,001
+was promising. And it gave him an idea for
+another project. The mo st important
+
+52
+00:04:55,001 --> 00:05:00,020
+applications in those days were scientific
+computations. And programmers thought in
+
+53
+00:05:00,020 --> 00:05:05,002
+terms of writing down formulas in a form
+that the machine could execute. John
+
+54
+00:05:05,002 --> 00:05:09,091
+thought that the problem with speed coding
+was that the formulas were in fact
+
+55
+00:05:09,091 --> 00:05:15,005
+interpreted. And he thought if first the
+formulas were translated into a form that
+
+56
+00:05:15,005 --> 00:05:21,049
+the machine could execute directly. That
+the code will be faster, And while still
+
+57
+00:05:21,049 --> 00:05:29,017
+allowing the programmer to write the, the,
+programs at a high level, And thus was the
+
+58
+00:05:29,017 --> 00:05:36,014
+formula translation project, or FORTRAN
+project born. Now, FORTRAN ran from 1954
+
+59
+00:05:36,036 --> 00:05:42,028
+To 1957, And interestingly, they thought
+it would only take them one year to build
+
+60
+00:05:42,028 --> 00:05:47,090
+the compiler, but it wound up taking
+three. So, just like today, they weren't
+
+61
+00:05:47,090 --> 00:05:53,096
+very good at predicting how long software
+projects would take. But it was a very
+
+62
+00:05:53,096 --> 00:05:58,071
+successful project. By 1958, over 50
+percent of all code was written in
+
+63
+00:05:58,071 --> 00:06:03,074
+FORTRAN. So 50 percent of programs were in
+FORTRAN. And that is very rapid adoption
+
+64
+00:06:03,074 --> 00:06:08,066
+of a new technology. We would be happy
+with that kind of success today. And, of
+
+65
+00:06:08,066 --> 00:06:13,070
+course, at that time, they were ecstatic.
+And everybody thought that, FORTRAN both
+
+66
+00:06:13,070 --> 00:06:18,062
+raised the level of abstraction, improved
+programmer productivity, And allowed
+
+67
+00:06:18,062 --> 00:06:25,006
+everyone to make much better use of these
+machines. So FORTRAN one was the first
+
+68
+00:06:25,006 --> 00:06:29,085
+successful high level language and it had
+a huge impact on computer science. In
+
+69
+00:06:29,085 --> 00:06:34,028
+particular, it led to an enormous body of
+theoretical work. And one of the
+
+70
+00:06:34,028 --> 00:06:39,002
+interesting things about programming
+languages, actually, is the, combination
+
+71
+00:06:39,002 --> 00:06:43,078
+of theory. And practice because it's not
+really possible, in programming languages,
+
+72
+00:06:43,095 --> 00:06:48,061
+to do a good job without having both a, a
+very good grasp of fairly deep theory and
+
+73
+00:06:48,061 --> 00:06:53,039
+also good engineering skills. So there's a
+lot of very good systems building material
+
+74
+00:06:53,039 --> 00:06:57,077
+in programming languages and typically
+involves a very subtle and, fruitful
+
+75
+00:06:57,077 --> 00:07:02,044
+interactions with theory. So, and this is
+one of the things that I think is the most
+
+76
+00:07:02,044 --> 00:07:07,022
+attractive about theory as a subject of
+studying computer science. And the impact
+
+77
+00:07:07,022 --> 00:07:12,058
+of FORTRAN was not just on computer
+science research, of course, But also on
+
+78
+00:07:12,058 --> 00:07:18,016
+the development of, practical compilers.
+And, in fact, its influence was so
+
+79
+00:07:18,016 --> 00:07:25,040
+profound, that today, auto compilers still
+preserve the outlines of FORTRAN one. So
+
+80
+00:07:25,040 --> 00:07:30,053
+what, what is the structure of FORTRAN
+one? Well, it consists of five phases,
+
+81
+00:07:30,074 --> 00:07:35,066
+Lexical analysis and parsing. Which
+together, take care of the syntactic
+
+82
+00:07:35,066 --> 00:07:41,000
+aspects of the language Semantic analysis,
+which, of course, takes care of more
+
+83
+00:07:41,000 --> 00:07:46,080
+semantic aspects, Things like types and
+scope rules. Optimization, which is a
+
+84
+00:07:46,080 --> 00:07:52,002
+collection of transformations on the
+program, to either make it run faster, or
+
+85
+00:07:52,002 --> 00:07:56,063
+use less memory. And finally code
+generation, which actually does the
+
+86
+00:07:56,063 --> 00:08:01,077
+translation to another language, and
+depending on our goals, that translation
+
+87
+00:08:01,077 --> 00:08:07,020
+might be to machine code, it might be to a
+byte code for a virtual machine, or it
+
+88
+00:08:07,020 --> 00:08:12,035
+might even be to another high level
+programming language. Well, that's it for
+
+89
+00:08:12,035 --> 00:08:17,090
+this lecture, and next time we'll pick up
+here and talk about these five phases in
+
+90
+00:08:17,090 --> 00:08:18,072
+more detail.

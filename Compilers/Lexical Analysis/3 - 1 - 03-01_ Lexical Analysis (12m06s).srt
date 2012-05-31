@@ -1,0 +1,569 @@
+
+1
+00:00:00,000 --> 00:00:05,055
+[inaudible] Welcome back. This is the
+first video in our long series of the
+
+2
+00:00:05,055 --> 00:00:13,023
+implementation of compilers, The call from
+last time that a compiler has five phases.
+
+3
+00:00:13,023 --> 00:00:17,079
+We're gonna begin by talking about lexical
+analysis and this will probably take us
+
+4
+00:00:17,079 --> 00:00:22,024
+three to four videos to get through at
+least and then we'll, we will be moving on
+
+5
+00:00:22,024 --> 00:00:28,090
+in order to the other phases. Let's start
+by looking at a small code fragment. The
+
+6
+00:00:28,090 --> 00:00:34,010
+goal of lexical analysis is to divide this
+piece of code up. Into lexical units so
+
+7
+00:00:34,010 --> 00:00:39,052
+things like the keyword if the variable
+names i, n, j and the relational operator
+
+8
+00:00:39,052 --> 00:00:44,088
+double-equals and so on. Now as a human
+being this is. As we discussed last time
+
+9
+00:00:44,088 --> 00:00:50,043
+this is a very easy thing to do because
+there are all kinds of visual clues about
+
+10
+00:00:50,043 --> 00:00:55,078
+where the units lie Where the boundaries
+between the different units lie but a
+
+11
+00:00:55,078 --> 00:01:00,060
+program like lexical analyzer. It doesn't
+have that kind of luxury. In fact what
+
+12
+00:01:00,060 --> 00:01:05,027
+the, what the likes of analyzer will see
+is something that looks more like this. So
+
+13
+00:01:05,027 --> 00:01:09,094
+here I overwritten, the code out just as a
+string, with all the white space symbols
+
+14
+00:01:09,094 --> 00:01:13,093
+included and is from, from this
+representation, this is a linear string,
+
+15
+00:01:13,093 --> 00:01:18,076
+you can think of this as bytes in the file
+that the lexical analyzer has to work and
+
+16
+00:01:18,076 --> 00:01:23,004
+it's going to mark through, placing
+dividers between the different units. So,
+
+17
+00:01:23,004 --> 00:01:27,059
+it will recognize that there's a division
+there, between the white space and the
+
+18
+00:01:27,059 --> 00:01:32,046
+keyword. Then a division after the keyword
+and there's more a wide space, the open
+
+19
+00:01:32,046 --> 00:01:37,000
+paren, the i, another wide space, double
+equals and so on and it goes through
+
+20
+00:01:37,000 --> 00:01:42,044
+drawing these lines diving up. The, the
+string into its lexical unit, So I won't
+
+21
+00:01:42,044 --> 00:01:49,060
+finish the whole thing but you should get
+the idea. Now, it doesn't just place these
+
+22
+00:01:49,060 --> 00:01:56,082
+dividers in the string however. It doesn't
+just recognize the substrings. It also
+
+23
+00:01:56,082 --> 00:02:04,021
+needs to classify the different elements
+of the string according to their role. We
+
+24
+00:02:04,021 --> 00:02:11,034
+call these token classes. Or sometimes,
+I'll just call it the class of the token.
+
+25
+00:02:11,034 --> 00:02:18,031
+And in English, these roles are things
+like noun, verb, adjective. Okay and there
+
+26
+00:02:18,031 --> 00:02:24,042
+is, ther e are many more or at least or
+some more. And in the programming
+
+27
+00:02:24,042 --> 00:02:30,062
+language, the classes, the token classes
+would be things like identifiers,
+
+28
+00:02:31,031 --> 00:02:44,017
+Keywords. I, and then individual pieces of
+syntax like an open paren or a close
+
+29
+00:02:44,017 --> 00:02:53,034
+paren, those are the classes by
+themselves. A, numbers. And again, there
+
+30
+00:02:53,034 --> 00:02:59,004
+are more classes but there's a thick set
+of classes and each one of these
+
+31
+00:02:59,004 --> 00:03:05,076
+corresponds to some set of strings that
+could appear in a program. So token
+
+32
+00:03:05,076 --> 00:03:13,063
+classes correspond to sets of strings, And
+[inaudible] strings can be described
+
+33
+00:03:13,063 --> 00:03:19,067
+relatively straightforwardly so for
+example. The token class of identifiers in
+
+34
+00:03:19,067 --> 00:03:24,056
+most programming languages might be
+something like strings of letters or
+
+35
+00:03:24,056 --> 00:03:29,071
+digits, starting with a letter. So for
+example, a variable name or identifier
+
+36
+00:03:29,071 --> 00:03:35,034
+could be something like a1 or it could be
+f00 or it could be, b17, all of those
+
+37
+00:03:35,034 --> 00:03:40,063
+would be, be valid identifiers and often,
+often they'll be additional characters
+
+38
+00:03:40,063 --> 00:03:45,071
+that allowed identifiers but that's the
+basic idea, Very, very often The main
+
+39
+00:03:45,071 --> 00:03:51,012
+restriction identifiers that they have to
+start, with a letter, An integer and
+
+40
+00:03:51,012 --> 00:03:56,067
+typical definition of an integer is a
+non-empty string of digits. So, something
+
+41
+00:03:56,067 --> 00:04:02,050
+like zero or twelve. Okay. One followed by
+two I should say is actually a string of
+
+42
+00:04:02,050 --> 00:04:08,012
+number in this case. And, and yeah, it is
+actually whether admit some numbers you
+
+43
+00:04:08,012 --> 00:04:13,095
+might not think of. Things like 001 would
+be a valid representation of a number or
+
+44
+00:04:13,095 --> 00:04:20,097
+even 00 could be a valid integer according
+to this definition. Keywords are typically
+
+45
+00:04:20,097 --> 00:04:27,064
+just a fix set of reserved words and so
+here I've listed a few, else, if, begin,
+
+46
+00:04:27,064 --> 00:04:33,015
+and so on. And then white space as itself
+a token class so we actually have to say
+
+47
+00:04:33,033 --> 00:04:38,041
+in that string which is the representation
+of the program what every character in
+
+48
+00:04:38,041 --> 00:04:43,067
+that string, what token or what token
+class it's a part of. What every substring
+
+49
+00:04:43,067 --> 00:04:48,093
+is a part of and that includes the white
+space. So, for example if we have a series
+
+50
+00:04:48,093 --> 00:04:53,076
+of three blanks, if I say if and then an
+open paren and I have three blanks in
+
+51
+00:04:53,076 --> 00:05:03,073
+here, these three blank s would be grouped
+together as white space. So the goal of
+
+52
+00:05:03,073 --> 00:05:09,092
+lexical analysis is to classify substrings
+of the program according to their role.
+
+53
+00:05:09,092 --> 00:05:15,096
+This is the, the token class, okay? Is it
+a keyword, a variable identifier, And then
+
+54
+00:05:15,096 --> 00:05:21,077
+to communicate these tokens, to the
+parser. So, drawing a picture here, let's
+
+55
+00:05:22,000 --> 00:05:33,044
+switch colors. The lexical analyzer
+communicates with the parser. Okay and the
+
+56
+00:05:33,044 --> 00:05:40,000
+functionality here is that, the lexical
+analyzer takes in a string. Typically
+
+57
+00:05:40,000 --> 00:05:46,036
+stored up, also just a sequence of bytes
+and then when [inaudible] to the parser is
+
+58
+00:05:46,036 --> 00:05:53,063
+sequence or pairs which are the token
+class. And substring which I would say
+
+59
+00:05:53,063 --> 00:05:59,097
+string here, that, that, of which is the
+sets of string which is a part of the
+
+60
+00:05:59,097 --> 00:06:06,078
+input along with the class the role that
+it plays in the in the language, and this
+
+61
+00:06:06,078 --> 00:06:15,076
+pair together is called a token. So for
+example, if my string is that f00 = 42,
+
+62
+00:06:15,076 --> 00:06:24,080
+all right, then that will go to the
+lexical analyzer and that will come, I'll
+
+63
+00:06:24,080 --> 00:06:39,087
+write down here, three tokens. And these
+would be identifier. Who? Operator say
+
+64
+00:06:40,045 --> 00:06:54,017
+equals. And. Integer, excuse me 42. And
+here I just left these things as strings
+
+65
+00:06:54,017 --> 00:06:59,033
+to, to emphasize that these are strings.
+So this is not the number 42 at this point
+
+66
+00:06:59,033 --> 00:07:04,080
+in time, it's, it's the string 42 which is
+a plays an integer role in the programming
+
+67
+00:07:04,080 --> 00:07:09,039
+language. And then these, and when the
+price that takes this input is this
+
+68
+00:07:09,058 --> 00:07:15,012
+sequence of pairs. So the lexical analyzer
+essentially runs over the input string and
+
+69
+00:07:15,012 --> 00:07:20,028
+chunks it up into the sequence of pairs
+where each pair is a token class and a
+
+70
+00:07:20,028 --> 00:07:27,025
+substring of the original input. As we
+turn to the example from the beginning of
+
+71
+00:07:27,025 --> 00:07:32,035
+the video, here it is written out as a
+string. And our goal now is to lexically
+
+72
+00:07:32,035 --> 00:07:37,058
+analyze this fragment of code. We want to
+go through and identify the substrings
+
+73
+00:07:37,058 --> 00:07:42,055
+that are tokens and also their token
+classes. So, to do this, we're gonna need
+
+74
+00:07:42,055 --> 00:07:47,013
+some token classes. So let's give
+ourselves some of those to work with.
+
+75
+00:07:47,013 --> 00:07:55,049
+We'll need white space. And, and so this
+is sequences of blanks, new lines tab,
+
+76
+00:07:55,049 --> 00:08:04,078
+things like that with the keywords. And
+we'll need variables which we'll call
+
+77
+00:08:04,078 --> 00:08:16,052
+identifiers. And we'll need integers and
+now I'll call those numbers. Here and then
+
+78
+00:08:16,052 --> 00:08:22,098
+we're going to have some other operations
+some other classes things like open paren
+
+79
+00:08:23,018 --> 00:08:28,077
+close paren, and semi colon and these are
+interesting. These three ae interesting
+
+80
+00:08:28,077 --> 00:08:34,028
+because they're single character token
+classes that is, is a set of strings but
+
+81
+00:08:34,028 --> 00:08:39,047
+is only, is only one string in the set so
+the open paren corresponds to exact
+
+82
+00:08:39,047 --> 00:08:45,025
+[inaudible] strings that contain only open
+paren. So often the punctuation marks of
+
+83
+00:08:45,025 --> 00:08:50,089
+the language are in token classes all by
+themselves. Another piece of punctuation
+
+84
+00:08:50,089 --> 00:08:56,009
+that we'll add here is, is assignments.
+That will be a token class by itself
+
+85
+00:08:56,009 --> 00:09:01,075
+because it's such an important operation.
+But, the double equals will class as a
+
+86
+00:09:01,096 --> 00:09:08,002
+relational operator with this class as an
+operator put it up here. Alright, So now
+
+87
+00:09:08,002 --> 00:09:14,013
+what we're going to do is we're gonna go
+through and tokenized this string and I'm
+
+88
+00:09:14,013 --> 00:09:20,034
+going to write down for each substring.
+What class it is. You know, I'm just gonna
+
+89
+00:09:20,034 --> 00:09:26,061
+use the first letter here of the class.
+It's indicated just to save time so I
+
+90
+00:09:26,061 --> 00:09:33,013
+don't have to write everything up. Hence,
+we change colors so we can do this in a
+
+91
+00:09:33,013 --> 00:09:39,024
+different color. So, the first token here
+is white space token and then that
+
+92
+00:09:39,024 --> 00:09:44,087
+followed by the F keyword. So, okay, And
+then we have a blank here which is another
+
+93
+00:09:44,087 --> 00:09:50,006
+white space and then the open paren which
+is its own token class so I'll just leave
+
+94
+00:09:50,006 --> 00:09:57,075
+it to identify itself there and then we
+have an identifier. Okay, White space and
+
+95
+00:09:57,075 --> 00:10:03,007
+then an operator, the double-equals.
+Another blank so that's white space
+
+96
+00:10:03,007 --> 00:10:09,037
+followed by another identifier followed by
+close parens, Again, a punctuation mark in
+
+97
+00:10:09,037 --> 00:10:15,059
+a token class by itself. And then we have
+three white space characters so those are
+
+98
+00:10:15,059 --> 00:10:23,014
+group together as a white space token,
+Followed by another identifier and more
+
+99
+00:10:23,014 --> 00:10:31,009
+white space and then another single
+character token, the assignment operator,
+
+100
+00:10:31,009 --> 00:10:37,092
+white space and a number, And then sem i
+colon again and punctuation mark and a
+
+101
+00:10:37,092 --> 00:10:44,021
+token class by itself. Two white space
+characters can group together. What
+
+102
+00:10:44,021 --> 00:10:50,074
+follows in is a keyword, so it gets
+classified as in the keyword token class.
+
+103
+00:10:50,074 --> 00:10:57,082
+Another run of white space characters and
+then another identifier. There's actually
+
+104
+00:10:57,082 --> 00:11:05,015
+a blank there where we almost covered it
+up without marks. The assignment operator
+
+105
+00:11:05,015 --> 00:11:11,091
+by itself in a token class, white space, a
+number, and finally the semi colon by
+
+106
+00:11:11,091 --> 00:11:18,075
+itself. And there is our tokenization.
+We've identified the substrings and we've
+
+107
+00:11:18,075 --> 00:11:26,074
+also labeled each one with its token
+class. To summarize, lexical analysis
+
+108
+00:11:26,074 --> 00:11:32,039
+implementation has to do two things. The
+first job is to recognize the substrings
+
+109
+00:11:32,039 --> 00:11:38,005
+in the input that correspond to tokens.
+And here's a little bit of compiler lingo
+
+110
+00:11:38,026 --> 00:11:44,026
+these substrings are called the lexemes.
+So the words of the program are called the
+
+111
+00:11:44,026 --> 00:11:50,012
+lexemes. And then the second job is at for
+each lexeme we have to identify its token
+
+112
+00:11:50,012 --> 00:11:55,099
+class. And then the output of the lexical
+analyzer is a series of pairs which are
+
+113
+00:11:55,099 --> 00:12:02,007
+the token class. And lexing, Okay, And
+this whole thing, one of these pairsis
+
+114
+00:12:02,007 --> 00:12:04,037
+called A token.

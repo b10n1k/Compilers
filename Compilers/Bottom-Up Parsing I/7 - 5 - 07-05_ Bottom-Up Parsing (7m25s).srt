@@ -1,0 +1,425 @@
+
+1
+00:00:02,058 --> 00:00:07,082
+This is the first of what will be a
+considerable sequence of videos on bottom
+
+2
+00:00:07,082 --> 00:00:16,055
+up parsing. The first thing to know is
+that bottom up parsing is more general
+
+3
+00:00:16,055 --> 00:00:20,087
+than deterministic top down parsing. So
+recall we talked about recursive descent,
+
+4
+00:00:20,087 --> 00:00:25,008
+which is a completely general parsing
+algorithm, but requires backtracking. And
+
+5
+00:00:25,008 --> 00:00:29,023
+now we're focused on deterministic
+techniques and we talked about L-L one or
+
+6
+00:00:29,023 --> 00:00:33,038
+predictive parsing last time. And now
+we're gonna switch, shift gears and talk
+
+7
+00:00:33,038 --> 00:00:37,086
+about bottom up parsing. And it turns out
+though even the bottom up parsing is more
+
+8
+00:00:37,086 --> 00:00:42,012
+general, it's just as efficient, and it
+uses all of the ideas that we learned in
+
+9
+00:00:42,012 --> 00:00:47,015
+top down parsing. And in fact, bottom up.
+Parsing is the preferred method that's
+
+10
+00:00:47,015 --> 00:00:52,071
+using most of the parser generator tools.
+So, one good thing about bottom up
+
+11
+00:00:52,071 --> 00:00:57,068
+parcers, is they don't need left factored
+grammars, so we can revert to the natural
+
+12
+00:00:57,068 --> 00:01:02,065
+grammar for our example and natural here
+is in quotes, because we still have to
+
+13
+00:01:02,065 --> 00:01:07,062
+encode the precedence of plus and times,
+so bottom up parcers aren't going to deal
+
+14
+00:01:07,062 --> 00:01:12,052
+with ambiguous grammars. And let's just as
+an example, consider how a bottom up
+
+15
+00:01:12,052 --> 00:01:18,004
+parcer would work on the following,
+typical input string. So the first thing
+
+16
+00:01:18,004 --> 00:01:23,046
+to know about bottom up parsing is that it
+reduces, what we call reduces a string
+
+17
+00:01:23,046 --> 00:01:28,014
+into the start symbol by inverting
+productions, by running productions
+
+18
+00:01:28,014 --> 00:01:33,062
+backwards. So here's an example. On the
+left hand side is the sequence of states
+
+19
+00:01:33,062 --> 00:01:38,096
+of the string. On the right hand side are
+the productions that were used And the
+
+20
+00:01:38,096 --> 00:01:44,038
+thing to observe, let's just look at the
+very first step. Is that we began with the
+
+21
+00:01:44,038 --> 00:01:49,084
+entire string. We began with the, the, the
+string of terminals. And we picked some of
+
+22
+00:01:49,084 --> 00:01:54,099
+those terminals. In this case, just one,
+this particular Int right here. And we ran
+
+23
+00:01:54,099 --> 00:01:59,062
+a production backwards. We replaced the
+Int here by the left side of the
+
+24
+00:01:59,062 --> 00:02:04,076
+production. We began with, we matched the
+right side of the production Int and we
+
+25
+00:02:04,076 --> 00:02:10,004
+replaced it by the left side. So Int went
+backwards here to T. And then in the next
+
+26
+00:02:10,004 --> 00:02:15,063
+step, we took Int times T, this substr ing
+of The, string that we're working on And
+
+27
+00:02:15,063 --> 00:02:21,034
+we replace it by the left-hand side of
+this production. N times T was replaced by
+
+28
+00:02:21,034 --> 00:02:26,066
+T, and so on. At each step here, we're
+matching some portion of the string. And
+
+29
+00:02:26,066 --> 00:02:31,042
+I'm underlining the portion that's being
+replaced at each step. And we're running,
+
+30
+00:02:31,042 --> 00:02:36,012
+and that matches the right hand side of
+sum production. And then we're replacing
+
+31
+00:02:36,012 --> 00:02:40,077
+that substring by the left hand side. And
+finally, this entire, string here is
+
+32
+00:02:40,077 --> 00:02:45,059
+replaced by E. And we wind up at the start
+symbol. So we began with an input string.
+
+33
+00:02:45,059 --> 00:02:51,067
+This is our input string up here. Alright
+put string of tokens and we end with the
+
+34
+00:02:51,067 --> 00:03:00,014
+start symbol down here And if you read the
+moves in this direction If you start at
+
+35
+00:03:00,014 --> 00:03:07,001
+the bottom and read towards the top. Well,
+these are just productions. And in fact
+
+36
+00:03:07,001 --> 00:03:11,072
+this whole thing is a derivation. This is
+just a normal derivation going from bottom
+
+37
+00:03:11,072 --> 00:03:16,021
+to top. But in this direction when we run
+it backwards beginning with the string
+
+38
+00:03:16,021 --> 00:03:22,040
+towards the start symbol, we call these
+reductions. And I haven't told you exactly
+
+39
+00:03:22,040 --> 00:03:27,064
+how we decided what reductions to do, and
+you might wonder, well, how I knew to do
+
+40
+00:03:27,064 --> 00:03:32,088
+this particular sequence of reductions.
+Well, here's another interesting property
+
+41
+00:03:32,088 --> 00:03:37,079
+of bottom-up parsing. So, if you read the
+productions backwards, they trace a
+
+42
+00:03:37,079 --> 00:03:43,003
+rightmost derivation, so if we begin here
+with e, so we're gonna--so remember the
+
+43
+00:03:43,003 --> 00:03:47,068
+parser is actually going in this
+direction, so this is the direction of
+
+44
+00:03:47,068 --> 00:03:52,096
+parsing here. But now we're gonna look at
+the steps the parser took in reverse, and
+
+45
+00:03:52,096 --> 00:03:57,063
+we're going to see that it was, in fact, a
+rightmost derivation. So here, E went to
+
+46
+00:03:57,063 --> 00:04:01,065
+T+E. Well, E was the only non terminal.
+But then E here is the one that's
+
+47
+00:04:01,065 --> 00:04:06,050
+expanded, it's the rightmost non terminal.
+And then this T is expanded, it's also the
+
+48
+00:04:06,050 --> 00:04:10,087
+rightmost non terminal to get int. And now
+this T is the rightmost tom-, non
+
+49
+00:04:10,087 --> 00:04:15,042
+terminal. It's expanded to get Int times
+T. And then this is the only end right
+
+50
+00:04:15,042 --> 00:04:20,027
+most non terminal, and so we wind up with
+the whole input string, Int times Int plus
+
+51
+00:04:20,027 --> 00:04:25,024
+int. And this leads us to The first
+important f act about bottom up parsing,
+
+52
+00:04:25,024 --> 00:04:30,082
+which is that a bottom up parser traces a
+rightmost derivation in reverse, all
+
+53
+00:04:30,082 --> 00:04:36,034
+right? So if you're ever having trouble
+with bottom up parsing, it's always
+
+54
+00:04:36,034 --> 00:04:41,064
+helpful to go back to this basic fact.
+Bottom up parser traces a rightmost
+
+55
+00:04:41,064 --> 00:04:47,037
+derivation, but it does so in reverse by
+using reductions instead of productions.
+
+56
+00:04:48,027 --> 00:04:53,012
+So here's the series of reductions again.
+Shown on the left And here is the parse
+
+57
+00:04:53,012 --> 00:04:58,004
+tree, that is constructed, from those
+reductions. And this is actually I think,
+
+58
+00:04:58,004 --> 00:05:03,001
+a very helpful picture, if we animate it,
+to see the sequence of steps, and to see
+
+59
+00:05:03,001 --> 00:05:07,074
+what a bottom up parser is really doing.
+So here we begin with the input string.
+
+60
+00:05:07,074 --> 00:05:12,053
+Over here And we show the same input
+string here. And now we're just going to
+
+61
+00:05:12,053 --> 00:05:17,026
+walk through the sequence of steps that
+the, bottom up parser takes A series of
+
+62
+00:05:17,026 --> 00:05:22,021
+reductions. And show how it builds an
+entire parse tree. And the basic idea is
+
+63
+00:05:22,021 --> 00:05:27,070
+that in each step we're performing a
+reduction. And remember when we do a
+
+64
+00:05:27,070 --> 00:05:33,088
+reduction we replace the children of the
+right hand side of sum production by its
+
+65
+00:05:33,088 --> 00:05:40,020
+left hand side. And just like when we were
+doing top down parson well, we will do the
+
+66
+00:05:40,020 --> 00:05:45,046
+same thing here. In the input, and then we
+make T its parent. And now you can see
+
+67
+00:05:45,046 --> 00:05:51,000
+what's going to happen. A top down parser
+begins with the start symbol, and produces
+
+68
+00:05:51,000 --> 00:05:56,015
+the tree incrementally by expanding some
+non terminal, at the frontier. At the
+
+69
+00:05:56,015 --> 00:06:00,064
+current, at a current leaf of the
+partially constructed parse tree. The
+
+70
+00:06:00,064 --> 00:06:05,042
+bottom up parsers is going to begin with
+all the leaves of the eventual pars tree
+
+71
+00:06:05,042 --> 00:06:10,021
+The entire input. And it's going to build
+little trees on top of those. And it's
+
+72
+00:06:10,021 --> 00:06:14,088
+going to be pasting together all the
+sub-trees that it's put together so far to
+
+73
+00:06:14,088 --> 00:06:19,079
+build the complete tree. Let's walk a few
+more steps and see how that happens. So in
+
+74
+00:06:19,079 --> 00:06:25,083
+the next step, we go from Int times T to
+T, so Int times and the sub tree rooted at
+
+75
+00:06:25,083 --> 00:06:31,047
+the other T, become children of this non
+terminal T and you can see we've taken
+
+76
+00:06:31,047 --> 00:06:36,097
+these three sub trees here, and pasted
+them together into a larger tree. So as we
+
+77
+00:06:36,097 --> 00:06:42,047
+go throug h the parcer, bigger and bigger
+portions of the original input are gonna
+
+78
+00:06:42,047 --> 00:06:48,024
+be pasted together into larger and larger
+trees. And the next reduction takes the
+
+79
+00:06:48,024 --> 00:06:54,064
+Int to the far into the input, and reduces
+it to T. And that gets reduced to E, and
+
+80
+00:06:54,064 --> 00:07:00,042
+then. At the very end the three remaining
+sub trees are all pasted together into one
+
+81
+00:07:00,061 --> 00:07:05,008
+parse tree for the whole thing with a
+start symbol as the root. So, to
+
+82
+00:07:05,008 --> 00:07:10,018
+summarize, a bottom up parser traces out a
+rightmost derivation in reverse. And it
+
+83
+00:07:10,018 --> 00:07:15,020
+builds a parse tree by combining small
+parse trees into larger ones. It precedes
+
+84
+00:07:15,021 --> 00:07:20,031
+bottom up. Instead of expanding out from
+the start symbol top down, it builds from
+
+85
+00:07:20,031 --> 00:07:23,001
+the leaves of the tree up towards the
+root.

@@ -1,0 +1,375 @@
+
+In this video we're going to talk about
+ambiguous context free grammars in
+programming languages and what to do about
+them. We'll begin by looking at our
+favorite grammar for expressions over +
+and * and identifiers and we'll just look
+at the string id * id + id. Now it turns
+out that this particular string and let's
+write it down one more time, id * id + id.
+This string has two parse tree using this
+grammar. Let's do the Parse tree on the
+left first. We begin with the start symbol
+e and the first production in this
+derivation that gives us this Parse tree
+must be that e goes to e + e. E + e And
+then we replace the left most e by e * e.
+We use the production e goes to e * e and
+we still have the plus e left over and at
+this point you can see that we're going to
+get this parse tree. We've done with those
+two productions. We have done this much.
+The construction of the parse tree and the
+rest of productions are just generating
+these id's. So that's a three more
+productions and we can see that, you know
+if we do those we'll get id * id + id no
+problem, alright. So now let's switch and
+do the derivation on the right or excuse
+me, the parse tree on the right so this
+begins also with e. But this time we use
+the production e goes to e * e first, all
+right? And now we're gonna replace the
+right most e. By e goes to e + e so we
+have e * e + e and now we've, with those
+two productions we've done this portion of
+the parse tree and once again with three
+more productions we can get to id * id +
+id so there you can see we've got two
+derivations. That produced two distinct
+Parse trees. And just to be completely
+clear about this, in this case we're
+getting two different Parse trees. Each of
+these derivation, each of these Parse
+trees has many derivations. Each Parse
+tree has a left most derivation, a right
+most derivation and many other
+derivations. This situation is something
+different. Here we have two derivations
+that yield completely different Parse
+trees and that is the sign or the
+definition of an ambiguous grammar. So a
+grammar is ambiguous if it has more than
+one Parse tree for some string. And
+another way of saying the same thing is
+that there is more than one right most or
+left most derivation for some string. So
+if some string has two right most
+derivations or more or two left
+derivations or more then the, that string
+will have two distinct parse trees and
+that grammar will be ambiguous. Ambiguity
+is bad. If you have multiple parse trees
+for some program then that essentially
+means that you're leaving it up to the
+compiler to pick which of those two
+possible interpretations of the program
+you want it to generate code for and
+that's not a good idea. We don't like to
+have ambiguity in our programming
+languages and leave decisions about what
+the program means up to the compiler. Now
+there are several ways to eliminate
+ambiguity from a grammar and the most
+direct method which we'll talk about first
+is just to rewrite the grammar so it's an
+ambiguous. That is to write a new grammar
+that generates the same language as the
+old grammar but it only has a single Parse
+tree for each string. So here's a, a
+rewrite of the grammar we've been looking
+at and let's write down our favorite input
+string one more time, id * id + id. And
+let's look at how that string will be
+parsed according to this new grammar so it
+begin with the start symbol e and now
+notice that e can no longer generate a
+plus or a times. In fact we separated the
+grammar now into two sets of productions,
+two nonterminals and e controls the
+generation of plus and e prime controls
+the generation of multiplications, okay.
+And so in originally of + we have to use
+the production e prime + e. There is no
+other way to do it. And now if we look at
+e prime, what can e prime do? Well, e
+prime can generate an identifier times
+something and if you look at the grammar
+that is the only production that can
+generate identifier times something else.
+The only other possibility involving times
+is to generate apprenticed expression
+which clearly won't match the string that
+we're trying to pars E. So we have to use
+this production Id * e prime. Well now in
+order to match the string, we can see that
+this e prime, the second, the one
+remaining e prime here has to go to id
+because sandwiched in between the times
+and the plus is a single id, there's only
+one production that will do that so that's
+completely unique and determined. And
+finally, we have the last e over here
+which we want to use to produce an id.
+Well how can we do that? Well, the e can
+go to e prime. In fact it has to and then
+the e prime can go to id by itself, and
+there. We've manage to parse the string.
+So in general what does this grammar
+doing, well we do say we stratify the
+grammar. We've divided the productions
+into two classes. One that handles times
+and one that handles times and there's one
+nonterminal for each, each operator so.
+The e productions control the generation
+of plus and let's just look at what
+happens with that. So if I, e can go to e
+prime + e and just sticking with the e
+productions, what can happen to this e
+here? Well, we could do it again, E prime
++ e prime + e. And if we do it one more
+time, we'll have e prime + e prime + e
+prime + e. And in general, I think you see
+the pattern, we can generate any number of
+e primes summed together. And finally,
+that trailing e, there's always one e left
+at the end. Eventually that e, when we
+want to stop generating pluses, has to be
+rewritten to e prime. So in the end, we'll
+get a sequence of pluses of, of e primes
+separated by pluses, okay? That's what e
+prime can do. I'm sorry, that's what e can
+do. Now let's look at what e prime can do.
+So, e prime. And let's just focus on the
+first two productions. As we can see at
+the first two productions are handling
+identifiers times something and then the
+last two productions are handling
+parenthesized expression but you know I
+hope you the symmetry that it's, it's
+really the same idea for identifiers and
+parenthesized expressions. So we'll just
+do identifiers just to keep the slide from
+getting too crowded. So e prime can go to
+id * e p rime. Well, we can repeat that,
+we can go to id. * id * e prime and we can
+repeat that again and I hope you're
+beginning to see the same pattern. This is
+the same idea as with plus. And when we
+wind up with n is a bunch of identifiers
+multiplied together, alright. Because that
+trailing e prime in this case, in the end,
+can be rewritten to id. Now, in the case
+of e prime there are actually two
+alternatives. We could either be
+generating id's or we could be generating
+parenthesized expression. So really, for
+each of these id's it could have been a
+parenthesized expression. So let me just
+write some parenthesized e's down here
+just to remind us that we have an
+alternative and in the end, we wind up
+with, you know? A string of identifiers or
+parenthesized expressions separated by
+times, Okay? Alright right, so I hope you
+see how this works. There's the, the way
+that the grammar set up because we have
+these two separate groups of productions.
+All the pluses must be generated Before
+any of the times. The times are gonna be
+nested more deeply inside the Parse tree
+than the pluses. The pluses are generated
+at the outer most level and then the e
+primes will generate the times inside the
+pluses. And so the grammar enforces that
+times is gonna buy more tightly than plus.
+The last detail that's worth pointing out
+here is I've noticed inside of the
+parenthesized expression, we have an e,
+not an e prime. And why is that? Well once
+we're inside of a parenthesized
+expression, the whole purpose of
+parentheses is to show the explicit
+association and so that we can have pluses
+inside of times by using parentheses. And
+that's all that, that, that's the
+significance of using e in this part of
+the grammar rather than e prime. To
+review, We started out with a grammar and
+A string we wanted to parse, id * id + id,
+but that grammar gave us two distinct
+Parse trees for the string and here are
+the two Parse trees again. And by
+rewriting the grammar, we were able to
+eliminate this Parse tree on the right.
+So, this Parse tree is no longer p
+ossible. The Parse tree on the left is
+modified, there's more symbols in it now.
+I mean for example, this became an e prime
+and there was a chain here of
+non-terminals, this e went to e prime and
+went to id and there was some other minor
+changes in here so the Parse tree is not
+exactly the same as before but. We were
+able to get a parse where the times binds
+more tightly than the plus. So, now let's
+consider another interesting example. If,
+then, else expressions were the else is
+optional and here's one way to write that
+grammar. Here we have a if, then, else And
+the usual way. But then we also have a
+production where there is no else. So
+that's the case where the else is optional
+and then maybe there are some other kinds
+of expressions that we don't need to
+concern ourselves with those. We'll just
+focus on the if and else piece. The
+problem is, at this particular if, then,
+else expression has two possible Parse
+tree. On the one hand, the else might
+belong to the outer if, That is, this
+particular. Inner if might have no else
+and. The else would be associated with the
+outer if. The other possibility is that
+the else belongs to the inner if that we
+have this structure if then else is nested
+inside of an if then that has no else
+statement. And in, what we want in on the
+programming language I know of is the
+second form. We want else's to associate
+to the closest matching if then and not
+one that's further away. We can write a
+grammar to express the desired
+association. The property we want is that
+every else should match the closest
+unmatched then. So whenever we see an
+else, we want it to be associated with the
+closest then that doesn't already have a
+closer matching else. So that means that
+the if statements are going to be divided
+into two categories. We'll have the
+matched if's, those that have all of the
+then statements nested within them matched
+with an else. And the unmatched if's where
+some then's then expression inside of the
+unmatched if that has no matching else.
+So, when matched ifs look like, well tha
+t's pretty straight forward, I, and if,
+then, else is a matched if most have, must
+have both of them and an else and any
+nested if statements on both branches
+must, must also have matching else's. And,
+if you have any other kind of a constructs
+that's not an if and else, that's also
+considered a matched if. What about the
+unmatched if's? One possibility is that
+they, it's simply an unmatched if, that
+there is no else. So we have if and then
+and no matching else out here. And now the
+crucial case, what if we have an if and
+else? So that the top level if then has a
+matching else but then the unmatched if is
+somewhere inside. Well, then we claim that
+the unmatched if has to be in the else
+branch, it cannot be in the then branch.
+The then branch must be a matched if. And
+why is that? Well, think about it. If this
+was an unmatched if, if this was an
+unmatched if, that means that there will
+be some then in here. That had no matching
+else. And then this else here would be
+closer to that then, than it is to this
+end then. And so, we would have to match
+that one according to our definition.
+Okay. So, that situation is not possible.
+So, the only possibility for an unmatched
+if is that, that it's itself and if and
+else is that, that the any if, then,
+else's under their branch have to be
+matched and the unmatched if and else has
+to be in the else branch. So reconsidering
+the expression we had before, we can see
+that this else is supposed to match this
+then. And so the association should be
+like this, and, and therefore, this Parse
+tree on the right is not the one that we
+want and the grammar we gave on the
+previous slide will parse the expression
+according to this Parse tree on the left.
+Now you might think of the unambiguous if,
+then, else grammar is complicated and hard
+to understand and frankly I would have to
+agree with you. Unfortunately, it's
+impossible to automatically convert an
+unambiguous grammar to an ambiguous one,
+so we have to do these conversions by
+hand. If we're going to have unambiguous
+grammars, we have t o figure out how to
+write them by hand and that does result
+insignificantly more complex grammars and
+grammars that are hard to read and
+maintain than if we use the, well more
+straightforward ambiguous grammars. A
+possibility is to we'll try to somehow
+live with ambiguity cuz that will allow us
+more depth natural definitions. And, but
+then we would need some disambiguation
+mechanism. We need some way to tell which
+Parse tree we want when more than one
+Parse tree is possible. In fact, most
+practical parsing tools adopt the second
+approach. So, instead of rewriting the
+grammar, we used the more natural
+ambiguous grammar and the tool provide
+some kind of disambiguating declarations.
+The most popular form of disambiguating
+declarations are precedence and
+associativity declarations. So, here is a
+natural grammar for plus over the integers
+and this is ambiguous even just with a
+single infix operation, we can get
+ambiguity because this grammar doesn't
+tell us whether plus is left associative
+or right associative. And. So, simple
+solution here is to have associativity
+declarations. So here, we declare plus to
+be left associative and this is the
+notation used in Bison. So, Bison is a
+particular tool and a present left plus
+declares that plus is a left-associative
+operation and so that would rule out this
+particular Parse tree over here. Here
+[inaudible] more complex grammar
+essentially the grammar we began with the,
+at the start of this video. Here we have
+plus and times over the integers and again
+this grammar is ambiguous because it
+doesn't say what the precedence of times
+is with respect to plus. And the solution
+for this is to have multiple associativity
+declarations. We declare plus to be left
+associative and we declare times to be
+left associative and then the precedence
+between plus and times is given by the
+order. So the fact here that times appears
+after. Plus means that times has a higher
+precedence than plus. Just one word of
+caution, These declarations are called
+associativity and precedence declarations
+but that's not what's quite what's going
+on inside the parser. The parser doesn't
+really understand about associativity and
+precedence. Instead, these declarations
+tell it to make certain kinds of moves in
+certain situations. We won't really be
+able to explain this until we get much
+further into parsing technology, but just
+be aware that we have to be a little bit
+cautious in using these declarations.
+Usually they behave like associativity and
+precedence in the way you expect but there
+are some situations in which they will
+cause Rising behavior And is important
+that you check the behavior of your
+grammar after you add these declarations.

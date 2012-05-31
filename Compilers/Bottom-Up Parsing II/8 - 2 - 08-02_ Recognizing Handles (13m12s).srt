@@ -1,0 +1,750 @@
+
+1
+00:00:03,096 --> 00:00:09,068
+Welcome back, in this video we're gonna
+talk about the key ideas behind techniques
+
+2
+00:00:09,068 --> 00:00:17,096
+for recognizing handles. There is good
+news and bad news when it comes to
+
+3
+00:00:17,096 --> 00:00:23,023
+recognizing handles. The bad news is that
+there is no known efficient algorithm that
+
+4
+00:00:23,023 --> 00:00:28,014
+recognizes handles in general. So for an
+arbitrary grammar, we don't have a fast
+
+5
+00:00:28,014 --> 00:00:32,098
+way to find the handles when we're
+parsing. The good news is that there are
+
+6
+00:00:32,098 --> 00:00:37,088
+heuristics for guessing handles, and for
+some context free grammars, for some
+
+7
+00:00:37,088 --> 00:00:42,079
+fairly large classes of context free
+grammars, these heuristics always identify
+
+8
+00:00:42,079 --> 00:00:49,004
+the handles correctly. We can illustrate
+the situation with a Venn diagram. If we
+
+9
+00:00:49,004 --> 00:00:54,002
+start with a set of all context free
+grammars, then the unambiguous context
+
+10
+00:00:54,002 --> 00:00:59,040
+free grammars are a sub-set of those, and
+then an even smaller set are called the
+
+11
+00:00:59,040 --> 00:01:04,024
+LR(k) grammars. And here, just to remind
+you, 'l' stands for left to right scan,
+
+12
+00:01:04,024 --> 00:01:09,029
+'r' stands for rightmost variation, and
+'k' stands for the number of tokens of
+
+13
+00:01:09,029 --> 00:01:14,080
+look ahead. Now the LRK grammars are one
+of the most general deterministic families
+
+14
+00:01:14,080 --> 00:01:19,071
+of deterministic grammars that we know of.
+But those aren't the ones that are
+
+15
+00:01:19,071 --> 00:01:24,062
+actually used in practice. Most of the
+bottom up tools that are practical, use
+
+16
+00:01:24,062 --> 00:01:29,071
+what are called the LALRK grammars, which
+are a subset of the LRK grammars. And then
+
+17
+00:01:29,071 --> 00:01:34,093
+what we're gonna talk mostly about is a
+simplification of those called the simple
+
+18
+00:01:34,093 --> 00:01:39,010
+LR grammars, or the SLRK context free
+grammars. And these containment
+
+19
+00:01:39,010 --> 00:01:44,018
+relationships or [inaudible] that is,
+there are grammars that are [inaudible]. R
+
+20
+00:01:44,018 --> 00:01:50,048
+k but not s l r k, for every k, and
+similarly there are grammars that are l r
+
+21
+00:01:50,048 --> 00:01:59,035
+k for every k that are not l a l r k. As
+we've already said, it's not obvious how
+
+22
+00:01:59,035 --> 00:02:03,096
+to detect handles. So, what does the
+parser know? Well, it sees the stack. At
+
+23
+00:02:03,096 --> 00:02:09,013
+each step it knows the stack that it has
+already, constructed. And so let's see how
+
+24
+00:02:09,013 --> 00:02:14,012
+much progress we can make just thinking
+about, what information we can get from
+
+25
+00:02:14,012 --> 00:02:18,086
+the stack. So here's a definition. We're
+going to say that alpha is a viable
+
+26
+00:02:18,086 --> 00:02:23,071
+prefix. If there is some omega, such that
+alpha bar omega is a configuration, a
+
+27
+00:02:23,071 --> 00:02:28,051
+valid configuration of a shift reduce
+parse. Now keep in mind that the alpha
+
+28
+00:02:28,051 --> 00:02:36,061
+here. This is the stack. And the omega
+here is the rest of the input. And what
+
+29
+00:02:36,061 --> 00:02:41,003
+does that means? That means the parser
+knows this part. The parser knows alpha,
+
+30
+00:02:41,003 --> 00:02:45,056
+it doesn't know much of omega. It can do
+some look-ahead, it can look at a small
+
+31
+00:02:45,056 --> 00:02:50,027
+prefix of omega, usually just one token,
+but it certainly doesn't know the whole
+
+32
+00:02:50,027 --> 00:02:57,067
+thing. So what does a viable prefix mean?
+Well, a viable prefix is a string that
+
+33
+00:02:57,067 --> 00:03:03,001
+does not extend past the right end of the
+handle. And the reason we call it a viable
+
+34
+00:03:03,001 --> 00:03:07,084
+prefix is because it is a prefix of the
+handle. So as long as the parser has
+
+35
+00:03:07,084 --> 00:03:12,085
+viable prefixes on the stack, no parsing
+error has been detected. And really the
+
+36
+00:03:12,085 --> 00:03:17,053
+definition is just giving a name to
+something, it's not anything very deep,
+
+37
+00:03:17,053 --> 00:03:22,015
+the fact that alpha bar omega is, is
+viable, that's just saying we haven't
+
+38
+00:03:22,015 --> 00:03:27,015
+encountered an error. That this is some
+state of a shift reduce parse. It hasn't
+
+39
+00:03:27,015 --> 00:03:32,065
+said yet how we're going to identity it or
+anything like that; it's just saying that
+
+40
+00:03:32,065 --> 00:03:39,081
+these are the valid states of shift
+reduced parse. Now the definition is
+
+41
+00:03:39,081 --> 00:03:45,049
+useful in one way if it bring us to the
+last important fact, important fact number
+
+42
+00:03:45,049 --> 00:03:50,068
+three about bottom up parsing. In this
+effort, any grammar, the set of viable
+
+43
+00:03:50,068 --> 00:03:56,029
+prefixes is a regular language, and this
+is really an amazing fact, and one that's
+
+44
+00:03:56,029 --> 00:04:01,055
+going to take us a little while to
+demonstrate, but this is the key to bottom
+
+45
+00:04:01,055 --> 00:04:07,009
+up parsing. At least all the bottom up
+parsing tools are based on this fact, that
+
+46
+00:04:07,009 --> 00:04:13,054
+the set of viable prefix can be recognized
+by a finite automaton. So, we're going to
+
+47
+00:04:13,054 --> 00:04:18,080
+show how to compute this automaton that
+accepts the viable prefixes, but first
+
+48
+00:04:18,080 --> 00:04:25,055
+we're going to need a number of additional
+definitions. The first definition we need
+
+49
+00:04:25,055 --> 00:04:30,006
+is the idea of an item. Now an item is a
+production that just has a dot somewhere
+
+50
+00:04:30,006 --> 00:04:34,035
+on the right hand side. So here's an
+example. Let's take the production, T goes
+
+51
+00:04:34,035 --> 00:04:38,080
+to open paren, E closed paren. What we're
+going to do is we're just gonna put the
+
+52
+00:04:38,080 --> 00:04:43,009
+dot in eve ry possible position on the
+right hand side. So we'll have one item
+
+53
+00:04:43,009 --> 00:04:47,060
+where the dot is all the way at the left
+end. We'll have one where the dot is all
+
+54
+00:04:47,060 --> 00:04:52,033
+the way at the right end. And then we'll
+have, items where the dot is between every
+
+55
+00:04:52,033 --> 00:04:56,056
+pair of consecutive symbols. So in this
+case, there are four items for the
+
+56
+00:04:56,056 --> 00:05:02,061
+production. One special case is, what do
+we do with epsilon productions? Well, for
+
+57
+00:05:02,061 --> 00:05:07,043
+an epsilon production, there is no, there
+are no symbols on the right hand side.
+
+58
+00:05:07,043 --> 00:05:12,031
+We'll just say there is one item, X goes
+to dot. And these items, you'll see them
+
+59
+00:05:12,031 --> 00:05:17,043
+referred to, if you, if you look in help,
+pages and in the literature, as, the LR
+
+60
+00:05:17,043 --> 00:05:22,077
+zero items. Now we're ready to discuss how
+we recognize viable prefixes. And the
+
+61
+00:05:22,077 --> 00:05:27,089
+problem is that the stack has only bits
+and pieces of the right hand side of
+
+62
+00:05:27,089 --> 00:05:33,007
+productions. In general most of the time,
+we don't have a complete right hand side
+
+63
+00:05:33,007 --> 00:05:38,019
+on top of the stack. Most of the time, we
+only have a part of the right hand side.
+
+64
+00:05:38,019 --> 00:05:43,030
+And. It turns out that what is on the
+stack is actually not just random it's,
+
+65
+00:05:43,030 --> 00:05:48,068
+it's it actually has a very special
+structure. In, in these bits and pieces
+
+66
+00:05:48,068 --> 00:05:54,014
+are always prefixes of right hand sides of
+productions. That is in any successful
+
+67
+00:05:54,014 --> 00:06:00,000
+parse what is on the stack always has to
+be a prefix of the right hand side of some
+
+68
+00:06:00,000 --> 00:06:06,050
+production or productions. Let's take a
+look at an example. Let's consider the
+
+69
+00:06:06,050 --> 00:06:11,060
+input open paren, [inaudible] closed
+paren. And here's one of our favorite
+
+70
+00:06:11,060 --> 00:06:17,025
+grammars. Now, this configurations, where
+I have open paren E, [inaudible], on the
+
+71
+00:06:17,025 --> 00:06:22,083
+stack. Remember that this is our stack.
+And we have the close [inaudible] in the
+
+72
+00:06:22,083 --> 00:06:28,038
+input. This is actually a state or a valid
+state of a shift [inaudible]. And you can
+
+73
+00:06:28,038 --> 00:06:33,088
+see here that, open paren E is a prefix of
+the production. T goes to open paren E,
+
+74
+00:06:33,088 --> 00:06:39,019
+close paren. And after we shift the
+remaining close paren onto the stack, then
+
+75
+00:06:39,019 --> 00:06:44,084
+we'll have the complete right hand side,
+and it will be ready to reduce. So this is
+
+76
+00:06:44,084 --> 00:06:50,052
+where the items come in. The item, T goes
+to open paren E. Dot, closed paren. This
+
+77
+00:06:50,052 --> 00:06:56,046
+describes this state of affairs. I t says
+that so far, we have seen open paren E of
+
+78
+00:06:56,046 --> 00:07:02,019
+this production. And we're hoping in the
+future to see the closed paren. So another
+
+79
+00:07:02,019 --> 00:07:06,018
+way of thinking about it is that this item
+records the fact that we're working on
+
+80
+00:07:06,018 --> 00:07:10,012
+this production. And then so far we've
+seen this much. Everything to the left of
+
+81
+00:07:10,012 --> 00:07:14,024
+the dot is what we've already seen and is
+what is on the stack and. What is to the
+
+82
+00:07:14,024 --> 00:07:18,033
+right of the dot is what we're waiting to
+see before we could possibly reduce. And
+
+83
+00:07:18,033 --> 00:07:22,024
+we may or may not see that, remember, the
+parser doesn't know the input. In this
+
+84
+00:07:22,024 --> 00:07:26,008
+case of course, it's the very next, next
+symbol and so it can see in the
+
+85
+00:07:26,008 --> 00:07:30,033
+look-ahead, but you know at this point in
+time the parser doesn't know for sure
+
+86
+00:07:30,033 --> 00:07:34,038
+what's coming up and, you know, and, and,
+if this dot were further to the left there
+
+87
+00:07:34,038 --> 00:07:38,043
+might be many, many more symbols that we
+had to go, before we could perform the
+
+88
+00:07:38,043 --> 00:07:42,038
+reduction. So anyway, what's to the left
+of that records what we've already seen.
+
+89
+00:07:42,038 --> 00:07:46,055
+And what is to the right of the dot, says
+that what we are waiting to see on the
+
+90
+00:07:46,055 --> 00:07:52,059
+stack, before we can perform a reduction.
+And now we could talk about the structure
+
+91
+00:07:52,059 --> 00:07:57,054
+of the stack. So you see it's not just
+arbitrary collections of symbols. In fact,
+
+92
+00:07:57,054 --> 00:08:02,074
+it has this very particular structure. So
+the stack is actually a stack of prefixes
+
+93
+00:08:02,074 --> 00:08:07,063
+of right hand sides. So the stack always
+has this organization where there's a
+
+94
+00:08:07,063 --> 00:08:12,065
+bunch of prefixes, stacked up, literally
+stacked up on the stack. And what's going
+
+95
+00:08:12,065 --> 00:08:17,085
+to happen is that the ice prefix, if you
+were to pick a prefix out of this stack of
+
+96
+00:08:17,085 --> 00:08:23,048
+prefixes, While that must be the prefix of
+some production. Okay. The right hand side
+
+97
+00:08:23,048 --> 00:08:29,034
+of sum production And what that means is
+that, that prefix, that [inaudible] prefix
+
+98
+00:08:29,034 --> 00:08:35,005
+on the stack, will eventually reduce to
+the left hand side of that production. So
+
+99
+00:08:35,005 --> 00:08:40,092
+it will eventually reduce to, XI in this
+case. And then that XI has to be Part of
+
+100
+00:08:40,092 --> 00:08:46,030
+the missing suffix, of the prefix that is
+below it on the stack. So if I look at the
+
+101
+00:08:46,030 --> 00:08:51,016
+previous prefix the one that's right
+below, prefix [inaudible] on the stack
+
+102
+00:08:51,016 --> 00:08:56,015
+Then when I perform this reducti on that
+XI needs to extend that prefix to be
+
+103
+00:08:56,015 --> 00:09:01,041
+closer to a complete right hand side of
+that particular reduction. Okay so in
+
+104
+00:09:01,041 --> 00:09:08,009
+particular there's going to be some
+production. That is going to; already have
+
+105
+00:09:08,009 --> 00:09:12,087
+a portion of its right hand side on the
+stack. So prefix of I minus one. And X I
+
+106
+00:09:12,087 --> 00:09:17,083
+is going to extend that prefix, and then
+there's gonna be some more stuff possibly
+
+107
+00:09:17,083 --> 00:09:23,004
+that we're waiting to see, even after the
+X I is put there. And recursively, all the
+
+108
+00:09:23,004 --> 00:09:28,028
+prefixes above prefix K eventually have to
+reduce to the missing part of the right
+
+109
+00:09:28,028 --> 00:09:33,027
+hand side of prefix K, the alpha K that
+goes on the right hand side. [inaudible]
+
+110
+00:09:33,027 --> 00:09:38,014
+This image, you have a stack of prefixes
+we're always working on the top-most
+
+111
+00:09:38,014 --> 00:09:43,070
+prefix on the stack, so you will be always
+working here on the right and shifting and
+
+112
+00:09:43,070 --> 00:09:48,008
+reducing, but every time we perform a
+reduction. That has to extend the prefix
+
+113
+00:09:48,008 --> 00:09:51,082
+immediately below it on the stack. And
+when these, when a bunch of prefixes have
+
+114
+00:09:51,082 --> 00:09:55,037
+been removed from the stack through
+reductions, then we, when we get to work
+
+115
+00:09:55,037 --> 00:10:00,097
+on the prefixes that are lower in the
+stack. So let's illustrate this idea with
+
+116
+00:10:00,097 --> 00:10:05,098
+an example. So here is another input
+string, and we're gonna use the same
+
+117
+00:10:05,098 --> 00:10:12,004
+grammar. You can, you can rewind if you
+want to see the grammar again. But let's
+
+118
+00:10:12,004 --> 00:10:17,075
+consider this state where we have open
+paren, [inaudible] star on the stack. And
+
+119
+00:10:17,075 --> 00:10:23,056
+we have int, close paren remaining in the
+input, 'kay? And so what items would
+
+120
+00:10:23,056 --> 00:10:29,030
+record, what is the, what is the stack
+structure here and how do the items record
+
+121
+00:10:29,030 --> 00:10:35,054
+it? Well let's start here at the bottom,
+let's actually work from the bottom up. So
+
+122
+00:10:35,054 --> 00:10:41,092
+we have in start the top of our stack, so
+we this is the right hand side that we're
+
+123
+00:10:41,092 --> 00:10:47,073
+currently working on, and that would be a
+prefix to this production T goes to int
+
+124
+00:10:47,073 --> 00:10:53,015
+star T. Okay? So what this says is that
+we're looking you know, we, we've seen in
+
+125
+00:10:53,015 --> 00:10:57,099
+stars so far, and we're waiting to see
+[inaudible]. I'm not showing the items,
+
+126
+00:10:57,099 --> 00:11:03,041
+but I'm just showing the productions that
+this is eventually going to use. Now, the
+
+127
+00:11:03,041 --> 00:11:08,039
+one that's below it here, the, the prefix
+that's below it o n the stack is right
+
+128
+00:11:08,039 --> 00:11:13,062
+here in between the open paren and the
+int. This one's an interesting case. It's
+
+129
+00:11:13,062 --> 00:11:19,030
+actually epsilon. So there's nothing there
+now on the stack. But eventually once the
+
+130
+00:11:19,030 --> 00:11:25,018
+int star has reduced to T. Okay? Then that
+T is going to reduce to E. And currently,
+
+131
+00:11:25,018 --> 00:11:30,048
+of course, there's not a T there at all.
+So we've only seen epsilon. We've seen
+
+132
+00:11:30,048 --> 00:11:35,051
+none of the prefix of this production on
+the stack. And then for the last
+
+133
+00:11:35,051 --> 00:11:41,043
+production, the one deepest in the stack,
+we're currently, we've currently seen an
+
+134
+00:11:41,043 --> 00:11:46,094
+open paren. And, we're w-, and we think
+we're working on this production. T goes
+
+135
+00:11:46,094 --> 00:11:52,052
+to open paren, E closed paren, alright? So
+when this E is produced, that will extend
+
+136
+00:11:52,052 --> 00:11:57,059
+this right hand side. And now we can
+record all of this with the stack of
+
+137
+00:11:57,059 --> 00:12:02,088
+items, T goes to open paren dot E, E goes
+to dot T, and T goes to N star dot T.
+
+138
+00:12:02,088 --> 00:12:08,031
+Okay, and we just record what we said on
+the previous slide, that so far, we see
+
+139
+00:12:08,031 --> 00:12:14,009
+the open paren of this production. We've
+seen nothing out of the right hand side of
+
+140
+00:12:14,009 --> 00:12:19,066
+this production, and we've seen N star so
+far of this production. And just notice
+
+141
+00:12:19,066 --> 00:12:25,037
+how the left hand side of each of these
+productions is going to eventually become
+
+142
+00:12:25,037 --> 00:12:31,013
+part of the right hand side of the. Of the
+right, part of the right hand side of the
+
+143
+00:12:31,013 --> 00:12:37,000
+production we are working on just below it
+in the stack. So when we've reduced this
+
+144
+00:12:37,000 --> 00:12:42,074
+instar T to T that will extend this
+production, when it reaches E that will
+
+145
+00:12:42,074 --> 00:12:49,000
+extend this production To summarize this
+video, we can say a little more precisely
+
+146
+00:12:49,000 --> 00:12:53,089
+how we go about recognizing viable
+prefixes. The crux of the problem is going
+
+147
+00:12:53,089 --> 00:12:58,090
+to be to recognize a sequence of partial
+right had sides of production. Where each
+
+148
+00:12:58,090 --> 00:13:03,073
+of those partial right hand sides can
+eventually reduce to part of the missing
+
+149
+00:13:03,073 --> 00:13:08,074
+suffix of its predecessor Next time, in
+the next video we're going to actually
+
+150
+00:13:08,074 --> 00:13:11,055
+give the algorithm for implementing this
+idea.

@@ -1,0 +1,539 @@
+
+1
+00:00:03,060 --> 00:00:08,059
+Welcome back, In this video we're going to
+talk about converting regular expressions
+
+2
+00:00:08,059 --> 00:00:17,058
+into non-deterministic finite automata.
+Before we get started I wanna give you an
+
+3
+00:00:17,058 --> 00:00:22,046
+overview of the plan for the next few
+videos. We have a lexical specification
+
+4
+00:00:22,046 --> 00:00:27,066
+that we want to implement and the first
+step is for someone to write that down as
+
+5
+00:00:27,066 --> 00:00:32,092
+a set of regular expressions. Now that
+bites all the courses not implementation,
+
+6
+00:00:32,092 --> 00:00:38,033
+that's just specification. So we have to
+translate that into a program that can
+
+7
+00:00:38,033 --> 00:00:43,074
+actually do lexical analysis and this
+actually happens in several steps. The
+
+8
+00:00:43,074 --> 00:00:49,039
+first part is a translate Those regular
+expressions into non-deterministic finite
+
+9
+00:00:49,039 --> 00:00:54,030
+automata that recognize the same, exactly
+the same thing. And then those
+
+10
+00:00:54,030 --> 00:00:59,097
+non-deterministic automata are translated
+into deterministic automata and finally
+
+11
+00:00:59,097 --> 00:01:05,016
+those deterministic automata are
+implemented as a set of Lookup tables and
+
+12
+00:01:05,016 --> 00:01:10,088
+a little bit of code for traversing those
+tables. So in previous videos, we talked
+
+13
+00:01:10,088 --> 00:01:16,084
+about this piece and we've also defined
+this piece. And so now we're ready to put
+
+14
+00:01:16,084 --> 00:01:22,052
+the whole thing together and in this
+particular video, we're going to focus on
+
+15
+00:01:22,052 --> 00:01:27,046
+this component right here, The translation
+of regular expressions to
+
+16
+00:01:27,046 --> 00:01:35,002
+non-deterministic finite automata. So the
+plan is that for each kind of regular
+
+17
+00:01:35,002 --> 00:01:41,037
+expression we're going to find an
+equivalent Non-deterministic Automata,
+
+18
+00:01:41,037 --> 00:01:46,006
+automaton that accepts exactly the same
+language as the language or a regular
+
+19
+00:01:46,006 --> 00:01:50,063
+expression. And here's a little bit of
+notation we're gonna use. We'll define
+
+20
+00:01:50,063 --> 00:01:55,067
+these automaton for regular expressions
+and usually, what we're going to be doing
+
+21
+00:01:55,067 --> 00:02:00,048
+is needing to modify their start states
+and their final states so we'll just
+
+22
+00:02:00,048 --> 00:02:05,038
+indicate the start state with the l and
+the final state. With the double circle
+
+23
+00:02:05,038 --> 00:02:10,005
+and we won't worry too much about the
+overall structure of the machine as long
+
+24
+00:02:10,005 --> 00:02:15,001
+as we have a handle on the start state and
+the final state. I should say that in the
+
+25
+00:02:15,001 --> 00:02:20,038
+machines we'll build here, there will only
+be one final state. Okay, so let's begin.
+
+26
+00:02:20,038 --> 00:02:26,021
+So for the epsilon regular expression,
+once the machine that accepts that, well
+
+27
+00:02:26,021 --> 00:02:31,097
+this is a very simple machine. We can just
+have a start state and a final state and
+
+28
+00:02:31,097 --> 00:02:37,080
+epsilon transition between them so this
+machine accepts exactly the empty string.
+
+29
+00:02:38,065 --> 00:02:44,032
+Certainly for a single character A, we can
+define a one transition two state machine
+
+30
+00:02:44,032 --> 00:02:49,079
+that accepts that one character. So from
+the start state we can move to the final
+
+31
+00:02:49,079 --> 00:02:54,065
+state if it only, if we read that
+particular character, okay. So those are
+
+32
+00:02:54,065 --> 00:02:59,091
+out two simple regular expressions and now
+we have to do the compound regular
+
+33
+00:02:59,091 --> 00:03:05,028
+expressions. And these are little
+[inaudible] involved. So let's talk about
+
+34
+00:03:05,028 --> 00:03:11,085
+concatenation first. And so, because we're
+gonna build these machines up from
+
+35
+00:03:11,085 --> 00:03:17,003
+smaller. Regular expressions to larger
+ones, we can assume that we've already
+
+36
+00:03:17,003 --> 00:03:22,007
+converted A and B separately in two
+machines. So I have the machine for A. And
+
+37
+00:03:22,007 --> 00:03:26,077
+to have a machine for B and now all I have
+to do is say how I'm going to paste
+
+38
+00:03:26,077 --> 00:03:30,093
+together these two machines to form a
+machine, a compound machine that
+
+39
+00:03:30,093 --> 00:03:35,003
+recognizes the same language as a
+concatenated with B. And here's the
+
+40
+00:03:35,003 --> 00:03:39,066
+construction, the start state for the
+compound machine will be the start state
+
+41
+00:03:39,066 --> 00:03:44,041
+for A so we'll just keep that start state
+for A the same and then we modify the
+
+42
+00:03:44,041 --> 00:03:48,099
+final state of A. So we make the final
+state of A no longer a final state and
+
+43
+00:03:48,099 --> 00:03:53,096
+I've done that here by removing the double
+circle on the final state of A andthe
+
+44
+00:03:53,096 --> 00:03:59,059
+epsilon transition to the start state of
+B. Now if we think about it, that does
+
+45
+00:03:59,059 --> 00:04:04,021
+exactly the right thing but that says, is
+that first you recognize some portion of
+
+46
+00:04:04,021 --> 00:04:08,083
+the input that belongs to the language of
+A, and when we get to that, what would
+
+47
+00:04:08,083 --> 00:04:13,055
+been the final state of A, we can jump to
+the start state of B without consuming any
+
+48
+00:04:13,055 --> 00:04:18,034
+input and then try to read the rest of the
+string as part of the language, as, as a
+
+49
+00:04:18,034 --> 00:04:24,067
+string in the language of B. And for union
+we have a similar way of phasing together
+
+50
+00:04:24,067 --> 00:04:29,031
+the machines. Although the, the structure
+is somewhat different so we, at a new
+
+51
+00:04:29,031 --> 00:04:34,026
+start state for the compound machine and
+What does A + B mean? It means either the
+
+52
+00:04:34,026 --> 00:04:39,029
+input is in the language of A, or it's in
+the language of B. And epsilon transitions
+
+53
+00:04:39,029 --> 00:04:44,025
+are really good for capturing this because
+we just make a decision right from the
+
+54
+00:04:44,025 --> 00:04:49,027
+start state is the string going to be in
+language of A or is it going to be in the
+
+55
+00:04:49,027 --> 00:04:53,044
+language of B. So we make a
+non-deterministic choice and then we read
+
+56
+00:04:53,044 --> 00:04:58,028
+the string as using that, the automaton
+that we chose and if we get to the final
+
+57
+00:04:58,028 --> 00:05:03,010
+state. Either those machines we can make
+the epsilon transition to the new final
+
+58
+00:05:03,010 --> 00:05:07,073
+state for the compound machine. Now
+remember what the notion is of acceptance
+
+59
+00:05:07,073 --> 00:05:12,066
+for Nondeterministic Automata, you know?
+They make these guesses but if there's any
+
+60
+00:05:12,066 --> 00:05:17,059
+guess that works, then we say that it's in
+the language of the machine. So, if in
+
+61
+00:05:17,059 --> 00:05:22,083
+fact the string is in the union of A or B
+then either choosing A or choosing B will
+
+62
+00:05:22,083 --> 00:05:30,005
+work and so the machine will accept the
+string. And finally the most complicated
+
+63
+00:05:30,005 --> 00:05:35,041
+case for iteration is star, we have the
+following construction, So here's the
+
+64
+00:05:35,041 --> 00:05:41,019
+machine for A, Embedded in here. We've
+added a new start state and a new final
+
+65
+00:05:41,019 --> 00:05:47,033
+state, And now, let's talk about how this
+works. So one possibility, if we remember
+
+66
+00:05:47,033 --> 00:05:53,047
+that epsilon is always in the language of
+A*, and so we have this transition here,
+
+67
+00:05:53,047 --> 00:05:58,023
+We can go straight from the start state to
+the final state and accept the empty
+
+68
+00:05:58,023 --> 00:06:02,075
+string. And so, that just guarantees that
+the empty string is in the language.
+
+69
+00:06:02,075 --> 00:06:06,092
+Otherwise, what do we do? Otherwise, we
+can make a transition, an epsilon
+
+70
+00:06:06,092 --> 00:06:11,068
+transition to the start state of A. And
+then we can, from the final state of A if
+
+71
+00:06:11,068 --> 00:06:16,051
+we reach it, we can go back to the start
+state of the whole machine and we can do
+
+72
+00:06:16,051 --> 00:06:21,045
+this as many times as we like. Okay, So,
+there's the iteration of A, Surround this
+
+73
+00:06:21,045 --> 00:06:26,069
+loop right here, And when we reach the
+final state of A we can also decide to
+
+74
+00:06:26,069 --> 00:06:32,033
+just make a transition to the final state
+of the machine, we conclude that the last
+
+75
+00:06:32,033 --> 00:06:40,018
+time. And so this machine recognizes zero
+or more strings in the language of A. So
+
+76
+00:06:40,018 --> 00:06:44,098
+now, let's do an example, So here's a
+regular expression and we want to build a
+
+77
+00:06:44,098 --> 00:06:49,090
+equivalent nondeterministic machine that
+recognizes the sa me language and we're
+
+78
+00:06:49,090 --> 00:06:55,012
+gonna follow our construction, Which works
+by induction on the structure of the
+
+79
+00:06:55,012 --> 00:07:00,069
+regular expressions starting with the
+simple regular expressions and building up
+
+80
+00:07:00,069 --> 00:07:06,013
+to the compound one so what do we have
+here? So we have a machine for accepting
+
+81
+00:07:06,013 --> 00:07:11,016
+one, okay. So we need a machine that
+accepts one and if we call it had two
+
+82
+00:07:11,016 --> 00:07:16,039
+states and it just, you know made a
+transition between the two on the number
+
+83
+00:07:16,039 --> 00:07:23,073
+one, Similarly a machine for accepting
+zero. Okay, And now, we need to put them
+
+84
+00:07:23,073 --> 00:07:29,079
+together in a machine that accepts either
+one or zero. And the way we did that is we
+
+85
+00:07:29,079 --> 00:07:35,049
+made a choice from A, from a start state
+for the compound machine where you can
+
+86
+00:07:35,049 --> 00:07:41,047
+either move to the machine for accepting
+one or the machine for accepting zero. And
+
+87
+00:07:41,047 --> 00:07:46,081
+then we have, at the end, also epsilon
+moves back to the final state of the
+
+88
+00:07:46,081 --> 00:07:54,001
+compound machine. Okay, And now we need to
+iterate this so we need to be able to
+
+89
+00:07:54,001 --> 00:08:00,083
+accept zero or more of one's or zero's and
+so we're going to take this entire Block
+
+90
+00:08:00,083 --> 00:08:06,055
+here and paste it into the pattern that we
+had for iteration so how do we do that?
+
+91
+00:08:06,055 --> 00:08:12,021
+Well, we have a new start state and a new
+final state, okay. And there's an epsilon
+
+92
+00:08:12,021 --> 00:08:17,086
+move from the start state to the new final
+state to guarantee that we accept the
+
+93
+00:08:17,086 --> 00:08:23,051
+empty string. And then we can just iterate
+this inner machine as many times as we
+
+94
+00:08:23,051 --> 00:08:29,016
+like. We can make an epsilon move to the
+start state, We could execute the machine
+
+95
+00:08:29,016 --> 00:08:34,058
+ones and if we decide we want to do it
+again, well we can do that. Okay, Go back
+
+96
+00:08:34,058 --> 00:08:39,088
+around for another time, Or from the final
+state, we can decide that we've seen
+
+97
+00:08:39,088 --> 00:08:45,026
+enough and we can just move to the final
+state of the compound machine. So this
+
+98
+00:08:45,026 --> 00:08:50,056
+machine then accepts the language one +
+zero*. And now, we have a little bit more
+
+99
+00:08:50,056 --> 00:08:56,000
+to do. We have to accept, we have other
+machine that accepts just one so we build
+
+100
+00:08:56,000 --> 00:09:01,025
+another machine that accepts The digit one
+and now we need to compose two of these
+
+101
+00:09:01,025 --> 00:09:06,017
+things, to concatenate them and that was
+very simple. We just have an epsilon move
+
+102
+00:09:06,017 --> 00:09:11,021
+from the final state of the first machine
+to the start state of the second mac hine
+
+103
+00:09:11,021 --> 00:09:16,000
+and then these are all the states of the
+final machine. And we just need to now
+
+104
+00:09:16,000 --> 00:09:21,016
+label our final, final state or the end of
+the state that we're actually gonna use in
+
+105
+00:09:21,016 --> 00:09:26,014
+the end of the final state of the entire
+machine which should be that one and the
+
+106
+00:09:26,014 --> 00:09:32,008
+start state, Which is this state over
+here. And that's the entire construction
+
+107
+00:09:32,008 --> 00:09:38,065
+for the non-deterministic automata or a
+non-deterministic automata that recognizes
+
+108
+00:09:38,065 --> 00:09:39,077
+this language.

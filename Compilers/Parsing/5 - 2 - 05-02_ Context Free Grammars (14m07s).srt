@@ -1,0 +1,750 @@
+
+1
+00:00:03,039 --> 00:00:07,067
+In this video, we're gonna begin our
+discussion of parsing technology with
+
+2
+00:00:07,067 --> 00:00:15,097
+context-free grammars. Now as we know, not
+all strings of tokens are actually valid
+
+3
+00:00:15,097 --> 00:00:20,064
+programs and the parser has to tell the
+difference. It has to know which strings
+
+4
+00:00:20,064 --> 00:00:25,024
+of tokens are valid and which ones are
+invalid and give error messages for the
+
+5
+00:00:25,024 --> 00:00:29,085
+invalid ones. So, we need some way of
+describing the valid strings of tokens and
+
+6
+00:00:29,085 --> 00:00:33,087
+then some kind of algorithm for
+distinguishing the valid and invalid
+
+7
+00:00:33,087 --> 00:00:42,002
+strings of tokens from each other. Now
+we've also discussed that programming
+
+8
+00:00:42,002 --> 00:00:46,062
+languages have a natural recursive
+structure, So for example in Cool, an
+
+9
+00:00:46,062 --> 00:00:51,037
+expression That can be anyone of a very
+large number of things. So two of the
+
+10
+00:00:51,037 --> 00:00:55,086
+things that can be are an if expression
+and a while expression but these
+
+11
+00:00:55,086 --> 00:01:00,048
+expressions are themselves recursively
+composed of other expressions. So for
+
+12
+00:01:00,048 --> 00:01:05,015
+example, the predicate of an if is a, a
+[inaudible] expression as is the then
+
+13
+00:01:05,015 --> 00:01:10,076
+branch and the else branch and in a while
+loop the termination test is an expression
+
+14
+00:01:10,076 --> 00:01:15,056
+and so is the loop body. And context-free
+grammars are in natural notation for
+
+15
+00:01:15,056 --> 00:01:23,026
+describing such recursive structures. So
+within a context-free grammar so formally
+
+16
+00:01:23,026 --> 00:01:30,015
+it consist a set of terminals t, a set of
+nonterminals n, a start symbol s and s is
+
+17
+00:01:30,015 --> 00:01:36,045
+one of the nonterminals and a set of
+productions and what's a production? A
+
+18
+00:01:36,045 --> 00:01:42,094
+production is a symbol followed by an
+arrow followed by a list of symbols. And
+
+19
+00:01:42,094 --> 00:01:48,024
+these symbols, there are certain rules
+about them so the x thing on the left hand
+
+20
+00:01:48,024 --> 00:01:53,055
+side of the arrow has to be a nonterminal.
+That's what it means to be on the left
+
+21
+00:01:53,055 --> 00:01:59,005
+hand side so the set of things on the left
+hand side of productions are exactly the
+
+22
+00:01:59,005 --> 00:02:04,043
+nonterminals. And then the right hand side
+every yi on the right hand side can be
+
+23
+00:02:04,043 --> 00:02:09,047
+either a nonterminal or it can be a
+terminal or it can be the special symbol
+
+24
+00:02:09,047 --> 00:02:19,015
+epsilon. So let's do a simple example of a
+Context-free Grammar. Strings of balanced
+
+25
+00:02:19,015 --> 00:02:25,025
+parenthesis which we discussed in an
+earlier video can be expressed as follows.
+
+26
+00:02:25,025 --> 00:02:30,031
+So, we have our start symbol and. One
+possibility for a string o f balanced
+
+27
+00:02:30,031 --> 00:02:35,043
+parentheses is that it consists of an open
+paren on another string of balanced
+
+28
+00:02:35,043 --> 00:02:40,055
+parentheses and a close paren. And, the
+other possibility for a string of balanced
+
+29
+00:02:40,055 --> 00:02:45,061
+parentheses that is empty because the
+empty string is also a string of balanced
+
+30
+00:02:45,061 --> 00:02:50,099
+parentheses. So, there are two productions
+for this grammar and just to go over the
+
+31
+00:02:51,018 --> 00:02:56,030
+to, to relate this example to the formal
+definition we gave on the previous slide,
+
+32
+00:02:56,049 --> 00:03:02,081
+what is our set of nine terminals, it's
+just. The singles nonterminal s, what our
+
+33
+00:03:02,081 --> 00:03:10,058
+terminal symbols in this context-free
+grammar is just open and close paren. No
+
+34
+00:03:10,058 --> 00:03:15,059
+other symbols. What's the start symbol?
+Well, it's s. It's the only nonterminal so
+
+35
+00:03:15,059 --> 00:03:20,028
+it has to be the start symbol but
+generally we will, when we give grammars
+
+36
+00:03:20,028 --> 00:03:25,041
+the first production will name a start
+symbol so rather than name and explicitly
+
+37
+00:03:25,041 --> 00:03:30,042
+whichever production occurs first the
+symbol on the left hand side will be the
+
+38
+00:03:30,042 --> 00:03:34,082
+nonterminal for that particular
+context-free grammar. And then finally,
+
+39
+00:03:35,000 --> 00:03:40,000
+what are the productions with the, we said
+there could be a set of productions and
+
+40
+00:03:40,000 --> 00:03:45,079
+here are the two productions for this
+particular Context-Free Grammar. Now,
+
+41
+00:03:45,079 --> 00:03:51,087
+productions can be read as rules. So,
+let's write down one of our productions
+
+42
+00:03:51,087 --> 00:03:58,090
+from the from the example grammar and what
+does this mean? This means wherever we see
+
+43
+00:03:58,090 --> 00:04:04,081
+an s, we can replace it by the string of
+symbols on the right hand side. So,
+
+44
+00:04:04,081 --> 00:04:09,049
+Wherever I see an s I can substitute and I
+can take the s out. If that important, I
+
+45
+00:04:09,049 --> 00:04:14,034
+remove the s that appears on the left side
+and I replace it by the string of symbols
+
+46
+00:04:14,034 --> 00:04:19,013
+on the right hand side so productions can
+be read as replacement rule so right hand
+
+47
+00:04:19,013 --> 00:04:25,043
+side replaces the left hand side. So
+here's a little more formal description of
+
+48
+00:04:25,043 --> 00:04:30,019
+that process. We begin with the string
+that has only the start symbol s, so we
+
+49
+00:04:30,019 --> 00:04:35,031
+always start with just the start symbol.
+And now, we look at our string initially
+
+50
+00:04:35,031 --> 00:04:39,075
+it's just a start symbol but it changes
+overtime, and we can replace any
+
+51
+00:04:39,075 --> 00:04:44,057
+non-terminal in the string by the right
+hand side, side of some production for
+
+52
+00:04:44,057 --> 00:04:49,063
+that non-terminal. So for exam ple, I can
+replace a non-terminal x by the right hand
+
+53
+00:04:49,063 --> 00:04:54,086
+side of some production for x. X in this
+case, x goes to y1 through yn. And then we
+
+54
+00:04:54,086 --> 00:05:00,000
+just repeat step two over and over again
+until there are no non-terminals left
+
+55
+00:05:00,000 --> 00:05:04,068
+until the string consist of only
+terminals. And at that point, we're done.
+
+56
+00:05:04,068 --> 00:05:11,016
+So, to write this out slightly more
+formally, a single step here consist of a
+
+57
+00:05:11,016 --> 00:05:17,055
+state which is a, which is a string of
+symbols, so this can be terminals and
+
+58
+00:05:17,055 --> 00:05:24,011
+non-terminals. And, somewhere in the
+string is a non-terminal x and there is a
+
+59
+00:05:24,011 --> 00:05:30,076
+production for x, in our grammar. So this
+is part of the grammar, okay? This is a
+
+60
+00:05:30,076 --> 00:05:42,058
+production And we can use now production
+to take a step from, to a new state Where
+
+61
+00:05:42,058 --> 00:05:54,021
+we have replaced X by the right hand side
+of the production, Okay? So this is one
+
+62
+00:05:54,021 --> 00:06:04,017
+step of a context-free derivation. So now
+if you wanted to do multiple steps, we
+
+63
+00:06:04,017 --> 00:06:10,059
+could have a bunch of steps, alpha zero
+goes to alpha one goes to alpha two and
+
+64
+00:06:10,059 --> 00:06:17,017
+these are strings now. Alpha i's are all
+strings and as we go along we eventually
+
+65
+00:06:17,017 --> 00:06:23,059
+get to some strong alpha n, alright. And
+then we say that alpha zero rewrites in
+
+66
+00:06:23,059 --> 00:06:29,076
+zero or more steps to alpha n so this
+means n zero, greater than or equal to
+
+67
+00:06:29,076 --> 00:06:35,036
+zero steps. Okay. So this is just a short
+hand for saying there is some sequence of
+
+68
+00:06:35,036 --> 00:06:39,082
+individual productions. Individual rules
+being applied to a string that gets us
+
+69
+00:06:39,082 --> 00:06:44,017
+from the string alpha string zero to the
+string alpha n and remember that in
+
+70
+00:06:44,017 --> 00:06:48,046
+general we start with just the start
+symbol and so we have a whole bunch of
+
+71
+00:06:48,046 --> 00:06:55,023
+sequence of steps like this that get us
+from start symbol to some other string. So
+
+72
+00:06:55,023 --> 00:07:00,072
+finally, we can define the language of a
+Context-Free Grammar. So, [inaudible]
+
+73
+00:07:00,072 --> 00:07:06,072
+context-free grammar has a start symbol s,
+so then the language of the context-free
+
+74
+00:07:06,072 --> 00:07:13,008
+grammar is gonna be the string of symbols
+alpha one through alpha n such that for
+
+75
+00:07:13,008 --> 00:07:19,012
+all i. Alpha i is an element of the
+terminals of g, okay. So t here is the set
+
+76
+00:07:19,012 --> 00:07:25,036
+of terminals of g and s goes, the start
+symbol s goes in zero or more steps to
+
+77
+00:07:25,036 --> 00:07:31,069
+alpha one, I'm sorry a1 to an, okay. And
+so we're just saying, this is just saying
+
+78
+00:07:31,069 --> 00:07:38,025
+that all the strings of terminals that I
+can derive beginning with just the start
+
+79
+00:07:38,025 --> 00:07:46,035
+symbol, those are the strings in the
+language. So the name terminal comes from
+
+80
+00:07:46,035 --> 00:07:50,080
+the fact that once terminals are included
+in the string, there is no rule of
+
+81
+00:07:50,080 --> 00:07:55,060
+replacing them. That is once the terminal
+is generated, it's a permanent feature of
+
+82
+00:07:55,060 --> 00:07:59,087
+the string and in applications to
+programming languages and context-free
+
+83
+00:07:59,087 --> 00:08:04,009
+grammars, the terminals are to be the
+tokens of the language that we are
+
+84
+00:08:04,009 --> 00:08:09,076
+modeling with our context-free grammar.
+With that in mind, let's try the
+
+85
+00:08:09,076 --> 00:08:15,083
+context-free grammar for a fragment of
+[inaudible]. So, [inaudible] expressions,
+
+86
+00:08:15,083 --> 00:08:21,098
+we talked about these earlier, but one
+possibility for a [inaudible] expression
+
+87
+00:08:21,098 --> 00:08:28,004
+is that it's an if statement or an if
+expression. And, we call that [inaudible]
+
+88
+00:08:28,004 --> 00:08:36,051
+if statements have three parts. And they
+end with the keyword [inaudible] which is
+
+89
+00:08:36,051 --> 00:08:42,011
+a little bit unusual. And so looking at
+this looking at this particular rule, we
+
+90
+00:08:42,011 --> 00:08:47,044
+can see some conventions that way, that
+are pretty standard and that we'll use so
+
+91
+00:08:47,044 --> 00:08:52,090
+that non-terminals are in all caps. Okay,
+so in this case was just [inaudible] we'll
+
+92
+00:08:52,090 --> 00:08:58,003
+try that in caps and then the terminal
+symbols are in, in lower case, all right?
+
+93
+00:08:58,003 --> 00:09:12,071
+And another possibility Is that it could
+be a while expression. And finally the
+
+94
+00:09:12,071 --> 00:09:19,022
+last possibility Is that it could be
+identifier id and there actually many,
+
+95
+00:09:19,022 --> 00:09:24,087
+many more possibilities and lots of other
+cases for expressions and let me just show
+
+96
+00:09:24,087 --> 00:09:30,033
+you one bit of notation to make things
+look a little bit nicer. So we have many
+
+97
+00:09:30,052 --> 00:09:35,028
+we have many productions for the same
+non-terminal. We usually group those
+
+98
+00:09:35,028 --> 00:09:40,074
+together in the grammar and we only write
+a non-terminal on the right hand side once
+
+99
+00:09:40,074 --> 00:09:45,085
+and then we write explicit alternative. So
+this is actually. Completely the same as
+
+100
+00:09:45,085 --> 00:09:51,007
+writing out expert arrow two more times
+but we here we just is, this is just a way
+
+101
+00:09:51,007 --> 00:09:55,025
+of grouping these three productions
+together and saying that expr- is the
+
+102
+00:09:55,025 --> 00:10:01,009
+non-terminal for all three right hand
+sides. Let's take a look at some of the
+
+103
+00:10:01,009 --> 00:10:05,092
+strings on the language of this Context-
+Free Grammar. So, a valid Kuhl expression
+
+104
+00:10:05,092 --> 00:10:10,075
+is just a single identifier and that's
+easy to see because EXPR is our start
+
+105
+00:10:10,075 --> 00:10:15,040
+symbol, I'll call it EXPR. And, so the
+production it does says it goes to id. So
+
+106
+00:10:15,040 --> 00:10:20,024
+I can take the start symbol directly to a
+string of terminals, a single variable
+
+107
+00:10:20,024 --> 00:10:25,031
+name is a valid Kuhl expression. Another
+example is an e-th expression where e-th
+
+108
+00:10:25,031 --> 00:10:30,063
+of the subexpressions is just a variable
+name. So this is perfectly fine structure
+
+109
+00:10:30,063 --> 00:10:35,085
+for a Kuhl expression. Similarly I can do
+the same thing with the while expression.
+
+110
+00:10:35,085 --> 00:10:41,004
+I can take the structure of a while and
+then replace each of the subexpressions
+
+111
+00:10:41,004 --> 00:10:46,049
+just with a single variable name and that
+would be a syntactically valid cool while
+
+112
+00:10:46,049 --> 00:10:51,030
+loop. There are more complicated
+expressions so for example, here we have a
+
+113
+00:10:51,030 --> 00:10:55,084
+why loop as the predicate of an if
+expression. That's something you might
+
+114
+00:10:55,084 --> 00:11:00,063
+normally think or writing but perfectly
+well form and tactically. Similarly, I
+
+115
+00:11:00,063 --> 00:11:05,055
+could have an if statement or an if
+expression as the predicate of and if it's
+
+116
+00:11:05,055 --> 00:11:10,041
+inside of an if expression. So, so nested
+if expressions like this one are also
+
+117
+00:11:10,041 --> 00:11:16,099
+syntactically valid. Let's do another
+grammar, this time for simple arithmetic
+
+118
+00:11:16,099 --> 00:11:22,006
+expressions. So, we'll have our start
+symbol and only non-terminal for this
+
+119
+00:11:22,006 --> 00:11:27,032
+grammar be called e and one of the
+possibilities while e could be the sum of
+
+120
+00:11:27,032 --> 00:11:31,085
+expressions. Or and remember this is an
+alternative notation for e arrow. It's
+
+121
+00:11:31,085 --> 00:11:36,064
+just a way of saying I'm going to use the
+nonterminal for another production. We can
+
+122
+00:11:36,064 --> 00:11:40,089
+have a sum of two expressions or we could
+have the Multiplication of two
+
+123
+00:11:40,089 --> 00:11:45,067
+expressions. And then we could have
+expressions that appear inside the
+
+124
+00:11:45,067 --> 00:11:51,032
+parentheses, so parenthesized expressions.
+And just to keep things simple, we could
+
+125
+00:11:51,032 --> 00:11:56,090
+just have as our base, only base case
+simple identifier so variable names. And
+
+126
+00:11:56,090 --> 00:12:02,083
+here's a small grammar over plus and times
+to see and in parentheses and variable
+
+127
+00:12:02,083 --> 00:12:07,099
+names. [inaudible] a few elements of this
+language. So for example, a single
+
+128
+00:12:07,099 --> 00:12:13,092
+variable name is a perfectly good element
+of the language id + id is also in this
+
+129
+00:12:13,092 --> 00:12:23,004
+language. Which s is id + id * id and we
+could also use parens to group things so
+
+130
+00:12:23,004 --> 00:12:29,052
+we could say id + id * id that's also
+something you can generate using these
+
+131
+00:12:29,052 --> 00:12:36,036
+rules and so on and so forth. There are
+many, many more strings in this language.
+
+132
+00:12:38,001 --> 00:12:42,057
+Context-free grammars are our big step
+towards being able to say what we want in
+
+133
+00:12:42,057 --> 00:12:46,085
+a parser but, we still need some other
+things. First of all, a context-free
+
+134
+00:12:46,085 --> 00:12:51,018
+grammar at least as we define it so far,
+just gives us a yes or no answer. Yes
+
+135
+00:12:51,018 --> 00:12:55,079
+something, yes a string is in the language
+of the Context-free grammar or no it is
+
+136
+00:12:55,079 --> 00:13:00,047
+not. We also need a method for building a
+Parse Tree at the input. So in those cases
+
+137
+00:13:00,047 --> 00:13:05,002
+where it is on the language, we need to
+know how it's in the language. We need the
+
+138
+00:13:05,002 --> 00:13:09,043
+actual Parse Tree not just yes or no. In
+the cases where the string is not in the
+
+139
+00:13:09,043 --> 00:13:13,056
+language, we have to be able to handle
+errors gracefully and give some kind of
+
+140
+00:13:13,056 --> 00:13:17,079
+feedback to the programmer so we need a
+method for doing that. And finally if we
+
+141
+00:13:17,079 --> 00:13:21,076
+have these two things we need an actual
+implementation of them in order to
+
+142
+00:13:21,076 --> 00:13:26,097
+actually implement context-free grammars.
+One last comment before we wrap up this
+
+143
+00:13:26,097 --> 00:13:31,033
+video. The form of the context-free
+grammar can be important. Tools are often
+
+144
+00:13:31,033 --> 00:13:36,008
+sensitive to the particular you write the
+grammar and while there are many ways to
+
+145
+00:13:36,008 --> 00:13:40,056
+write a grammar for the same language,
+only some of them may be accepted by the
+
+146
+00:13:40,056 --> 00:13:45,026
+tools. And as we'll see there are cases
+where it's necessary to modify the grammar
+
+147
+00:13:45,026 --> 00:13:49,079
+in order to get the tools to accept it.
+This happens actually sometimes as well
+
+148
+00:13:49,079 --> 00:13:54,037
+with regular expressions but it's much
+less common. So normally for most regular
+
+149
+00:13:54,037 --> 00:13:59,015
+expressions you would want to write the
+tools would be able to digest them. That's
+
+150
+00:13:59,015 --> 00:00:00,000
+fine. That's not also true. That's not
+true of an arbitrary context-free grammar.

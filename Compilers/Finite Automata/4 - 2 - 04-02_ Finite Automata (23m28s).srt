@@ -1,0 +1,1245 @@
+
+1
+00:00:03,083 --> 00:00:08,028
+Welcome back. In this video we're going to
+talk about finding out the [inaudible]
+
+2
+00:00:08,028 --> 00:00:12,051
+which we'll see in future videos are a
+good implementation model for regular
+
+3
+00:00:12,051 --> 00:00:20,041
+expressions. So in the last few videos,
+we've been talking about regular
+
+4
+00:00:20,041 --> 00:00:24,021
+expressions which we use as the
+specification language for lexical
+
+5
+00:00:24,021 --> 00:00:28,087
+analysis. And, in this video we're gonna
+start something new. We're gonna talking
+
+6
+00:00:28,087 --> 00:00:34,000
+about Finite Automata which are the For a
+convenience as an implementation mechanism
+
+7
+00:00:34,000 --> 00:00:39,010
+for regular expressions. And so regular
+expressions and finite automaton are very
+
+8
+00:00:39,010 --> 00:00:44,032
+close related. It turns out that they can
+specify exactly the same languages called
+
+9
+00:00:44,032 --> 00:00:49,048
+the regular languages. We won't prove that
+in this course but we'll certainly make
+
+10
+00:00:49,048 --> 00:00:54,045
+use of that fact. So, moving right along,
+What is a finite automaton? Well, here is
+
+11
+00:00:54,045 --> 00:00:59,024
+a typical definition as you might see in a
+automaton theory textbook. Finite
+
+12
+00:00:59,024 --> 00:01:04,027
+automaton consists of an input alphabet.
+So, it's a set of characters that it can
+
+13
+00:01:04,027 --> 00:01:10,069
+read. It has this finite set of states. We
+should probably emphasize that. This is
+
+14
+00:01:10,069 --> 00:01:15,093
+what makes it a finite automaton is that
+it has some set of states that it can be
+
+15
+00:01:15,093 --> 00:01:20,092
+in. One of those states is special and
+it's designated as the start state. Some
+
+16
+00:01:20,092 --> 00:01:25,096
+subset of the states are accepting states
+so these are the states that. But, well,
+
+17
+00:01:25,096 --> 00:01:30,087
+we'll just find that more in a minute but
+intuitively, if the automaton terminates,
+
+18
+00:01:31,004 --> 00:01:35,011
+after reading some input on one of these
+takes that it accepts the input.
+
+19
+00:01:35,011 --> 00:01:39,018
+Otherwise, it rejects the input and
+finally the automaton has some set of
+
+20
+00:01:39,018 --> 00:01:43,076
+state transitions that is in one state,
+they can read some input and go to another
+
+21
+00:01:43,076 --> 00:01:48,059
+state. So let's look at that little more
+detail so a transition in a finite
+
+22
+00:01:48,059 --> 00:01:53,055
+automaton. If I'm in, in this case I've
+written out one particular transition
+
+23
+00:01:53,055 --> 00:01:58,070
+here. We're in state one and we read the
+input A then, the automaton can move to
+
+24
+00:01:58,070 --> 00:02:04,004
+state two, okay. And there could be lots
+of different transitions for the automaton
+
+25
+00:02:04,004 --> 00:02:09,052
+from different states and different inputs
+and its read the following way. If we're
+
+26
+00:02:09,052 --> 00:02:15,035
+in state one on input A , we would go to
+state two. And, if the automaton ends in
+
+27
+00:02:15,035 --> 00:02:20,028
+an accepting state when it gets to the end
+of the input that is going to do what's
+
+28
+00:02:20,028 --> 00:02:25,028
+called accepting the string Meaning that
+it will say yes, That string was in the
+
+29
+00:02:25,028 --> 00:02:30,064
+language of this machine. So intuitively
+the automaton starts in the start date and
+
+30
+00:02:30,064 --> 00:02:35,075
+it repeatedly reads inputs one input
+character at a time makes a transition. So
+
+31
+00:02:35,075 --> 00:02:40,079
+it'll see what kind of transition it can
+make out of its current state based on
+
+32
+00:02:40,079 --> 00:02:46,021
+that input to another state and if that's
+done ringing the input it's in one of the
+
+33
+00:02:46,021 --> 00:02:52,043
+final states that it will accept.
+Otherwise is going to reject the input.
+
+34
+00:02:52,043 --> 00:03:01,052
+Now, one of the situations in which it
+rejects, well, if it terminates In a state
+
+35
+00:03:02,062 --> 00:03:08,018
+S, that's no one of the final or accepting
+states, okay? So that ends in any other
+
+36
+00:03:08,018 --> 00:03:13,088
+state besides one of the accepting states
+and it's going to reject. If the machine
+
+37
+00:03:13,088 --> 00:03:20,098
+gets stuck, Meaning it finds itself in a
+state and there's no transition of that
+
+38
+00:03:20,098 --> 00:03:25,061
+state on the input. So in particular,
+let's say that in some state as a news and
+
+39
+00:03:25,061 --> 00:03:30,047
+the input is A, and there's no transition.
+There's no transition specified per state
+
+40
+00:03:30,047 --> 00:03:35,028
+as an input A so the machine can't move
+anywhere and it get stuck and that's also
+
+41
+00:03:35,028 --> 00:03:39,079
+a rejecting state. And so in these two
+situations, if, if you either get to the
+
+42
+00:03:39,079 --> 00:03:44,036
+end of the input and it's not in a final
+state or. If it never reaches the end of
+
+43
+00:03:44,036 --> 00:03:48,070
+the input because it can stuck and both of
+those cases it rejects the string. That
+
+44
+00:03:48,070 --> 00:03:55,066
+string is not in the language of the
+finite automaton. Now there's an
+
+45
+00:03:55,066 --> 00:04:00,025
+alternative notation for Finite Automata
+that I think is more intuitive for
+
+46
+00:04:00,025 --> 00:04:05,038
+examples and so we're going to emphasize
+that way of writing the mount. In this
+
+47
+00:04:05,038 --> 00:04:10,044
+notation a state is represented as a known
+graph which just draws a big circle. The
+
+48
+00:04:10,044 --> 00:04:16,066
+start state is represented as a node that
+has an edge or an arrow into it with no
+
+49
+00:04:16,066 --> 00:04:22,095
+source. So, this is a transition into the
+node but no source node that it comes from
+
+50
+00:04:22,095 --> 00:04:29,017
+and that indicates the unique start state.
+An accepting state is drawn as a node wit
+
+51
+00:04:29,017 --> 00:04:34,029
+h just double circles like this. And
+finally a transition is drawn as an edge
+
+52
+00:04:34,029 --> 00:04:39,042
+between two nodes of the graph. So with
+this as the time in this state that I'm
+
+53
+00:04:39,042 --> 00:04:44,068
+circling in blue and I read the input a
+well then I can move to this state at, at
+
+54
+00:04:44,068 --> 00:04:54,006
+the tail of the arrow. So now, let's do a
+simple example. Let's try to write up the
+
+55
+00:04:54,006 --> 00:04:59,043
+automaton that accepts only the single
+digit one. So all we need is start state.
+
+56
+00:05:00,033 --> 00:05:06,037
+And will probably want an accepting state
+as well and now the questions is what do
+
+57
+00:05:06,037 --> 00:05:12,012
+we put in between the two? Well, there
+would be some kind of transition here and
+
+58
+00:05:12,012 --> 00:05:18,016
+it's a good guess that we should take that
+transition if the machine reads the one.
+
+59
+00:05:18,016 --> 00:05:23,083
+Now let me take a moment here to talk
+about how the machine executes so let's
+
+60
+00:05:23,083 --> 00:05:29,057
+label these states. Let's call this state
+a and let's call this state b, okay. So
+
+61
+00:05:29,057 --> 00:05:35,015
+the machine will have some input. Okay,
+and we can write that input out will be
+
+62
+00:05:35,015 --> 00:05:39,062
+here. So let's just say, we have the
+single character one and it begins in some
+
+63
+00:05:39,062 --> 00:05:44,033
+state namely the start state. And so, one
+configuration of the machine is the state
+
+64
+00:05:44,033 --> 00:05:52,012
+that it is in And the input. And typically
+we would indicate where it is in the input
+
+65
+00:05:52,012 --> 00:05:57,033
+by just a pointers saying what position it
+is in the input. And, the important thing
+
+66
+00:05:57,033 --> 00:06:02,017
+to know about input in [inaudible] the
+input pointer always advances. So, when
+
+67
+00:06:02,017 --> 00:06:07,007
+we, or it only advances so when we read a
+character input, the input pointer moves
+
+68
+00:06:07,007 --> 00:06:11,088
+to the right and it never moves back.
+Alright, So from state a, we have a rule.
+
+69
+00:06:11,088 --> 00:06:17,033
+We can see that we're in state a. The next
+input character is a one and that allows
+
+70
+00:06:17,033 --> 00:06:22,071
+us to take a transition to state b and so
+now where b in state b and where as our
+
+71
+00:06:22,071 --> 00:06:28,010
+input point well it's beyond the end of
+the input indicating we are at the end of
+
+72
+00:06:28,010 --> 00:06:33,042
+the input. And so now this is. We are in
+an accepting state and we pass the end of
+
+73
+00:06:33,042 --> 00:06:42,004
+the input and so we accept. Okay? So
+let's, do another execution. So we start
+
+74
+00:06:42,004 --> 00:06:51,013
+in state a and let's take as our input the
+string zero. Okay. And I'd like to draw
+
+75
+00:06:51,013 --> 00:06:55,080
+the pointer. Actually I should have drawn
+it before the input so we'll al ways put
+
+76
+00:06:55,080 --> 00:07:00,070
+the pointer between two input elements. In
+this case it's a merely to the left of the
+
+77
+00:07:00,070 --> 00:07:05,036
+one we're about to read. So in this case
+we're about read zero so in state a. Our
+
+78
+00:07:05,036 --> 00:07:10,093
+input is zero. We look at our machine. We
+see that there is no transition on zero.
+
+79
+00:07:10,093 --> 00:07:16,063
+All right? And so the machine stays stuck.
+It doesn't make any move at all and this
+
+80
+00:07:16,063 --> 00:07:22,041
+is our final configuration. And we could
+see that we're not at the end of the input
+
+81
+00:07:22,041 --> 00:07:30,076
+and so this is a reject. Okay, so in this
+case the machine rejects that string as
+
+82
+00:07:30,076 --> 00:07:36,096
+not being in the language of the machine.
+Let's do one more example. Let's say that
+
+83
+00:07:36,096 --> 00:07:42,036
+we're in state, well we're always
+beginning in state a and the start state,
+
+84
+00:07:42,036 --> 00:07:48,034
+and let's say our input this time is the
+string ten, okay? And our input pointer is
+
+85
+00:07:48,034 --> 00:07:56,028
+there. All right? So again we're in state
+a. The input is a one and so we'll move to
+
+86
+00:07:56,028 --> 00:08:01,037
+state b. And now the input doesn't change.
+Just the input point changes but I'll just
+
+87
+00:08:01,037 --> 00:08:05,038
+copy the input over to show the
+difference. Now the input pointer has
+
+88
+00:08:05,038 --> 00:08:10,020
+advanced cuz we've read one character of
+input and now we're in another state. And
+
+89
+00:08:10,020 --> 00:08:15,083
+now we can see that we're in state b. Our
+next input is zero and there is no
+
+90
+00:08:15,083 --> 00:08:21,083
+transition on zero from state b and so
+even though we're in an accepting state, b
+
+91
+00:08:21,083 --> 00:08:27,084
+as a final state, it's one of the accept
+state and we haven't consumed the entire
+
+92
+00:08:27,084 --> 00:08:33,025
+input. And so this, The machine also
+rejects this string so this is also a
+
+93
+00:08:33,025 --> 00:08:43,066
+reject. And in general we can talk about
+the language. Of a finite automata that is
+
+94
+00:08:43,066 --> 00:08:56,040
+equal to the set of...accepted strings.
+Okay? So the language of a finite
+
+95
+00:08:56,040 --> 00:09:00,090
+automaton, when I'm talking about the
+language of a finite automaton, I mean the
+
+96
+00:09:00,090 --> 00:09:06,070
+set of strings that the automaton accepts.
+So now let's do a more complex example.
+
+97
+00:09:06,070 --> 00:09:12,044
+Let's try to write out an automaton that
+accepts any number of one followed by a
+
+98
+00:09:12,044 --> 00:09:18,061
+single zero. So once again well need a
+start state and we'll also need a final
+
+99
+00:09:18,061 --> 00:09:25,014
+state and now let's start by thinking
+about what's the shortest string is that's
+
+100
+00:09:25,014 --> 00:09:30,099
+in the language of this machine. So in
+this case, we know it has to end in a
+
+101
+00:09:30,099 --> 00:09:36,013
+singl e zero. So a zero definitely has to
+be, a zero transition has to be the last
+
+102
+00:09:36,013 --> 00:09:40,086
+move and before that zero can come any
+number of what? In a particular there
+
+103
+00:09:40,086 --> 00:09:46,009
+could be no 1's. So one transition in this
+machine is that from start state on input
+
+104
+00:09:46,009 --> 00:09:51,019
+zero we can definitely go to the final
+state because the single string consisting
+
+105
+00:09:51,019 --> 00:09:56,023
+of a single zero isn't the language of
+this machine. And now the only question is
+
+106
+00:09:56,023 --> 00:10:01,039
+how do we encode the fact that any number
+of 1's can proceed to zero? Well, there is
+
+107
+00:10:01,039 --> 00:10:06,090
+an easy way to do that. We can just add a
+[inaudible] by the start state. And take
+
+108
+00:10:06,090 --> 00:10:12,013
+that transition if we read at one. And
+what does this mean? This means that we'll
+
+109
+00:10:12,013 --> 00:10:17,029
+stay in the state, state as longer are
+we're reading 1's and as soon as we read
+
+110
+00:10:17,029 --> 00:10:22,025
+zero, we'll move to the final state
+because that has to be the end of the
+
+111
+00:10:22,025 --> 00:10:27,087
+string if the machine is going to accept
+it. So let's do a couple of examples to
+
+112
+00:10:27,087 --> 00:10:33,030
+convince ourselves that this works. Let me
+label this state?s again. So this is state
+
+113
+00:10:33,030 --> 00:10:42,021
+a, and that's stat b. So Let's write out
+here states and input. So we'll begin in
+
+114
+00:10:42,021 --> 00:10:50,056
+state a and let's take as input 110, okay.
+So let's do an accepting case first. All
+
+115
+00:10:50,056 --> 00:10:55,082
+right, So our input pointer begins to the
+left of the first character. So, we're in
+
+116
+00:10:55,082 --> 00:11:00,061
+state a in start state. We're reading a
+one and that says we should take a
+
+117
+00:11:00,061 --> 00:11:05,080
+transition that puts us back in state a.
+And so, we advance the input pointer. And
+
+118
+00:11:05,080 --> 00:11:10,092
+now we consume the first one and, and
+again we're in state a and the next input
+
+119
+00:11:10,092 --> 00:11:16,044
+is a one so we'll make another transition
+to state a. And the input cleaner will
+
+120
+00:11:16,044 --> 00:11:22,085
+advance. So now we're in state a and the
+next input is a zero and so we'll take the
+
+121
+00:11:22,085 --> 00:11:28,033
+transition to b and now in this
+configuration, so the input pointer has
+
+122
+00:11:28,033 --> 00:11:34,044
+reached the end of the input we're in an
+accepting state and so the machine
+
+123
+00:11:34,044 --> 00:11:41,011
+accepts. 110 is in the language of this
+machine. So now let's do an example where
+
+124
+00:11:41,011 --> 00:11:48,055
+we will reject the input. And what
+configuration do we begin in and again a
+
+125
+00:11:48,055 --> 00:11:54,011
+configuration for a finite automaton that
+just means you know a point in the
+
+126
+00:11:54,011 --> 00:11:59,082
+execution it alwa ys consist of a state
+and a position of the, the input pointer.
+
+127
+00:11:59,082 --> 00:12:05,031
+So our initial state is a and now let's
+just choose the string. I don't know,
+
+128
+00:12:05,031 --> 00:12:11,043
+let's take 100 and let's confirm that this
+is not in the language of the machine. All
+
+129
+00:12:11,043 --> 00:12:16,068
+right, So we begin in state a and our
+input pointer is there. Now we read a one
+
+130
+00:12:16,068 --> 00:12:21,099
+and that means, well, you know. So it's
+from state a transition of one. We stay in
+
+131
+00:12:21,099 --> 00:12:27,044
+state a and the input pointer advances.
+And now we see a zero. So from state a and
+
+132
+00:12:27,044 --> 00:12:33,074
+input zero, we make a transition to state
+b. And now the input point is here so now,
+
+133
+00:12:33,094 --> 00:12:39,065
+we're in state b and we have an input of
+zero but there is no transition the b and
+
+134
+00:12:39,065 --> 00:12:44,089
+zero, there are no transitions out of b at
+all and so the machine gets stuck, it
+
+135
+00:12:44,089 --> 00:12:50,000
+can't get to the en of the input and
+again, even though we're in an accepting
+
+136
+00:12:50,000 --> 00:12:55,084
+state we haven't read the entire input yet
+and so that means the machine will reject.
+
+137
+00:12:55,084 --> 00:13:03,032
+And so, 100 is not in the language of this
+machine. Up to this point a finite
+
+138
+00:13:03,032 --> 00:13:09,007
+automaton consumes a character of input
+every time it makes a move. So if you
+
+139
+00:13:09,007 --> 00:13:14,090
+can't make any move at all, the input
+pointer advances. Now we're talking about
+
+140
+00:13:14,090 --> 00:13:20,095
+a new kind of move, the epsilon move and
+the idea behind the epsilon move is that
+
+141
+00:13:20,095 --> 00:13:27,007
+the machine can make a state transition
+without consuming input, So for example if
+
+142
+00:13:27,007 --> 00:13:35,035
+I have my states and I'm in state A and my
+input. And let's just say that we have x1,
+
+143
+00:13:35,035 --> 00:13:41,079
+x2, x3 and for some reason we're about to
+read x2. When we make an Epsilon move the
+
+144
+00:13:41,079 --> 00:13:47,018
+machine changes state but the input
+pointer stays in exactly the same place.
+
+145
+00:13:47,018 --> 00:13:52,099
+So the new configuration of the machine
+that reinstate b, but our input pointer is
+
+146
+00:13:52,099 --> 00:13:58,059
+still waiting to meet x2. So, you can
+think of an epsilon move is a kind of free
+
+147
+00:13:58,059 --> 00:14:04,075
+move from the machine it can, it can move
+to a different state without consuming any
+
+148
+00:14:04,075 --> 00:14:09,075
+input. And just to be clear here the
+machine does not have to make the epsilon
+
+149
+00:14:09,075 --> 00:14:14,072
+move. It's a choice so they can decide
+whether to make the epsilon move or not.
+
+150
+00:14:18,027 --> 00:14:23,006
+Now epsilon move, the first time we have
+mentioned the possibility that a finite
+
+151
+00:14:23,006 --> 00:14:27,042
+automata might have a choice and what
+moves it makes. There's actually an
+
+152
+00:14:27,042 --> 00:14:32,027
+important distinction between automata
+that have choices and those have don't. So
+
+153
+00:14:32,027 --> 00:14:36,082
+deterministic finite automata have two
+properties, first of all, they have no
+
+154
+00:14:36,082 --> 00:14:42,002
+epsilon moves so they must always consumed
+input. And second, they only have one
+
+155
+00:14:42,002 --> 00:14:47,084
+transition per input per state. What do I
+mean by that? That means that if I look at
+
+156
+00:14:47,084 --> 00:14:53,050
+any state in the deterministic automaton,
+they can never have something like this
+
+157
+00:14:53,050 --> 00:14:59,038
+where they have two possible moves for the
+same input. All the outgoing edges in the
+
+158
+00:14:59,038 --> 00:15:04,085
+deterministic automaton must have
+different input labels. And then
+
+159
+00:15:04,085 --> 00:15:10,019
+Nondeterministic Finite Automata are just
+those not deterministic. So in particular
+
+160
+00:15:10,038 --> 00:15:15,046
+a Nondeterministic Automata can have
+epsilon moves so it can choose to move to
+
+161
+00:15:15,046 --> 00:15:20,073
+another state without consuming input and
+it could also have multiple transitions
+
+162
+00:15:20,073 --> 00:15:25,010
+for one input in a given state so
+something like this, is okay for a
+
+163
+00:15:25,010 --> 00:15:30,039
+Nondeterministic Automata. Yeah. Let me
+just point out really epsilon moves are
+
+164
+00:15:30,039 --> 00:15:35,047
+enough to create a non-deterministic
+automata and then at the second case where
+
+165
+00:15:35,047 --> 00:15:40,081
+you have multiple transitions on the same
+input can be simulated just by a slightly
+
+166
+00:15:40,081 --> 00:15:46,020
+more complicated machine with epsilon move
+so for example I can draw this machine in
+
+167
+00:15:46,020 --> 00:15:51,090
+the following way. I can have or I can
+simulate the machine that circled there in
+
+168
+00:15:51,090 --> 00:15:57,099
+the following way. I can have a state with
+two epsilon moves and then. Each of those
+
+169
+00:15:57,099 --> 00:16:04,034
+states has a move on A so I were to label
+the states one, two, and three. Then this
+
+170
+00:16:04,034 --> 00:16:09,061
+would be the state that corresponds to
+one. And this would be the state that
+
+171
+00:16:09,061 --> 00:16:14,014
+corresponds to two and this state be, be
+the state that corresponds to three. So
+
+172
+00:16:14,014 --> 00:16:18,073
+anytime that we have multiple moves out of
+the state on a single input we could
+
+173
+00:16:18,073 --> 00:16:23,055
+always replace that by a few more states
+with epsilon moves and have every state in
+
+174
+00:16:23,055 --> 00:16:28,019
+the machine only have a single transition
+for every possible input. So really the
+
+175
+00:16:28,019 --> 00:16:32,004
+only fundamental difference between the
+deterministic automata and
+
+176
+00:16:32,004 --> 00:16:38,008
+non-deterministic automata is w hether
+they have epsilon moves or not. A key
+
+177
+00:16:38,008 --> 00:16:43,092
+property of a Deterministic Automata is
+that it can only take one path through the
+
+178
+00:16:43,092 --> 00:16:49,041
+state graph per input. So this is per
+input. What do I mean by that? Well, the
+
+179
+00:16:49,041 --> 00:16:55,037
+automaton always begins at the start state
+and let's take a very simple input string
+
+180
+00:16:55,037 --> 00:17:00,077
+like ABC and if we can look at the
+sequence of states that the Deterministic
+
+181
+00:17:00,077 --> 00:17:06,020
+Automaton will take, For that input, this
+path through the state graph is completely
+
+182
+00:17:06,020 --> 00:17:11,010
+determined by the input because again it
+has no choice. In a given state, this can
+
+183
+00:17:11,010 --> 00:17:15,082
+be one transition label day and this
+continue to a state that it only has one
+
+184
+00:17:15,082 --> 00:17:20,073
+transition labeled b and that goes to
+another state that only has one transition
+
+185
+00:17:20,073 --> 00:17:25,057
+labeled c. And so, every input determines
+the path through the state graph of the
+
+186
+00:17:25,057 --> 00:17:30,017
+automata will take. And, this is not true
+for Nondeterministic Automata. So, it
+
+187
+00:17:30,017 --> 00:17:35,068
+might be for example. That beginning in
+the start state and on input a that there
+
+188
+00:17:35,068 --> 00:17:41,079
+is some state I can go to on that input a
+but there maybe another transition labeled
+
+189
+00:17:41,079 --> 00:17:47,030
+a that would take me to a different state
+so the automaton might be able to go to
+
+190
+00:17:47,030 --> 00:17:52,055
+one of two different states and again
+there might be also epsilon transitions.
+
+191
+00:17:52,055 --> 00:17:57,079
+And so what happens with Nondeterministic
+Automata is that in general as they
+
+192
+00:17:57,079 --> 00:18:03,030
+proceed to the state graph is they execute
+on the input, they could wind up in any
+
+193
+00:18:03,030 --> 00:18:10,030
+number of different states. Okay. And the
+rule with the non-deterministic automaton
+
+194
+00:18:10,030 --> 00:18:21,091
+about when it accepts is that it accepts
+if any path accepts. So if NFA Accepts, If
+
+195
+00:18:21,091 --> 00:18:36,075
+some Choices Lead to an accepting state at
+the end of the input. Now there's a
+
+196
+00:18:36,075 --> 00:18:41,046
+[inaudible] automaton, I can choose what
+move to make and as long as there are some
+
+197
+00:18:41,046 --> 00:18:46,010
+choice it can make, then we'll get it to
+an accepting state. So let's say switching
+
+198
+00:18:46,010 --> 00:18:50,053
+colors here that you know this was an
+accepting state down here and they took
+
+199
+00:18:50,053 --> 00:18:55,077
+this path. Then it would accept and maybe
+all of these other pass are rejecting
+
+200
+00:18:55,077 --> 00:19:00,020
+pass, that doesn't matter. As long as
+there is one path, a one set of choices
+
+201
+00:19:00,020 --> 00:19:04,081
+the NFA could make to get it to an
+accepting state at the end of the input,
+
+202
+00:19:04,081 --> 00:19:11,078
+then we say that, that string is in the
+language of the NFA. The fact that NFAs
+
+203
+00:19:11,078 --> 00:19:16,086
+could get into multiple different states
+depending on the choices they make during
+
+204
+00:19:16,086 --> 00:19:22,000
+a run is important and will actually play
+central role in the future video, so we're
+
+205
+00:19:22,000 --> 00:19:26,066
+gonna do a quick example here to just make
+sure that this is clear. So here's a
+
+206
+00:19:26,084 --> 00:19:31,045
+little automaton and note that it is
+Nondeterministic Automata from the start
+
+207
+00:19:31,045 --> 00:19:36,064
+state there are two possible moves input
+zero. And what we're going to do is just
+
+208
+00:19:36,064 --> 00:19:42,009
+walk through in execution of this machine
+on a sample input and see what different
+
+209
+00:19:42,009 --> 00:19:47,054
+states it can get into. So we begin at the
+start state and we should probably label
+
+210
+00:19:47,054 --> 00:19:52,071
+our states actually so that we can refer
+to them. Let's call them A, B, and C. And
+
+211
+00:19:52,071 --> 00:19:57,097
+let's say at the first input is one and so
+what does that mean? That means we'll take
+
+212
+00:19:57,097 --> 00:20:02,079
+this transition. We'll just go from the
+start state and come back to the start
+
+213
+00:20:02,079 --> 00:20:07,050
+state and so the set of states that the
+machine could be in after the first
+
+214
+00:20:07,050 --> 00:20:12,038
+transition is just the set A. So it's
+guaranteed to still be in the start state.
+
+215
+00:20:12,038 --> 00:20:17,027
+So there's no, no choices with the first
+move. Now let's say at the second input
+
+216
+00:20:17,027 --> 00:20:22,028
+character is a zero and now we do have a
+choice. We could either go to state B or
+
+217
+00:20:22,028 --> 00:20:26,077
+we could go to state A. And, we could
+think of this then as a set of
+
+218
+00:20:26,077 --> 00:20:32,055
+possibilities that after we execute this
+move, this transition, the machine could
+
+219
+00:20:32,055 --> 00:20:38,019
+be in anyone of the set of states and
+actually this completely characterizes the
+
+220
+00:20:38,019 --> 00:20:44,003
+possibilities for the machine. We've only
+read the second input character and now we
+
+221
+00:20:44,003 --> 00:20:49,068
+could be in a set of states, okay? And we
+could be either in state a or in state b.
+
+222
+00:20:49,068 --> 00:20:58,010
+And so now let's say we read another zero.
+And where could we go then, well if we're
+
+223
+00:20:58,010 --> 00:21:04,096
+in state B we could make the transition to
+state C but if we're in state A then we'll
+
+224
+00:21:04,096 --> 00:21:11,041
+make the transition either to state B or
+again to state A. So in fact we could be
+
+225
+00:21:11,041 --> 00:21:19,088
+in anyone of the three states if we read
+another zero. Okay? And now you, I think
+
+226
+00:21:19,088 --> 00:21:25,054
+you can see w hat the rule is. So in every
+step a Nondeterministic Automata is in a
+
+227
+00:21:25,054 --> 00:21:30,055
+set of states of the machine and when it
+reason, the input we consider all the
+
+228
+00:21:30,055 --> 00:21:36,002
+possible moves it can make to compute the
+complete set of states that could be in at
+
+229
+00:21:36,002 --> 00:21:40,038
+the next step of the machine. Okay? And
+then the, the, finally has to decide
+
+230
+00:21:40,038 --> 00:21:45,026
+whether the machine accepts while we look
+at the final state after the last bid of
+
+231
+00:21:45,026 --> 00:21:50,009
+input is red and if there's any I'm sorry,
+we look at the last set of states after
+
+232
+00:21:50,009 --> 00:21:54,063
+the last input character is red and if
+there's any final state in that set, then
+
+233
+00:21:54,063 --> 00:21:58,083
+the machine accepts and in this case,
+after we read zero, we see that in
+
+234
+00:21:58,083 --> 00:22:03,031
+accepting state c is in the set of
+possible states. So what that means is, if
+
+235
+00:22:03,031 --> 00:22:07,096
+there was some sort of choices that the
+machine could make, that we'll get it into
+
+236
+00:22:07,096 --> 00:22:12,053
+the final state at the end of the input
+and so with the machine. Accepts this
+
+237
+00:22:12,053 --> 00:22:18,032
+input, okay? So if there's a final state
+in the final set of possible states, then
+
+238
+00:22:18,032 --> 00:22:24,028
+the Nondeterministic machine accepts. It
+turns out that NFA's and DFA's are
+
+239
+00:22:24,028 --> 00:22:29,010
+recognized exactly the same languages and
+particularly the regular languages. So
+
+240
+00:22:29,010 --> 00:22:33,069
+NFA's, DFA's and regular expressions all
+have equivalent power. They can only
+
+241
+00:22:33,069 --> 00:22:38,039
+specify regular languages. Dfa's are
+definitely faster to execute primarily or
+
+242
+00:22:38,039 --> 00:22:43,045
+entirely because there are no choices to
+consider so a DFA and just follow a single
+
+243
+00:22:43,045 --> 00:22:48,033
+path through the state graph where with
+NFA we have to keep track potentially of
+
+244
+00:22:48,033 --> 00:22:53,053
+the set of choices in the NFA and we might
+be in set of states. However there are
+
+245
+00:22:53,053 --> 00:22:59,067
+some advantages to NFA so they are in
+general much smaller. And DFA's, In fact,
+
+246
+00:22:59,067 --> 00:23:08,061
+they can be exponentially smaller so the
+smallest. Nfa, Maybe much, much smaller
+
+247
+00:23:08,086 --> 00:23:14,092
+than the smallest equivalent DFA for the
+same language, And, there's, so
+
+248
+00:23:14,092 --> 00:23:22,014
+essentially there's a space time tradeoff
+between NFAs and DFAs. Nfas might be more
+
+249
+00:23:22,014 --> 00:23:25,096
+compact but DFAs will be faster to
+execute.

@@ -1,0 +1,229 @@
+
+1
+00:00:04,040 --> 00:00:09,034
+In this video, we're gonna talk about the
+core data structure used in compilers, the
+
+2
+00:00:09,034 --> 00:00:18,047
+abstract syntax tree. To briefly review, a
+parser traces the derivation of a sequence
+
+3
+00:00:18,047 --> 00:00:23,032
+of tokens but this by itself Is not all
+that useful to the compiler because the
+
+4
+00:00:23,032 --> 00:00:27,056
+rest of the compiler needs some
+representation of the program. It needs an
+
+5
+00:00:27,056 --> 00:00:32,031
+actual data structure that tells it what
+the operations are in the program and how
+
+6
+00:00:32,031 --> 00:00:36,095
+they're put together. Well, we know one
+such data structure is called a Parse Tree
+
+7
+00:00:36,095 --> 00:00:41,065
+but it turns out that a Parse Tree really
+isn't what we wanted to work on. Instead,
+
+8
+00:00:41,065 --> 00:00:46,017
+we wanted to work on something called an
+Abstract Syntax Tree. And the Abstract
+
+9
+00:00:46,017 --> 00:00:50,075
+Syntax Tree is really just the Parse Tree
+but with some details ignored. We have
+
+10
+00:00:50,075 --> 00:00:55,084
+abstracted a way From some of the details
+of the Parse Tree. And here's an
+
+11
+00:00:55,084 --> 00:01:02,031
+abbreviation that you'll see, ASTs stand
+for Abstract Syntax Tree. So, let's look
+
+12
+00:01:02,031 --> 00:01:07,085
+at the grammar. Here's the grammar for
+plus expressions over the integers and we
+
+13
+00:01:07,085 --> 00:01:13,054
+also parenthesize expressions. And here's
+a string and after lexical analysis, what
+
+14
+00:01:13,054 --> 00:01:19,030
+do we have? Well, we've got a sequence of
+tokens again with their associated lexemes
+
+15
+00:01:19,030 --> 00:01:24,078
+telling us what the actual strings were.
+And that gets past into the parser and
+
+16
+00:01:24,078 --> 00:01:30,025
+then we build a parse tree. And here's a
+parse tree for that expression. Now, if
+
+17
+00:01:30,025 --> 00:01:34,093
+it's expressed that this representation,
+the parse tree is actually perfectly
+
+18
+00:01:34,093 --> 00:01:39,085
+adequate for compilation. We could do our
+compiler using the parse tree. This is a
+
+19
+00:01:39,085 --> 00:01:44,053
+faithful representation of the program.
+The problem is that it would be quite
+
+20
+00:01:44,053 --> 00:01:49,033
+inconvenient to do that and to see this,
+it only point out some features of the
+
+21
+00:01:49,033 --> 00:01:54,000
+parse tree. First of all you can see if
+the parse tree is quite robust so for
+
+22
+00:01:54,000 --> 00:01:58,080
+example we have here a node e and it has
+only one child. So when there's only one
+
+23
+00:01:58,080 --> 00:02:03,021
+successor of the, of the node, what is
+that really doing for us? Well, we don't
+
+24
+00:02:03,021 --> 00:02:07,085
+really need the e at all, we could just
+put the, The five right here and, and make
+
+25
+00:02:07,085 --> 00:02:12,074
+the tree smaller and similarly for the
+other single successor nodes. Furthermore
+
+26
+00:02:12,093 --> 00:02:17,064
+these parentheses h ere, well these are
+very important in parsing because they
+
+27
+00:02:17,064 --> 00:02:22,071
+show the association of, of this, of the
+arguments with respect to these two plus
+
+28
+00:02:22,071 --> 00:02:27,030
+operations. It shows that this plus is
+nested; this plus down here is nested
+
+29
+00:02:27,030 --> 00:02:31,049
+inside. Of this plus up here But once
+we've done the parsing, the tree structure
+
+30
+00:02:31,049 --> 00:02:35,083
+shows us the same thing. We don't need to
+know that these were inside a parenthesis,
+
+31
+00:02:35,083 --> 00:02:40,038
+that the fact that these two expressions
+or the argument of this plus already tells
+
+32
+00:02:40,038 --> 00:02:44,056
+us all we need to know. And so, you know?
+All of these nodes in here are also in a
+
+33
+00:02:44,056 --> 00:02:49,008
+sense redundant. We don't really need that
+information anymore. And so we prefer to
+
+34
+00:02:49,008 --> 00:02:54,038
+do is to use something called an Abstract
+Syntax Tree that just compresses out all
+
+35
+00:02:54,038 --> 00:02:59,081
+the junk in the Parse Tree. So here is a.
+Abstract syntax tree or a hypothetical
+
+36
+00:02:59,081 --> 00:03:04,039
+abstract syntax tree that would represent
+the same thing as the parse tree on the
+
+37
+00:03:04,039 --> 00:03:09,003
+previous slide and you can see here we've
+really just cut it down to the essential
+
+38
+00:03:09,003 --> 00:03:13,056
+items. We have the two+ nodes. We have the
+three. Arguments and the association is
+
+39
+00:03:13,056 --> 00:03:18,044
+just shown by which plus node is nested
+inside the other. We don't have any of the
+
+40
+00:03:18,044 --> 00:03:23,026
+extraneous nonterminals. We don't have the
+parenthesis. Everything is much simpler
+
+41
+00:03:23,026 --> 00:03:27,091
+and you can imagine that it'll be easier
+to write algorithms that walk over a
+
+42
+00:03:27,091 --> 00:03:32,073
+structure like this rather than the, the
+rather, elaborate structure we had on the
+
+43
+00:03:32,073 --> 00:03:37,054
+previous slide. Of course again is called
+an abstract syntax tree because it
+
+44
+00:03:37,054 --> 00:03:42,087
+abstracts away from the concrete syntax.
+We suppress details of the concrete syntax
+
+45
+00:03:42,087 --> 00:03:48,001
+and just keep enough information to be
+able to faithfully represent the program
+
+46
+00:03:48,001 --> 00:03:48,097
+and compile it.

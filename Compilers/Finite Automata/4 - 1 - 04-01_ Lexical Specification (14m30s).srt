@@ -1,0 +1,774 @@
+
+1
+00:00:00,000 --> 00:00:07,051
+[inaudible] Welcome back. At this video,
+we're going to talk about how [inaudible]
+
+2
+00:00:07,051 --> 00:00:12,074
+expressions are used to construct a full
+lexical specification on the programming
+
+3
+00:00:12,074 --> 00:00:23,059
+language. Before we get started, I want to
+quickly summarize the notation for regular
+
+4
+00:00:23,059 --> 00:00:30,020
+expressions. One of the shorthand?s we
+talked about last time is a+ which means a
+
+5
+00:00:30,020 --> 00:00:36,081
+sequence of at least 1a or the language
+aa*. Sometimes you'll see a vertical bar
+
+6
+00:00:36,081 --> 00:00:42,098
+used instead of unions or a + b. Can also
+be written a vertical bar b and optional a
+
+7
+00:00:42,098 --> 00:00:48,055
+is abbreviation for the regular expression
+a + epsilon. And then we have character
+
+8
+00:00:48,055 --> 00:00:54,012
+ranges which allows us to do a big union,
+a bunch of characters in order. And then
+
+9
+00:00:54,012 --> 00:00:59,028
+one more that's used, that's, that's
+actually fairly important but we didn't
+
+10
+00:00:59,028 --> 00:01:04,078
+discussed last time is the compliment of
+the character range. So this expression
+
+11
+00:01:04,078 --> 00:01:12,019
+here means any character except the
+characters a through z. So the last
+
+12
+00:01:12,019 --> 00:01:17,025
+lecture, we talked about a specification
+for the following predicate. Given a
+
+13
+00:01:17,025 --> 00:01:22,051
+string s, is it in the language as the
+function l of a regular expression. As we,
+
+14
+00:01:22,051 --> 00:01:27,010
+we define the language of regular
+expressions and talked about their
+
+15
+00:01:27,010 --> 00:01:32,047
+semantics in terms of sets of strings. And
+so for any given regular expression, we
+
+16
+00:01:32,047 --> 00:01:37,077
+could reason out by hand whether a given
+string was in that language or not, and
+
+17
+00:01:37,077 --> 00:01:43,007
+this turns out not to be enough for what
+we wanted to do. So just to review, what
+
+18
+00:01:43,007 --> 00:01:48,050
+is it we wanted to do when we're given an
+input, which is a bunch of characters, so
+
+19
+00:01:48,050 --> 00:01:53,026
+here's a string of characters And it can
+be much longer than just setting
+
+20
+00:01:53,026 --> 00:01:58,044
+characters and. But we actually wanted to
+do is to partition the string. We want to
+
+21
+00:01:58,044 --> 00:02:03,062
+drop lines in the strings, divide up into
+the words of language. Now of course each
+
+22
+00:02:03,062 --> 00:02:08,055
+one of these words are to be The language
+at some regular expression. But just
+
+23
+00:02:08,055 --> 00:02:13,009
+having a, a, a definition or a yes no
+answers, not quite the same thing as
+
+24
+00:02:13,009 --> 00:02:18,034
+having a method for partitioning a string
+into its constituting parts. And so we're
+
+25
+00:02:18,034 --> 00:02:23,026
+gonna have to adapt regular expressions,
+to this problem and, and this requires
+
+26
+00:02:23,026 --> 00:02:28,060
+some small extensions and that's what this
+video is all about. So let's talk about
+
+27
+00:02:28,060 --> 00:02:32,082
+how to do this. The first thing we're
+going to do, when we want to design the
+
+28
+00:02:32,082 --> 00:02:37,031
+lexical specification of the language is
+we have to write the regular expression,
+
+29
+00:02:37,031 --> 00:02:41,081
+for the lexing to be to the [inaudible]
+classes and we, we talked about how to do
+
+30
+00:02:41,081 --> 00:02:46,025
+this last time. So, for the numbers we
+might use digit plus desire as our regular
+
+31
+00:02:46,025 --> 00:02:50,080
+expression and we might have a category of
+keywords which is just the list of all
+
+32
+00:02:50,080 --> 00:02:55,024
+the, keywords in the language. We would
+have some category perhaps of identifiers.
+
+33
+00:02:55,024 --> 00:03:00,016
+There is the, definitely we talked about
+it last time. Sequences of letters or
+
+34
+00:03:00,016 --> 00:03:05,034
+digits that begin with, with the letter
+and then we're having a bunch of. Bunch of
+
+35
+00:03:05,034 --> 00:03:10,000
+punctuations, things like open parens,
+close parens, etc. So we write down a
+
+36
+00:03:10,000 --> 00:03:15,018
+whole set of regular expressions. One for
+each syntactic category in the language
+
+37
+00:03:15,018 --> 00:03:19,092
+and that's the starting point for our
+lexical specification. The second step,
+
+38
+00:03:19,092 --> 00:03:24,052
+what we're going to do is we're going to
+construct a gigantic regular expression
+
+39
+00:03:24,052 --> 00:03:29,028
+which just matches all the lexings for all
+the tokens and this is just the union, of
+
+40
+00:03:29,028 --> 00:03:33,099
+all the regular expressions, that we wrote
+out on the previous slides. So we'll just
+
+41
+00:03:33,099 --> 00:03:38,025
+take the union of all those regular
+expressions and that forms, the lexical
+
+42
+00:03:38,025 --> 00:03:42,084
+specification of the language. And, we'll
+just write this out, we don't really care
+
+43
+00:03:42,084 --> 00:03:47,021
+what these regular expressions are but
+they're just some, set r1, r2 and so on
+
+44
+00:03:47,021 --> 00:03:55,066
+and the whole thing we're going to call r.
+And now, here's the heart of how we
+
+45
+00:03:55,066 --> 00:04:01,067
+actually use this bicycle's specification
+to perform lexical analysis. So, let's
+
+46
+00:04:01,067 --> 00:04:07,057
+consider an input. We input the string x1
+up to xn. And now for every prefix of that
+
+47
+00:04:07,057 --> 00:04:12,040
+input, okay. We're going to check whether
+it's in the language of the regular
+
+48
+00:04:12,040 --> 00:04:17,061
+expression. So we're gonna look at some
+prefix trying with the first character and
+
+49
+00:04:17,061 --> 00:04:22,062
+we're gonna ask ourselves is it in the
+language of that big regular expression.
+
+50
+00:04:22,062 --> 00:04:27,071
+And if it is, if it is in the language,
+well then we know in particular that, that
+
+51
+00:04:27,071 --> 00:04:32,054
+prefix is in the language of one in the
+constituen t regular expressions cuz
+
+52
+00:04:32,054 --> 00:04:38,074
+remember that r =. The sum of all the
+different talking classes of our language,
+
+53
+00:04:38,074 --> 00:04:45,013
+okay. So we know that this prefix x1
+through xi is in the language of sum rj.
+
+54
+00:04:45,013 --> 00:04:50,035
+Okay And so that we know that, that's a
+word. In our language is one of. Is in one
+
+55
+00:04:50,035 --> 00:04:55,005
+of the talking classes that we're
+interested in, And so what we do is we
+
+56
+00:04:55,005 --> 00:05:00,007
+simply delete that prefix from the input
+and then we go back to three and we
+
+57
+00:05:00,007 --> 00:05:05,042
+repeat. And in this way we keep biting off
+prefixes of the input and we'll do this
+
+58
+00:05:05,042 --> 00:05:10,083
+until the string is empty and then we have
+[inaudible] analyzed the entire program.
+
+59
+00:05:12,066 --> 00:05:17,059
+Now this algorithm has a couple of
+ambiguities or a couple of things that are
+
+60
+00:05:17,059 --> 00:05:22,052
+under specified and those are actually
+interesting. So let's take a moment and
+
+61
+00:05:22,052 --> 00:05:27,072
+talk about those. The first question is
+how much input is actually used? So, let's
+
+62
+00:05:27,072 --> 00:05:33,092
+consider the following situation. Let's
+say that, we have, the x1 to xi, is in the
+
+63
+00:05:33,092 --> 00:05:40,012
+language of our lexical specification. And
+let's say there's a different prefix,
+
+64
+00:05:40,012 --> 00:05:46,072
+that's also in the language of our lexical
+specification and of course your I is, is
+
+65
+00:05:46,072 --> 00:05:52,053
+not equal to J. What does that look like?
+Well, it would look like the following
+
+66
+00:05:52,053 --> 00:05:58,013
+kind of situation; we would have our input
+string. And we have two different prefixes
+
+67
+00:05:58,013 --> 00:06:03,015
+of the input that are both valid talking
+classes and the question is which one of
+
+68
+00:06:03,015 --> 00:06:07,062
+these do we want? And, you know just be
+kind of [inaudible] here to have a
+
+69
+00:06:07,062 --> 00:06:12,001
+concrete example, let's consider. What
+happens when a =,,,, = is at the, is at
+
+70
+00:06:12,001 --> 00:06:16,080
+the beginning of the input. After we
+chopped off a bunch of other input and
+
+71
+00:06:16,080 --> 00:06:22,003
+perhaps we have this sub-string or this
+prefix of the input that we're looking at
+
+72
+00:06:22,003 --> 00:06:27,020
+and the question is, you know should this
+be regarded as a single = which would be
+
+73
+00:06:27,020 --> 00:06:32,018
+an assignment operator in most languages
+or would it be regards to =,,,, = which in
+
+74
+00:06:32,018 --> 00:06:37,024
+some language is a comparison operator?
+And, and this is an example we've looked
+
+75
+00:06:37,024 --> 00:06:42,005
+at before and discussed, and there's
+actually a well defined answer to this
+
+76
+00:06:42,005 --> 00:06:46,094
+question. And, it is, that we should
+always take the longer one and this has a
+
+77
+00:06:46,094 --> 00:06:53,071
+name that's c alled the maximal munch. So
+the rule is that when faced with a choice
+
+78
+00:06:53,071 --> 00:06:59,000
+of two different prefixes of the input,
+either which would be a valid token, we
+
+79
+00:06:59,000 --> 00:07:04,063
+should always choose the longer one. And,
+the reason for this is that's just the way
+
+80
+00:07:04,063 --> 00:07:09,065
+humans themselves read things so when we
+see =,,,, = we don't see two different
+
+81
+00:07:09,065 --> 00:07:14,091
+equal operators, we see =,,,, = and if I.
+Look at, you know that the sentence that I
+
+82
+00:07:14,091 --> 00:07:20,053
+wrote up here, you know when we look at
+HOW, we don't see three letters. We gather
+
+83
+00:07:20,053 --> 00:07:26,029
+that altogether in one long token. We go
+as far as we can until we see a separator
+
+84
+00:07:26,029 --> 00:07:31,084
+and so because this is the way humans
+work; we make the tools work the same way
+
+85
+00:07:31,084 --> 00:07:38,094
+and this normally or almost always does
+the right thing. Second question is which
+
+86
+00:07:38,094 --> 00:07:44,069
+token should be used if more than one
+token matches? So what do I mean by that?
+
+87
+00:07:44,069 --> 00:07:50,021
+Well, again we have our prefix of the
+input and it's in the language of our
+
+88
+00:07:50,021 --> 00:07:55,096
+lexical specification and just remember
+that the lexical specification itself
+
+89
+00:07:55,096 --> 00:08:01,079
+again is made up as the union, a bunch of
+regular expressions for token classes.
+
+90
+00:08:01,079 --> 00:08:06,083
+Now, since that, since this prefix, is in
+the language of the lexical, lexical
+
+91
+00:08:06,083 --> 00:08:11,081
+specification, that means that it again,
+it must be in the language of some
+
+92
+00:08:11,081 --> 00:08:17,026
+particular token class, rj. But nothing
+says that it isn't also in the language of
+
+93
+00:08:17,026 --> 00:08:22,004
+a completely different token class.
+Meaning, at the same string could be
+
+94
+00:08:22,004 --> 00:08:27,016
+interpreted as a, as one of two different
+tokens and the question is if this
+
+95
+00:08:27,016 --> 00:08:32,097
+happens, which one should we pick? So, for
+example just to make this concrete, Recall
+
+96
+00:08:32,097 --> 00:08:42,013
+that we could have a lexical specification
+for key words which would be things like
+
+97
+00:08:42,013 --> 00:08:52,065
+if and else, and so on, and also for
+identifiers. And then the identifier was
+
+98
+00:08:52,065 --> 00:09:05,058
+the letter Followed by a letter or a
+digit. Repeat it, okay. And if you look at
+
+99
+00:09:05,058 --> 00:09:14,002
+these two specifications, you'll see that
+the string if, IF is both of them. So IF
+
+100
+00:09:14,002 --> 00:09:22,077
+is in the language of keywords, And it's
+also in the language of the identifiers.
+
+101
+00:09:24,017 --> 00:09:28,094
+And so should we treat it as a keyword or
+an identifier. Now the normal rule in most
+
+102
+00:09:28,094 --> 00:09:33,048
+languages is that if it's a keyword then i
+t's always a keyword and you know the
+
+103
+00:09:33,048 --> 00:09:38,049
+identifier is actually don't include the
+keywords. And but actually it's a real
+
+104
+00:09:38,049 --> 00:09:44,080
+pain to write out the identifiers in such
+a way that you explicitly exclude the key
+
+105
+00:09:44,080 --> 00:09:50,014
+words. This is a much more natural
+definition I've written here for the
+
+106
+00:09:50,014 --> 00:09:55,085
+identifiers. And so the way this gets
+resolved is by a priority ordering and
+
+107
+00:09:55,085 --> 00:10:04,064
+typically the rule is to choose the one
+Listed first. Okay. So when there is a
+
+108
+00:10:04,064 --> 00:10:10,027
+choice, when there is more than one token
+class which the string might be long, the
+
+109
+00:10:10,027 --> 00:10:15,063
+one that is listed first is given higher
+priority. So in our file defining our
+
+110
+00:10:15,063 --> 00:10:21,033
+lexical specification we would put the key
+words before the identifiers just as we
+
+111
+00:10:21,033 --> 00:10:29,082
+have done here. The final question is what
+to do if no rule matches. What if I have
+
+112
+00:10:29,082 --> 00:10:37,095
+the prefix of the input? That is not in
+the language Of my lexical specification.
+
+113
+00:10:37,095 --> 00:10:43,021
+Now this can actually arise. Certainly
+there are lots and lots of strings that
+
+114
+00:10:43,021 --> 00:10:48,060
+are not gonna be in the language of the
+lexical specification of most languages.
+
+115
+00:10:48,060 --> 00:10:53,032
+And the question is how to handle that
+situation? So it's very important for
+
+116
+00:10:53,032 --> 00:10:58,036
+compilers to do good error handling. They
+can't simply crash. They need to be able
+
+117
+00:10:58,036 --> 00:11:03,014
+to give the user, the programmer a
+feedback about where the error is and what
+
+118
+00:11:03,014 --> 00:11:07,068
+kind of error it is so we do need to
+handle this gracefully. And the best
+
+119
+00:11:07,068 --> 00:11:13,065
+solution for lexical analysis is to not do
+this so don't let this ever happen. And so
+
+120
+00:11:13,065 --> 00:11:21,039
+what we wanted to do instead is to write a
+category of arrow strings, So, all of the
+
+121
+00:11:21,039 --> 00:11:33,068
+strings. Not in the lexical specification
+of the language. So we write out a regular
+
+122
+00:11:33,068 --> 00:11:39,076
+expression. Again this is another regular
+expression here. For all the possible
+
+123
+00:11:39,076 --> 00:11:45,084
+error strings, all the possible erroneous
+strings that could occur as you know
+
+124
+00:11:45,084 --> 00:11:52,069
+invalid lexical input and then we put it
+last. Put it last in priority. So that it
+
+125
+00:11:52,069 --> 00:11:58,033
+will match after everything else matches
+and, and the reason for putting it last.
+
+126
+00:11:58,033 --> 00:12:02,080
+Is that, this actually allows us to be a
+little bit sloppy in, in how we define the
+
+127
+00:12:02,080 --> 00:12:07,005
+error strings. It can actually overlap,
+with earlier regular expressi ons. We can
+
+128
+00:12:07,005 --> 00:12:11,048
+include things in the error strings that
+are in fact not errors. But, if we put it
+
+129
+00:12:11,048 --> 00:12:16,006
+last in priority, then it will only match
+if no earlier regular expression match and
+
+130
+00:12:16,006 --> 00:12:20,053
+so in fact, they will only catch the error
+strings. Then the action that we'll take
+
+131
+00:12:20,053 --> 00:12:24,090
+when we match the error string will be the
+prints in the error message and give
+
+132
+00:12:24,090 --> 00:12:31,012
+device a feedback like where it is in the
+file and such. To wrap up this video,
+
+133
+00:12:31,012 --> 00:12:36,065
+regular expressions are very nice and
+concise notation for string patterns but
+
+134
+00:12:36,065 --> 00:12:41,090
+to use them in lexical analysis requires a
+couple of small extensions. Some
+
+135
+00:12:41,090 --> 00:12:47,057
+particulars, a couple of ambiguities we
+have to resolve, we want our matches to be
+
+136
+00:12:47,057 --> 00:12:56,008
+as long as possible. So we take. As much
+input at a time as we can and we also want
+
+137
+00:12:56,008 --> 00:13:05,062
+to choose the highest Priority match. So,
+the regular expressions are given a
+
+138
+00:13:05,062 --> 00:13:10,014
+priority. The different token classes have
+priorities and, when there's tie, when the
+
+139
+00:13:10,014 --> 00:13:14,050
+same, prefix of the input could match more
+than one, we pick the one that has the
+
+140
+00:13:14,050 --> 00:13:18,092
+highest priority. Typically this has done
+just by listing them in order in a file
+
+141
+00:13:18,092 --> 00:13:23,006
+and the ones listed first have higher
+priority over the ones listed later. I
+
+142
+00:13:23,006 --> 00:13:27,047
+just wanna warn you that when you go to
+right lexical specifications, when you go
+
+143
+00:13:27,047 --> 00:13:31,040
+to actually implement, lexor for a
+language, the interaction of these two
+
+144
+00:13:31,040 --> 00:13:35,070
+rules that we take longest possible
+matches and we break ties and favor of the
+
+145
+00:13:35,070 --> 00:13:40,093
+highest priority rules. That this lead to
+some tricky situations and it's not always
+
+146
+00:13:40,093 --> 00:13:46,002
+obvious that you're getting exactly what
+you want, You have to think carefully
+
+147
+00:13:46,002 --> 00:13:50,094
+about the Ordering of the rules and it's
+actually how you write the rules so that
+
+148
+00:13:50,094 --> 00:13:55,068
+you get the behavior that you desire. And
+finally to handle errors, we typically
+
+149
+00:13:55,068 --> 00:14:00,065
+write out. Catch all regular expression
+that soaks up all the possible erroneous
+
+150
+00:14:00,065 --> 00:14:05,084
+strings and give it the lowest priority so
+that it only triggers if no valid token
+
+151
+00:14:05,084 --> 00:14:10,083
+class matches some piece of the input. If
+I leave, we haven't discussed these yet
+
+152
+00:14:10,083 --> 00:14:16,002
+but they are very good algorithm to know
+for implementing all of these and in fact
+
+153
+00:14:16,002 --> 00:14:20,077
+we'll be able to do it in only single pass
+over the input and with very few
+
+154
+00:14:20,077 --> 00:14:25,089
+operations per character. Just a few, Just
+a simple table look up and this would be
+
+155
+00:14:25,089 --> 00:14:27,096
+the subject of our future videos.

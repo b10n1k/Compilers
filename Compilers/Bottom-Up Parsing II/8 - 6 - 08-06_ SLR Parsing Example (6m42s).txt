@@ -1,0 +1,158 @@
+
+Welcome back, In this video, we're going
+to do an extended example of SLR parsing.
+To review, here is the parsing automaton
+for the grammar that we've been looking at
+in the last couple of videos. And this is
+just the deterministic version of the, non
+deterministic automaton we built last
+time. And I've just gone through and
+numbered all of the states. So let's take
+a look at what happens when we parse the
+input [inaudible] times [inaudible]. And
+just to review, we've appended dollar sign
+here to the end, to indicate where the end
+of the input occurs. That's just an end of
+input marker. And because this is the
+beginning of the parse we haven't seen any
+input yet. And so the vertical bar is all
+the way at the left hand side of the
+input. So the machine begins in state one,
+and there's nothing on the stack. The
+vertical bar is all the way to the left
+again, so the stack is empty. So it just
+terminates in state one. And these are the
+possible items, that are valid for the
+initial state of the parser. So among
+those items, we see that there are two
+that tell us that it's okay to shift an
+integer in this state. And, of course, the
+first input is an integer, and so there
+are no reduced moves. All the other items
+in here also have their jobs all the way
+at the left side of the item, so there's
+no possible reduced move in this state.
+The only thing we could possibly do is
+shift, and it's okay to shift an integer.
+So to summarize, on the initial
+configuration of the parser, the DFA halts
+in state one, it never even gets out of
+state one, so it starts there and ends
+there without even reading any input
+because the stack is empty and the action
+that, that state tells us to do is to
+shift. So that leads us in the following
+state, there's an int on the stack and we
+have a times coming up on the input. So,
+what happens in that situation? Well, we
+begin. The automaton is going to read the
+stack. So, starting from the bottom of the
+stack, we're in the start state. And then
+we read an int, there's an int on the
+stack, and we win d up in this state. And
+what does this state tell us we can do?
+Well, it tells us one possibility is to
+reduce by T goes to int. But again, we
+will only do that, if the following input
+is in the follow of T, And times, which is
+the next input item, is not in the follow
+of T. So times is not in the follow. Of T
+and so reducing here is not a possibility.
+That leaves only the other item to
+consider and here we see that this item
+says we can the time. So if the times the
+next thing in input, which it is, it's
+okay to shift. So the DFA halts in state
+three and because there's a times in the
+input the move is to shift. And that puts
+us into this configuration where we have
+int and times on the stack. Times is at
+the top of the stack, int is below it and
+we have an int coming up in the input. So
+what happens now, again, the DFA is going
+to read the entire stack. So beginning at
+the bottom of the stack, the first thing
+it sees is an int, and it moves to that
+state. And then it sees a times, and so it
+moves to this state. And now, in this
+particular state, what are the
+possibilities? Well, we can see, first of
+all, that there are no reduced moves.
+There are no items with the dot all the
+way at the right end. So the only
+possibility is a, is a shift. And we could
+shift if the upcoming input's a open
+paren, which it's not. More usefully, we
+could shift if the upcoming input is an
+[inaudible], which is exactly what we see.
+So, the DFA terminates in state eleven,
+and the move in that state is to shift.
+And that puts us into this state, where we
+have int times int on the stack, and we
+are out of input. We are at the end of the
+input. So let's see what happens on the
+stack int times int. The automaton reads
+it int times int and it winds up back in
+state three. Sa3 tells us that we can
+shift if the, next input item is a times
+and which it is not. Or we can reduce, if
+whatever the next. Is in the next input is
+in the follow of T. And in fact dollar is
+in, the follow of T. So, in, the end of
+the input come after a T on the stack. And
+that means it's fine to reduce by T goes
+to int. So, once we do that, once we do
+the reduction T goes to int, we wind up in
+the state times T. That's our stack
+contents and of course we're still at the
+end of the input. So once again the DFA is
+going to read the entire stack contents
+from the bottom to the top. First it reads
+the int at the bottom of the stack, then
+it sees the times. And then it finally
+reads the t at the top of the stack. And
+it winds up in a new state, state four.
+And the interesting thing about this
+particular step is that the DFA took a
+different path through the state graph
+than it did the previous time. And that's
+because the stack contents changed. We
+didn't just add stuff to the stack, and so
+we didn't extend the previous path. We
+actually replaced some symbols or a symbol
+on the stack with a new symbol, in this
+case, the non-terminal T and that caused
+the DFA to take a different path. Now what
+does this item in state four tell us to
+do? Well it says that we can reduce by T
+goes to N times T if whatever. Follows in
+the input is in the follow of T. And, once
+again, dollar is in the follow of T. And
+so we'll do that reduction, and now we're
+left with the static contents just
+consisting of T. And, of course we're
+still at the end of the input. And let's
+see what happens now. So now of course the
+contents of the stack have changed even
+more radically and so the DFA just goes
+off in a completely different direction.
+It reads T winds up in this state and this
+state says we can either shift a plus if
+there's a plus in the input. And again,
+there's no more input. Or we can reduce by
+E goes to T if dollar, if the end of the
+input is in the follow of E, Which it is.
+And so the reduction will be the one that
+we do. And now we have, this stack
+contents, consisting only of E. Let's see
+what happens in that situation. Now we
+make a transition to this state, state
+two. And we only have one item, S prime
+goes to E dot. And so this is a reduced
+move. And again, dollar is in the follow
+of S prime, ' cause that is the start
+symbol. And since that is the start
+symbol, we accept at this point. So once
+we get to that item as our, reduce move,
+we know that the input has been
+successfully parsed.

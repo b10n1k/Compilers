@@ -1,0 +1,76 @@
+
+In this video, we're going to use our
+example automaton for recognizing viable
+prefixes, to introduce one more idea, The
+idea of a valid item. To refresh your
+memory, here's where we left off last
+time. This is the complete
+nondeterministic automaton for recognizing
+the viable prefixes of the example grammar
+[sound]. And Using the standard subset of
+states construction, we can build a
+deterministic automaton that is equivalent
+to the non-deterministic automaton. So
+here's the deterministic automaton that
+recognizes exactly the same language. This
+automa, this deterministic automaton
+notices the viable prefixes, of our
+example grammar. But now notice that each
+state is a set of items. So there's a set
+of non-deterministic automaton states, in
+each of these states. And recall that what
+that means is that the non-deterministic
+automaton could be in any one of these
+states. And in particular, this state here
+is the start state because it has the item
+S prime goes to dot E. The states of this
+deterministic automaton are called
+variously cananugal collections of items
+or the cananugal collections of LR zero
+items. If you look in the dragon book it
+gives another way of constructing the LR
+zero items than the one that I gave. Mine
+is somewhat simplified but I think also a
+little easier to understand if you are
+seeing this for the first time. Now we
+need another definition. We'll say that a
+given item is valid for a viable prefix
+alpha beta. If the following is true, that
+beginning from the start symbol, this is
+our extra start symbol, and by a series of
+right-most derivation steps, we can get to
+a configuration, alpha-x-omega, and then
+in one step, x can go to beta-gamma. And,
+what this says is after parsing alpha and
+beta, after seeing. Alpha and beta on the
+stack, the valid items are the possible
+tops of the stack of items. That, that we
+could, that this item, could be the
+determination state of the
+nondeterministic automaton. A simpler way
+of explaining the same idea is that for a
+given viable prefix alpha the items that
+are valid in that prefix are exactly the
+items that are in the final state of the
+DFA after it reads that prefix. So these
+are the items that describe the state
+after you've seen the stack alpha. Now, an
+item is often valid for many, many
+prefixes. So, for example, the item T goes
+to open paren .e closed paren is valid for
+all sequences of open parens. And to see
+that, We can just look at our automaton
+and confirm that if we see an open paren,
+remember, this is the start state. So if
+we see an open paren, we take this
+transition, we wind up in this state here.
+And then every open paren we see, we just
+go round and round in this state. So if I
+have a sequence of five open parens as my
+input, then I'll have transitions one,
+two, three, four, five, all looping in
+this state. And notice that this item. Is,
+in, is one of the items in that state. And
+that just says that this item is valid for
+any prefix, or for, excuse me, any
+sequence of open parens.
